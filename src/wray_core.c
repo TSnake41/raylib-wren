@@ -24,22 +24,10 @@
 
 void wray_InitWindow(WrenVM *vm)
 {
-  const char *str = wrenGetSlotString(vm, 3);
-  size_t len = strlen(str) + 1;
-
-  char *dup = malloc(len);
-  if (!dup) {
-    wrenEnsureSlots(vm, 1);
-    wrenSetSlotString(vm, 0, "InitWindow(): Can't allocate title string.");
-    wrenAbortFiber(vm, 0);
-  }
-
-  memcpy(dup, str, len);
-
   InitWindow(
     wrenGetSlotDouble(vm, 1),
     wrenGetSlotDouble(vm, 2),
-    dup
+    wrenGetSlotString(vm, 3)
   );
 }
 
@@ -237,4 +225,68 @@ void wray_Time_get(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);
   wrenSetSlotDouble(vm, 0, GetTime());
+}
+
+void wray_ConfigFlags_set(WrenVM *vm)
+{
+  SetConfigFlags(wrenGetSlotDouble(vm, 1));
+}
+
+void wray_TakeScreenshot(WrenVM *vm)
+{
+  TakeScreenshot(wrenGetSlotString(vm, 1));
+}
+
+void wray_StorageSaveValue(WrenVM *vm)
+{
+  StorageSaveValue(
+    wrenGetSlotDouble(vm, 1),
+    wrenGetSlotDouble(vm, 2)
+  );
+}
+
+void wray_StorageLoadValue(WrenVM *vm)
+{
+  wrenEnsureSlots(vm, 1);
+  int index = wrenGetSlotDouble(vm, 1);
+  wrenSetSlotDouble(vm, 0, StorageLoadValue(index));
+}
+
+void wray_OpenURL(WrenVM *vm)
+{
+  OpenURL(wrenGetSlotString(vm, 1));
+}
+
+void wray_DrawFPS(WrenVM *vm)
+{
+  DrawFPS(
+    wrenGetSlotDouble(vm, 1),
+    wrenGetSlotDouble(vm, 2)
+  );
+}
+
+void wray_DrawText(WrenVM *vm)
+{
+  DrawText(
+    wrenGetSlotString(vm, 1), /* text */
+    wrenGetSlotDouble(vm, 2), /* x */
+    wrenGetSlotDouble(vm, 3), /* y */
+    wrenGetSlotDouble(vm, 4), /* font_size */
+    *((Color *)wrenGetSlotForeign(vm, 5)) /* color */
+  );
+}
+
+void wray_DrawTextEx(WrenVM *vm)
+{
+  NYI
+}
+
+void wray_DrawTextRec(WrenVM *vm)
+{
+  NYI
+}
+
+void wray_DrawTextRecEx(WrenVM *vm)
+{
+  NYI
 }

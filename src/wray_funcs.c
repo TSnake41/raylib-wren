@@ -66,6 +66,22 @@ wray_binding_func wray_funcs[] = {
   WRAY_STATIC_GET(FrameTime, "frameTime")
   WRAY_STATIC_GET(Time, "time")
 
+  WRAY_STATIC_SET(ConfigFlags, "configFlags=(_)")
+  WRAY_STATIC_FN(TakeScreenshot, "takeScreenshot(_)")
+
+  WRAY_STATIC_FN(StorageSaveValue, "storageSaveValue(_,_)")
+  WRAY_STATIC_FN(StorageLoadValue, "storageLoadValue(_)")
+
+  WRAY_STATIC_FN(OpenURL, "openURL(_)")
+  WRAY_STATIC_FN(DrawFPS, "drawFPS(_,_)")
+
+  WRAY_STATIC_FN(DrawText, "drawText(_,_,_,_,_)")
+
+  /* TODO: Move these overloads to RlFont, they are hardly implementable as it is. */
+  WRAY_STATIC_FN(DrawTextEx, "drawText(_,_,_,_,_,_)")
+  WRAY_STATIC_FN(DrawTextRec, "drawText(_,_,_,_,_,_,_)")
+  WRAY_STATIC_FN(DrawTextRecEx, "drawText(_,_,_,_,_,_,_,_,_,_)")
+
   /* Color class */
   { wray_color_hex_get, false, "RlColor", "hex" },
   { wray_color_r_get, false, "RlColor", "r" },

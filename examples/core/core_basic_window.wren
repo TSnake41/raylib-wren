@@ -1,24 +1,16 @@
-import "wray_api" for Raylib, RlColor
+import "raylib" for Raylib, RlColor, RlConfigFlags
 
 Raylib.initWindow(800, 450, "raylib [core] example - basic window")
 
-var current = 0
-var counter = 0
-var colors = [ RlColor.RAYWHITE, RlColor.RED, RlColor.BLUE ]
+// Set config flags.
+Raylib.configFlags = RlConfigFlags.vsync | RlConfigFlags.showLogo
+Raylib.targetFPS = 60
 
 while (!Raylib.windowShouldClose) {
 	Raylib.beginDrawing()
 
-  counter = counter + Raylib.frameTime
+	Raylib.clearBackground(RlColor.RAYWHITE)
+	Raylib.drawText("Congrats! You created your first window!", 190, 200, 20, RlColor.LIGHTGRAY)
 
-  if (counter > 1.0) {
-    current = (current + 1) % colors.count
-    counter = counter - 2.0
-  }
-
-	Raylib.clearBackground(colors[current])
-	//Raylib.DrawText("Congrats! You created your first window!", 190, 200, 20, rl.LightGray)
 	Raylib.endDrawing()
 }
-
-Raylib.closeWindow()

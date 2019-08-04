@@ -86,10 +86,10 @@ void wray_color_new_hex(WrenVM *vm)
   Color *c = wrenGetSlotForeign(vm, 0);
   uint32_t n = wrenGetSlotDouble(vm, 1);
 
-  c->r = (n >> 0) & 0xFF;
-  c->g = (n >> 8) & 0xFF;
-  c->b = (n >> 16) & 0xFF;
-  c->a = (n >> 24) & 0xFF;
+  c->r = (n >> 24) & 0xFF;
+  c->g = (n >> 16) & 0xFF;
+  c->b = (n >> 8) & 0xFF;
+  c->a = (n >> 0) & 0xFF;
 }
 
 void wray_color_new_rgba(WrenVM *vm)

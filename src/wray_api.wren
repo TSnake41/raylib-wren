@@ -15,6 +15,24 @@ foreign class RlColor {
   foreign construct new(r, g, b)
   foreign construct new(hex)
 
+  // TODO: Should use Vector4 ?
+  normalized { new(r / 0xFF, g / 0xFF, b / 0xFF, a / 0xFF) }
+
+  fade(alpha) {
+    if (alpha > 1.0) {
+      alpha = 1.0
+    } else if (alpha < 0.0) {
+      alpha = 0.0
+    }
+
+    a = 0xFF * alpha
+  }
+
+    /*
+      Vector3 ColorToHSV(Color color);
+      Color ColorFromHSV(Vector3 hsv);
+    */
+
   static LIGHTGRAY { new(200, 200, 200) }
   static GRAY { new(200, 200, 200) }
   static DARKGRAY { new(200, 200, 200) }
@@ -43,6 +61,46 @@ foreign class RlColor {
   static RAYWHITE { new(245, 245, 245) }
 
   static BLANK { new(0, 0, 0, 0) }
+}
+
+/*
+foreign class RlVector4 {
+  foreign [index]
+  foreign [index]=(value)
+
+
+}
+
+foreign class RlVector3 {
+
+}
+
+foreign class RlVector2 {
+
+}
+*/
+
+class RlConfigFlags {
+  static showLogo { 1 }
+  static fullscreenMode { 2 }
+  static resizable { 4 }
+  static undecorated { 8 }
+  static transparent { 16 }
+  static msaa4x { 32 }
+  static vsync { 64 }
+  static hidden { 128 }
+  static alwaysRun { 256 }
+}
+
+var keyboard_keys = {
+  "apostrophe": 39,
+  "comma": 44
+  /* ... */
+}
+
+class RlKey {
+  /* TODO: Implement keys enum as map or constants ? */
+  static keyboard { keyboard_keys }
 }
 
 class Raylib {
@@ -94,6 +152,24 @@ class Raylib {
   foreign static beginDrawing()
   foreign static endDrawing()
 
+  foreign static configFlags=(flags)
+  /* TODO: Implement trace functions ? */
+
+  foreign static takeScreenshot(path)
+
+  /* No filesystem functions, they will instead be implemented as a separate module. */
+
+  foreign static storageSaveValue(position, value)
+  foreign static storageLoadValue(position)
+
+  foreign static openURL(url)
+
+  foreign static drawFPS(x, y)
+  foreign static drawText(text, x, y, font_size, color)
+  foreign static drawText(font, text, position, font_size, spacing, color)
+  foreign static drawText(font, text, rect, font_size, spacing, do_wrap, color)
+  foreign static drawText(font, text, rect, font_size, spacing, do_wrap, color, select_range, select_color, select_back)
+
 /*
   foreign static BeginMode2D(camera)
   foreign static EndMode2D()
@@ -114,18 +190,6 @@ class Raylib {
   foreign static fps
   foreign static frameTime
   foreign static time
-
-  /*
-    Implemented as rlColor class.
-
-    int ColorToInt(Color color);
-    Vector4 ColorNormalize(Color color);
-    Vector3 ColorToHSV(Color color);
-    Color ColorFromHSV(Vector3 hsv);
-    Color GetColor(int hexValue);
-    Color Fade(Color color, float alpha);
-  */
-
 
   // Some more stuff ...
 }
