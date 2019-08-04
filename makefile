@@ -1,38 +1,46 @@
-CFLAGS := -O0
-LDFLAGS := -O0 -g
+CFLAGS := -O2 -s
+LDFLAGS := -O2 -s
 
 AR ?= ar
+LUA ?= luajit
 
-CFLAGS += -Iinclude `pkg-config --cflags raylib` \
-	-Iwren/src/include
-LDFLAGS += `pkg-config --libs --static raylib` \
-	-Lwren/lib -L. -lwren
+PKG_CONFIG_PATH := raylib
 
-SRC := src/wray.c src/wray_funcs.c src/wray_core.c
+CFLAGS += -Iinclude -Iraylib/src -Iwren/src/include
+LDFLAGS += -Lraylib/src -lraylib -Lwren/lib -L. -lwren
+
+ifeq ($(OS),Windows_NT)
+	LDFLAGS += -lopengl32 -lgdi32 -lwinmm
+endif
+
+SRC := src/wray.c src/wray_funcs.c src/wray_core.c src/wray_color.c src/wray_api.c
 OBJ := $(SRC:.c=.o)
 
-all: tools/bin2c libwren.a libwray.a wray_standalone
-
-libwren.a: wren
-	$(MAKE) -C wren static
+all: libraylib.a libwren.a libwray.a wray_standalone
 
 %.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-tools/bin2c: tools/bin2c.o
-	$(CC) -o $@ $^ $(LDFLAGS)
+libwren.a: wren
+	$(MAKE) -C wren static
 
-%.wren.c: %.wren
-	tools/bin2c $< $@ $<
+libraylib.a:
+	$(MAKE) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" -C raylib/src
 
 libwray.a: $(OBJ)
-	ar rcu $@ $^
+	$(AR) rcu $@ $^
 
-wray_standalone: src/wray_standalone.o
-	$(CC) -o $@ $^ $(LDFLAGS) -lwray
+src/wray_api.c: src/wray_api.wren
+	$(LUA) tools/wren2str.lua $^ $@ wray_api
+
+wray_standalone: libwray.a src/wray_standalone.o
+	$(CC) -o $@ $^ -lwray $(LDFLAGS)
 
 clean:
-	rm -rf wray_standalone wray_standalone.o libwray.a tools/bin2c tools/bin2c.o $(OBJ)
+	rm -rf src/wray_api.c \
+		wray_standalone src/wray_standalone.o \
+		libwray.a $(OBJ)
+
 	$(MAKE) -C wren clean
 
 .PHONY: libwray.a wray_standalone

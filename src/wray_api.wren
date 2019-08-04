@@ -1,78 +1,4 @@
-class rl {
-  // core
-  foreign static InitWindow(width, height, title)
-  foreign static CloseWindow()
-  foreign static WindowShouldClose
-  foreign static IsWindowReady
-  foreign static IsWindowMinimized
-  foreign static IsWindowResized
-  foreign static IsWindowHidden
-  foreign static ToggleFullscreen()
-
-  foreign static WindowTitle=(title)
-  foreign static WindowPosition=(position)
-  foreign static WindowIcon=(image)
-  foreign static WindowMinSize=(size)
-
-  foreign static SetWindowMonitor(monitor)
-  foreign static SetWindowSize(size)
-
-  foreign static ScreenSize
-  foreign static MonitorCount
-  foreign static ClipboardText
-  foreign static ClipboardText=(text)
-
-  //foreign static GetMonitorSize(monitor)
-  //foreign static GetMonitorPhysicalSize(monitor)
-  //foreign static GetMonitorName(monitor)
-
-  foreign static CursorVisible
-  foreign static CursorVisible=(shown)
-
-  foreign static CursorLocked=(locked)
-
-  foreign static ClearBackground(color)
-
-  foreign static BeginDrawing()
-  foreign static EndDrawing()
-
-/*
-  foreign static BeginMode2D(camera)
-  foreign static EndMode2D()
-  foreign static BeginMode3D(camera)
-  foreign static EndMode3D()
-  foreign static BeginTextureMode(target)
-  foreign static EndTextureMode()
-*/
-  /*
-    Implemented in rlCamera class
-
-    foreign static GetMouseRay(Vector2 mousePosition);
-    foreign static GetWorldToScreen(Vector3 position);
-    foreign static GetCameraMatrix(camera);
-  */
-
-  foreign static TargetFPS=(fps)
-  foreign static FPS
-  foreign static FrameTime
-  foreign static Time
-
-  /*
-    Implemented as rlColor class.
-
-    int ColorToInt(Color color);
-    Vector4 ColorNormalize(Color color);
-    Vector3 ColorToHSV(Color color);
-    Color ColorFromHSV(Vector3 hsv);
-    Color GetColor(int hexValue);
-    Color Fade(Color color, float alpha);
-  */
-
-
-  // Some more stuff ...
-}
-
-foreign class rlColor {
+foreign class RlColor {
   foreign hex
 
   foreign r
@@ -80,10 +6,10 @@ foreign class rlColor {
   foreign b
   foreign a
 
-  foreign r=(_)
-  foreign g=(_)
-  foreign b=(_)
-  foreign a=(_)
+  foreign r=(value)
+  foreign g=(value)
+  foreign b=(value)
+  foreign a=(value)
 
   foreign construct new(r, g, b, a)
   foreign construct new(r, g, b)
@@ -117,4 +43,89 @@ foreign class rlColor {
   static RAYWHITE { new(245, 245, 245) }
 
   static BLANK { new(0, 0, 0, 0) }
+}
+
+class Raylib {
+  // core
+  foreign static initWindow(width, height, title)
+  foreign static closeWindow()
+  foreign static windowShouldClose
+  foreign static isWindowReady
+  foreign static isWindowMinimized
+  foreign static isWindowResized
+  foreign static isWindowHidden
+  foreign static toggleFullscreen()
+
+  foreign static windowTitle=(title)
+  foreign static windowPosition=(position)
+  foreign static windowIcon=(image)
+  foreign static windowMinSize=(size)
+
+  foreign static setWindowMonitor(monitor)
+  foreign static setWindowSize(size)
+
+  foreign static screenSize
+  foreign static monitorCount
+  foreign static clipboardText
+  foreign static clipboardText=(text)
+
+  //foreign static GetMonitorSize(monitor)
+  //foreign static GetMonitorPhysicalSize(monitor)
+  //foreign static GetMonitorName(monitor)
+
+  foreign static cursorVisible
+  foreign static cursorVisible=(shown)
+
+  foreign static cursorLocked=(locked)
+
+  foreign static clearBackground_Color(color)
+  foreign static clearBackground_List(color)
+
+  static clearBackground(color) {
+    if (color is List) {
+      clearBackground_List(color)
+    } else if (color.type.name == "RlColor") {
+      clearBackground_Color(color)
+    } else {
+      Fiber.abort("Invalid argument.")
+    }
+  }
+
+  foreign static beginDrawing()
+  foreign static endDrawing()
+
+/*
+  foreign static BeginMode2D(camera)
+  foreign static EndMode2D()
+  foreign static BeginMode3D(camera)
+  foreign static EndMode3D()
+  foreign static BeginTextureMode(target)
+  foreign static EndTextureMode()
+*/
+  /*
+    Implemented in rlCamera class
+
+    foreign static GetMouseRay(Vector2 mousePosition);
+    foreign static GetWorldToScreen(Vector3 position);
+    foreign static GetCameraMatrix(camera);
+  */
+
+  foreign static targetFPS=(fps)
+  foreign static fps
+  foreign static frameTime
+  foreign static time
+
+  /*
+    Implemented as rlColor class.
+
+    int ColorToInt(Color color);
+    Vector4 ColorNormalize(Color color);
+    Vector3 ColorToHSV(Color color);
+    Color ColorFromHSV(Vector3 hsv);
+    Color GetColor(int hexValue);
+    Color Fade(Color color, float alpha);
+  */
+
+
+  // Some more stuff ...
 }

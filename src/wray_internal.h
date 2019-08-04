@@ -29,7 +29,15 @@ typedef struct wray_binding_func {
   const char *signature;
 } wray_binding_func;
 
+typedef struct wray_class_binding_func {
+  const char *class;
+  WrenForeignClassMethods methods;
+} wray_class_binding_func;
+
+extern const char *wray_api;
+
 extern wray_binding_func wray_funcs[];
+extern wray_class_binding_func wray_class_funcs[];
 
 #define NYI \
   wrenEnsureSlots(vm, 1); \

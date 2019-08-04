@@ -17,6 +17,24 @@
 #ifndef H_WRAY_COLOR
 #define H_WRAY_COLOR
 
-/* Header */
+#include <wren.h>
+
+void wray_color_initialize(WrenVM *vm);
+
+void wray_color_hex_get(WrenVM *vm);
+
+void wray_color_r_get(WrenVM *vm);
+void wray_color_g_get(WrenVM *vm);
+void wray_color_b_get(WrenVM *vm);
+void wray_color_a_get(WrenVM *vm);
+
+void wray_color_r_set(WrenVM *vm);
+void wray_color_g_set(WrenVM *vm);
+void wray_color_b_set(WrenVM *vm);
+void wray_color_a_set(WrenVM *vm);
+
+void wray_color_new_hex(WrenVM *vm);
+void wray_color_new_rgba(WrenVM *vm);
+void wray_color_new_rgb(WrenVM *vm);
 
 #endif /* H_WRAY_COLOR */

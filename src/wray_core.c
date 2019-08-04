@@ -85,7 +85,7 @@ void wray_ToggleFullscreen(WrenVM *vm)
 
 void wray_WindowTitle_set(WrenVM *vm)
 {
-  SetWindowTitle(wrenGetSlotString(vm, 0));
+  SetWindowTitle(wrenGetSlotString(vm, 1));
 }
 
 void wray_WindowPosition_set(WrenVM *vm)
@@ -162,7 +162,7 @@ void wray_CursorVisible_get(WrenVM *vm)
 
 void wray_CursorVisible_set(WrenVM *vm)
 {
-  wrenGetSlotBool(vm, 0) ? ShowCursor() : HideCursor();
+  wrenGetSlotBool(vm, 1) ? ShowCursor() : HideCursor();
 }
 
 void wray_CursorLocked_set(WrenVM *vm)
@@ -170,20 +170,40 @@ void wray_CursorLocked_set(WrenVM *vm)
   wrenGetSlotBool(vm, 0) ? DisableCursor() : EnableCursor();
 }
 
-void wray_ClearBackground(WrenVM *vm)
+void wray_ClearBackgroundList(WrenVM *vm)
 {
-  /* TODO: cache hex_handle ? */
-  wrenEnsureSlots(vm, 2);
-  WrenHandle *hex_handle = wrenMakeCallHandle(vm, "hex");
+  wrenEnsureSlots(vm, 5);
 
-  /* Color is in slot 1. */
-  wrenCall(vm, hex_handle);
+  size_t elem_count = wrenGetListCount(vm, 0);
 
-  WrenType t = wrenGetSlotType(vm, 2);
-  printf("%d\n", t);
+  if (elem_count < 3) {
+    wrenSetSlotString(vm, 0, "List must have at least 3 numbers.");
+    wrenAbortFiber(vm, 0);
+  }
 
-  /* The hex interger of the color is in the first slot. */
-  //ClearBackground(GetColor(wrenGetSlotDouble(vm, 0)));
+  wrenGetListElement(vm, 0, 0, 1); /* r */
+  wrenGetListElement(vm, 0, 1, 2); /* g */
+  wrenGetListElement(vm, 0, 2, 3); /* b */
+
+  if (elem_count > 3)
+    wrenGetListElement(vm, 0, 3, 4); /* a */
+
+  Color color;
+
+  color.r = wrenGetSlotDouble(vm, 1);
+  color.g = wrenGetSlotDouble(vm, 2);
+  color.b = wrenGetSlotDouble(vm, 3);
+
+  if (elem_count > 3)
+    color.r = wrenGetSlotDouble(vm, 4);
+
+  ClearBackground(color);
+}
+
+void wray_ClearBackgroundColor(WrenVM *vm)
+{
+  Color *c = wrenGetSlotForeign(vm, 1);
+  ClearBackground(*c);
 }
 
 void wray_BeginDrawing(WrenVM *vm)
@@ -198,7 +218,7 @@ void wray_EndDrawing(WrenVM *vm)
 
 void wray_TargetFPS_set(WrenVM *vm)
 {
-  SetTargetFPS(wrenGetSlotDouble(vm, 0));
+  SetTargetFPS(wrenGetSlotDouble(vm, 1));
 }
 
 void wray_FPS_get(WrenVM *vm)

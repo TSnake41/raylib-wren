@@ -1,17 +1,24 @@
-import "wray_api" for rl, rlColor
+import "wray_api" for Raylib, RlColor
 
-rl.InitWindow(800, 450, "raylib [core] example - basic window")
+Raylib.initWindow(800, 450, "raylib [core] example - basic window")
 
-while (!rl.WindowShouldClose) {
-	rl.BeginDrawing()
+var current = 0
+var counter = 0
+var colors = [ RlColor.RAYWHITE, RlColor.RED, RlColor.BLUE ]
 
-	var color = rlColor.RAYWHITE
+while (!Raylib.windowShouldClose) {
+	Raylib.beginDrawing()
 
-	rl.ClearBackground(color)
+  counter = counter + Raylib.frameTime
 
-	//rl.DrawText("Congrats! You created your first window!", 190, 200, 20, rl.LightGray)
+  if (counter > 1.0) {
+    current = (current + 1) % colors.count
+    counter = counter - 2.0
+  }
 
-	rl.EndDrawing()
+	Raylib.clearBackground(colors[current])
+	//Raylib.DrawText("Congrats! You created your first window!", 190, 200, 20, rl.LightGray)
+	Raylib.endDrawing()
 }
 
-rl.CloseWindow()
+Raylib.closeWindow()

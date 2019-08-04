@@ -57,10 +57,20 @@ WrenForeignMethodFn wray_bind_foreign_method(WrenVM *vm, const char* module,
 }
 
 WrenForeignClassMethods wray_bind_foreign_class(WrenVM *vm, const char *module,
-  const char *className)
+  const char *class)
 {
-  /* Not yet implemented - unused */
-  //return NULL;
+  for (wray_class_binding_func *current = wray_class_funcs; current->class != NULL; current++)
+    if (strcmp(class, current->class) == 0)
+      return current->methods;
+
+  return (WrenForeignClassMethods){ NULL, NULL };
+}
+
+void wray_init(WrenVM *vm)
+{
+  puts("[WRAY] Initialize API.");
+
+  wrenInterpret(vm, "raylib", wray_api);
 }
 
 WrenVM *wray_new_vm(WrenConfiguration *user_config)
@@ -78,5 +88,9 @@ WrenVM *wray_new_vm(WrenConfiguration *user_config)
   config.bindForeignMethodFn = wray_bind_foreign_method;
   config.bindForeignClassFn = wray_bind_foreign_class;
 
-  return wrenNewVM(&config);
+  WrenVM *vm = wrenNewVM(&config);
+  if (vm)
+    wray_init(vm);
+
+  return vm;
 }
