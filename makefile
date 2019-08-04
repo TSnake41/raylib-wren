@@ -32,7 +32,7 @@ wray_standalone: src/wray_standalone.o
 	$(CC) -o $@ $^ $(LDFLAGS) -lwray
 
 clean:
-	rm -rf wray_standalone libwray.a tools/bin2c tools/bin2c.o $(OBJ)
+	rm -rf wray_standalone wray_standalone.o libwray.a tools/bin2c tools/bin2c.o $(OBJ)
 	$(MAKE) -C wren clean
 
 .PHONY: libwray.a wray_standalone
