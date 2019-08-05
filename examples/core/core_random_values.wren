@@ -1,8 +1,6 @@
 import "raylib" for Raylib, RlColor, RlConfigFlags
 import "random" for Random
 
-Raylib.initWindow(800, 450, "raylib [core] example - generate random values")
-
 var random = Random.new()
 
 var frames_counter = 0
@@ -10,6 +8,8 @@ var rand_value = random.int(-8, 5)
 
 Raylib.targetFPS = 60
 Raylib.configFlags = RlConfigFlags.vsync
+
+Raylib.initWindow(800, 450, "raylib [core] example - generate random values")
 
 while (!Raylib.windowShouldClose) {
   frames_counter = frames_counter + 1
