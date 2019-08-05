@@ -1,3 +1,6 @@
 [submodule "wren"]
 	path = wren
 	url = https://gitlab.com/TSnake41/wren
+[submodule "raylib"]
+	path = raylib
+	url = https://github.com/raysan5/raylib
