@@ -13,6 +13,8 @@ ifeq ($(OS),Windows_NT)
 	LDFLAGS += -lopengl32 -lgdi32 -lwinmm
 endif
 
+WRAY_API := api/Raylib.wren api/RlColor.wren api/RlKey.wren api/RlVector.wren
+
 SRC := src/wray.c src/wray_funcs.c src/wray_api.c \
 	src/wray_core.c src/wray_color.c src/wray_vector.c
 
@@ -32,8 +34,8 @@ libraylib.a:
 libwray.a: $(OBJ)
 	$(AR) rcu $@ $^
 
-src/wray_api.c: src/wray_api.wren
-	$(LUA) tools/wren2str.lua $^ $@ wray_api
+src/wray_api.c: $(WRAY_API)
+	$(LUA) tools/wren2str.lua $@ wray_api $^
 
 wray_standalone: libwray.a src/wray_standalone.o
 	$(CC) -o $@ $^ -lwray $(LDFLAGS)

@@ -19,56 +19,57 @@
 
 #include <wren.h>
 
-void wray_InitWindow(WrenVM *vm);
-void wray_CloseWindow(WrenVM *vm);
+void wray_InitWindow(WrenVM *);
+void wray_CloseWindow(WrenVM *);
 
-void wray_WindowShouldClose_get(WrenVM *vm);
-void wray_IsWindowReady_get(WrenVM *vm);
-void wray_IsWindowMinimized_get(WrenVM *vm);
-void wray_IsWindowResized_get(WrenVM *vm);
-void wray_IsWindowHidden_get(WrenVM *vm);
+void wray_WindowShouldClose_get(WrenVM *);
+void wray_IsWindowReady_get(WrenVM *);
+void wray_IsWindowMinimized_get(WrenVM *);
+void wray_IsWindowResized_get(WrenVM *);
+void wray_IsWindowHidden_get(WrenVM *);
 
-void wray_ToggleFullscreen(WrenVM *vm);
-void wray_WindowTitle_set(WrenVM *vm);
-void wray_WindowIcon_set(WrenVM *vm);
-void wray_SetWindowSize(WrenVM *vm);
-void wray_SetWindowMonitor(WrenVM *vm);
-void wray_WindowMinSize_set(WrenVM *vm);
-void wray_ScreenSize_get(WrenVM *vm);
-void wray_MonitorCount_get(WrenVM *vm);
-void wray_WindowPosition_set(WrenVM *vm);
+void wray_ToggleFullscreen(WrenVM *);
+void wray_WindowTitle_set(WrenVM *);
+void wray_WindowIcon_set(WrenVM *);
+void wray_SetWindowSize(WrenVM *);
+void wray_SetWindowMonitor(WrenVM *);
+void wray_WindowMinSize_set(WrenVM *);
+void wray_ScreenSize_get(WrenVM *);
+void wray_MonitorCount_get(WrenVM *);
+void wray_WindowPosition_set(WrenVM *);
 
-void wray_ClipboardText_get(WrenVM *vm);
-void wray_ClipboardText_set(WrenVM *vm);
+void wray_ClipboardText_get(WrenVM *);
+void wray_ClipboardText_set(WrenVM *);
 
-void wray_GetMonitorName(WrenVM *vm);
+void wray_GetMonitorName(WrenVM *);
 
-void wray_CursorVisible_get(WrenVM *vm);
-void wray_CursorVisible_set(WrenVM *vm);
-void wray_CursorLocked_set(WrenVM *vm);
+void wray_CursorVisible_get(WrenVM *);
+void wray_CursorVisible_set(WrenVM *);
+void wray_CursorLocked_set(WrenVM *);
 
-void wray_ClearBackgroundList(WrenVM *vm);
-void wray_ClearBackgroundColor(WrenVM *vm);
+void wray_ClearBackgroundList(WrenVM *);
+void wray_ClearBackgroundColor(WrenVM *);
 
-void wray_BeginDrawing(WrenVM *vm);
-void wray_EndDrawing(WrenVM *vm);
+void wray_BeginDrawing(WrenVM *);
+void wray_EndDrawing(WrenVM *);
 
-void wray_TargetFPS_set(WrenVM *vm);
-void wray_FPS_get(WrenVM *vm);
-void wray_FrameTime_get(WrenVM *vm);
-void wray_Time_get(WrenVM *vm);
+void wray_TargetFPS_set(WrenVM *);
+void wray_FPS_get(WrenVM *);
+void wray_FrameTime_get(WrenVM *);
+void wray_Time_get(WrenVM *);
 
-void wray_ConfigFlags_set(WrenVM *vm);
-void wray_TakeScreenshot(WrenVM *vm);
+void wray_ConfigFlags_set(WrenVM *);
+void wray_TakeScreenshot(WrenVM *);
 
-void wray_StorageSaveValue(WrenVM *vm);
-void wray_StorageLoadValue(WrenVM *vm);
+void wray_StorageSaveValue(WrenVM *);
+void wray_StorageLoadValue(WrenVM *);
 
-void wray_OpenURL(WrenVM *vm);
-void wray_DrawFPS(WrenVM *vm);
-void wray_DrawText(WrenVM *vm);
-void wray_DrawTextEx(WrenVM *vm);
-void wray_DrawTextRec(WrenVM *vm);
-void wray_DrawTextRecEx(WrenVM *vm);
+void wray_OpenURL(WrenVM *);
+
+void wray_DrawFPS(WrenVM *);
+void wray_DrawText(WrenVM *);
+void wray_DrawTextEx(WrenVM *);
+void wray_DrawTextRec(WrenVM *);
+void wray_DrawTextRecEx(WrenVM *);
 
 #endif /* H_WRAY_CORE */

@@ -19,19 +19,19 @@
 
 #include <wray.h>
 
-void wray_vec2_initialize(WrenVM *vm);
-void wray_vec2_new(WrenVM *vm);
-void wray_vec2_index_get(WrenVM *vm);
-void wray_vec2_index_set(WrenVM *vm);
+void wray_vec2_initialize(WrenVM *);
+void wray_vec2_new(WrenVM *);
+void wray_vec2_index_get(WrenVM *);
+void wray_vec2_index_set(WrenVM *);
 
-void wray_vec3_initialize(WrenVM *vm);
-void wray_vec3_new(WrenVM *vm);
-void wray_vec3_index_get(WrenVM *vm);
-void wray_vec3_index_set(WrenVM *vm);
+void wray_vec3_initialize(WrenVM *);
+void wray_vec3_new(WrenVM *);
+void wray_vec3_index_get(WrenVM *);
+void wray_vec3_index_set(WrenVM *);
 
-void wray_vec4_initialize(WrenVM *vm);
-void wray_vec4_new(WrenVM *vm);
-void wray_vec4_index_get(WrenVM *vm);
-void wray_vec4_index_set(WrenVM *vm);
+void wray_vec4_initialize(WrenVM *);
+void wray_vec4_new(WrenVM *);
+void wray_vec4_index_get(WrenVM *);
+void wray_vec4_index_set(WrenVM *);
 
 #endif /* H_WRAY_VECTOR */
