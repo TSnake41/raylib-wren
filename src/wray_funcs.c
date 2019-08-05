@@ -17,6 +17,7 @@
 #include "wray_internal.h"
 #include "wray_core.h"
 #include "wray_color.h"
+#include "wray_vector.h"
 
 #define WRAY_STATIC_FN(name, sig) { wray_##name, true, "Raylib", sig },
 
@@ -49,6 +50,8 @@ wray_binding_func wray_funcs[] = {
   WRAY_STATIC_GET(MonitorCount, "monitorCount")
   WRAY_STATIC_GET(ClipboardText, "clipboardText")
   WRAY_STATIC_SET(ClipboardText, "clipboardText=(_)")
+
+  WRAY_STATIC_FN(GetMonitorName, "getMonitorName(_)")
 
   WRAY_STATIC_GET(CursorVisible, "cursorVisible")
   WRAY_STATIC_SET(CursorVisible, "cursorVisible=(_)")
@@ -103,11 +106,28 @@ wray_binding_func wray_funcs[] = {
   { wray_color_new_rgba, false, "RlColor", "init new(_,_,_,_)" },
   { wray_color_new_rgb, false, "RlColor", "init new(_,_,_)" },
 
+  /* Vector2 class */
+  { wray_vec2_new, false, "RlVector2", "init new(_,_)" },
+  { wray_vec2_index_get, false, "RlVector2", "[_]" },
+  { wray_vec2_index_set, false, "RlVector2", "[_]=(_)" },
+
+  /* Vector3 class */
+  { wray_vec3_new, false, "RlVector3", "init new(_,_,_)" },
+  { wray_vec3_index_get, false, "RlVector3", "[_]" },
+  { wray_vec3_index_set, false, "RlVector3", "[_]=(_)" },
+
+  /* Vector4 class */
+  { wray_vec4_new, false, "RlVector4", "init new(_,_,_,_)" },
+  { wray_vec4_index_get, false, "RlVector4", "[_]" },
+  { wray_vec4_index_set, false, "RlVector4", "[_]=(_)" },
+
   { NULL, NULL, NULL, NULL }
 };
 
 wray_class_binding_func wray_class_funcs[] = {
   { "RlColor", { wray_color_initialize, NULL } },
-
+  { "RlVector2", { wray_vec2_initialize, NULL } },
+  { "RlVector3", { wray_vec3_initialize, NULL } },
+  { "RlVector4", { wray_vec4_initialize, NULL } },
   { NULL, { NULL, NULL } }
 };

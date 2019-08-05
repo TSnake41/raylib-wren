@@ -13,7 +13,9 @@ ifeq ($(OS),Windows_NT)
 	LDFLAGS += -lopengl32 -lgdi32 -lwinmm
 endif
 
-SRC := src/wray.c src/wray_funcs.c src/wray_core.c src/wray_color.c src/wray_api.c
+SRC := src/wray.c src/wray_funcs.c src/wray_api.c \
+	src/wray_core.c src/wray_color.c src/wray_vector.c
+
 OBJ := $(SRC:.c=.o)
 
 all: libraylib.a libwren.a libwray.a wray_standalone

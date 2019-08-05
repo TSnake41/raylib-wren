@@ -25,6 +25,37 @@ void wray_color_initialize(WrenVM *vm)
   wrenSetSlotNewForeign(vm, 0, 0, sizeof(struct Color));
 }
 
+void wray_color_new_hex(WrenVM *vm)
+{
+  Color *c = wrenGetSlotForeign(vm, 0);
+  uint32_t n = wrenGetSlotDouble(vm, 1);
+
+  c->r = (n >> 24) & 0xFF;
+  c->g = (n >> 16) & 0xFF;
+  c->b = (n >> 8) & 0xFF;
+  c->a = (n >> 0) & 0xFF;
+}
+
+void wray_color_new_rgba(WrenVM *vm)
+{
+  Color *c = wrenGetSlotForeign(vm, 0);
+
+  c->r = wrenGetSlotDouble(vm, 1);
+  c->g = wrenGetSlotDouble(vm, 2);
+  c->b = wrenGetSlotDouble(vm, 3);
+  c->a = wrenGetSlotDouble(vm, 4);
+}
+
+void wray_color_new_rgb(WrenVM *vm)
+{
+  Color *c = wrenGetSlotForeign(vm, 0);
+
+  c->r = wrenGetSlotDouble(vm, 1);
+  c->g = wrenGetSlotDouble(vm, 2);
+  c->b = wrenGetSlotDouble(vm, 3);
+  c->a = 0xFF;
+}
+
 void wray_color_hex_get(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);
@@ -79,35 +110,4 @@ void wray_color_b_set(WrenVM *vm)
 void wray_color_a_set(WrenVM *vm)
 {
   ((Color *)wrenGetSlotForeign(vm, 0))->a = wrenGetSlotDouble(vm, 1);
-}
-
-void wray_color_new_hex(WrenVM *vm)
-{
-  Color *c = wrenGetSlotForeign(vm, 0);
-  uint32_t n = wrenGetSlotDouble(vm, 1);
-
-  c->r = (n >> 24) & 0xFF;
-  c->g = (n >> 16) & 0xFF;
-  c->b = (n >> 8) & 0xFF;
-  c->a = (n >> 0) & 0xFF;
-}
-
-void wray_color_new_rgba(WrenVM *vm)
-{
-  Color *c = wrenGetSlotForeign(vm, 0);
-
-  c->r = wrenGetSlotDouble(vm, 1);
-  c->g = wrenGetSlotDouble(vm, 2);
-  c->b = wrenGetSlotDouble(vm, 3);
-  c->a = wrenGetSlotDouble(vm, 4);
-}
-
-void wray_color_new_rgb(WrenVM *vm)
-{
-  Color *c = wrenGetSlotForeign(vm, 0);
-
-  c->r = wrenGetSlotDouble(vm, 1);
-  c->g = wrenGetSlotDouble(vm, 2);
-  c->b = wrenGetSlotDouble(vm, 3);
-  c->a = 0xFF;
 }

@@ -41,6 +41,8 @@ void wray_WindowPosition_set(WrenVM *vm);
 void wray_ClipboardText_get(WrenVM *vm);
 void wray_ClipboardText_set(WrenVM *vm);
 
+void wray_GetMonitorName(WrenVM *vm);
+
 void wray_CursorVisible_get(WrenVM *vm);
 void wray_CursorVisible_set(WrenVM *vm);
 void wray_CursorLocked_set(WrenVM *vm);

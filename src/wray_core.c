@@ -131,6 +131,12 @@ void wray_MonitorCount_get(WrenVM *vm)
   wrenSetSlotDouble(vm, 0, GetMonitorCount());
 }
 
+void wray_GetMonitorName(WrenVM *vm)
+{
+  wrenEnsureSlots(vm, 1);
+  wrenSetSlotString(vm, 0, GetMonitorName(wrenGetSlotDouble(vm, 1)));
+}
+
 void wray_ClipboardText_get(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);
