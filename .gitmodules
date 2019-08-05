@@ -1,0 +1,3 @@
+[submodule "wren"]
+	path = wren
+	url = https://gitlab.com/TSnake41/wren
