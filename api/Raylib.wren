@@ -100,5 +100,26 @@ class Raylib {
   foreign static frameTime
   foreign static time
 
+  //foreign static isKeyUp_kc(keycode)
+  //foreign static isKeyDown_kc(keycode)
+  //foreign static IsKeyPressed_kc(keycode)
+  //foreign static IsKeyReleased_kc(keycode)
+
+  static isKeyUp_kc(keycode) {
+
+  }
+
+  static isKeyDown_kc(keycode) {
+
+  }
+
+  static IsKeyPressed_kc(keycode) {
+
+  }
+
+  static IsKeyReleased_kc(keycode) {
+
+  }
+
   // Some more stuff ...
 }
