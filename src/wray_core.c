@@ -17,9 +17,6 @@
 #include <wren.h>
 #include <raylib.h>
 
-#include <stdio.h>
-#include <string.h>
-
 #include "wray_internal.h"
 
 void wray_InitWindow(WrenVM *vm)
@@ -196,6 +193,8 @@ void wray_ClearBackgroundList(WrenVM *vm)
 
 void wray_ClearBackgroundColor(WrenVM *vm)
 {
+  wray_CheckForeignType(vm, 1, "RlColor");
+
   Color *c = wrenGetSlotForeign(vm, 1);
   ClearBackground(*c);
 }

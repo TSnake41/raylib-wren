@@ -19,6 +19,8 @@
 #include <raylib.h>
 #include <wren.h>
 
+#include "wray_internal.h"
+
 void wray_color_initialize(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);

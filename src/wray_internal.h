@@ -41,7 +41,24 @@ extern wray_class_binding_func wray_class_funcs[];
 
 #define NYI \
   wrenEnsureSlots(vm, 1); \
-  wrenSetSlotString(vm, 0, "NYI"); \
+  wrenSetSlotString(vm, 0, "This function is not yet implemented."); \
   wrenAbortFiber(vm, 0);
+
+#ifdef WRAY_TYPE_CHECK
+#include "wray_typecheck.h"
+
+/* Replace wrenGetSlot* with typechecked procedures. */
+#define wrenGetSlotBool    wray_GetSlotBool_tc
+#define wrenGetSlotDouble  wray_GetSlotDouble_tc
+#define wrenGetSlotBytes   wray_GetSlotBytes_tc
+#define wrenGetSlotForeign wray_GetSlotForeign_tc
+#define wrenGetSlotString  wray_GetSlotString_tc
+#define wrenGetIsInstance  wray_GetIsInstance_tc
+#define wrenGetListCount   wray_GetListCount_tc
+#define wrenGetListElement wray_GetListElement_tc
+#define wrenInsertInList   wray_InsertInList_tc
+#else
+#define wray_CheckForeignType(vm, slot, type) /* Do nothing */
+#endif
 
 #endif /* H_WRAY_INTERNAL */
