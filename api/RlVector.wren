@@ -8,10 +8,11 @@ foreign class RlVector2 {
   x=(value) { this[0] = value }
   y=(value) { this[1] = value }
 
-  construct new() {
+  foreign construct new(x, y)
+
+  static new() {
     return new(0, 0)
   }
-  foreign construct new(x, y)
 
   static zero { new() }
 }
@@ -50,10 +51,11 @@ foreign class RlVector4 {
   z=(value) { this[2] = value }
   w=(value) { this[3] = value }
 
-  construct new() {
+  foreign construct new(x, y, z, w)
+
+  static new() {
     return new(0, 0, 0, 0)
   }
-  foreign construct new(x, y, z, w)
 
   static zero { new() }
 }
