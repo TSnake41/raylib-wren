@@ -72,4 +72,9 @@ void wray_DrawTextEx(WrenVM *);
 void wray_DrawTextRec(WrenVM *);
 void wray_DrawTextRecEx(WrenVM *);
 
+void wray_IsKeyUp(WrenVM *vm);
+void wray_isKeyDown(WrenVM *vm);
+void wray_IsKeyPressed(WrenVM *vm);
+void wray_IsKeyReleased(WrenVM *vm);
+
 #endif /* H_WRAY_CORE */

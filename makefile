@@ -1,4 +1,4 @@
-CFLAGS := -O2 -s
+CFLAGS := -O2 -s -DWRAY_TYPE_CHECK
 LDFLAGS := -O2 -s
 
 AR ?= ar
@@ -15,8 +15,8 @@ endif
 
 WRAY_API := api/Raylib.wren api/RlColor.wren api/RlKey.wren api/RlVector.wren
 
-SRC := src/wray.c src/wray_funcs.c src/wray_api.c \
-	src/wray_core.c src/wray_color.c src/wray_vector.c
+SRC := src/wray.c src/wray_funcs.c src/wray_api.c src/wray_typecheck.c \
+	src/wray_core.c src/wray_color.c src/wray_vector.c src/wray_draw.c
 
 OBJ := $(SRC:.c=.o)
 

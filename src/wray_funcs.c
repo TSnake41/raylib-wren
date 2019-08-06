@@ -18,6 +18,7 @@
 #include "wray_core.h"
 #include "wray_color.h"
 #include "wray_vector.h"
+#include "wray_draw.h"
 
 #define WRAY_STATIC_FN(name, sig) { wray_##name, true, "Raylib", sig },
 
@@ -64,11 +65,6 @@ wray_binding_func wray_funcs[] = {
   WRAY_STATIC_FN(BeginDrawing, "beginDrawing()")
   WRAY_STATIC_FN(EndDrawing, "endDrawing()")
 
-  WRAY_STATIC_SET(TargetFPS, "targetFPS=(_)")
-  WRAY_STATIC_GET(FPS, "fps")
-  WRAY_STATIC_GET(FrameTime, "frameTime")
-  WRAY_STATIC_GET(Time, "time")
-
   WRAY_STATIC_SET(ConfigFlags, "configFlags=(_)")
   WRAY_STATIC_FN(TakeScreenshot, "takeScreenshot(_)")
 
@@ -84,6 +80,16 @@ wray_binding_func wray_funcs[] = {
   WRAY_STATIC_FN(DrawTextEx, "drawText(_,_,_,_,_,_)")
   WRAY_STATIC_FN(DrawTextRec, "drawText(_,_,_,_,_,_,_)")
   WRAY_STATIC_FN(DrawTextRecEx, "drawText(_,_,_,_,_,_,_,_,_,_)")
+
+  WRAY_STATIC_FN(IsKeyUp, "isKeyUp(_)")
+  WRAY_STATIC_FN(isKeyDown, "isKeyDown(_)")
+  WRAY_STATIC_FN(IsKeyPressed, "isKeyPressed(_)")
+  WRAY_STATIC_FN(IsKeyReleased, "isKeyReleased(_)")
+
+  WRAY_STATIC_SET(TargetFPS, "targetFPS=(_)")
+  WRAY_STATIC_GET(FPS, "fps")
+  WRAY_STATIC_GET(FrameTime, "frameTime")
+  WRAY_STATIC_GET(Time, "time")
 
   /* Color class */
   { wray_color_hex_get, false, "RlColor", "hex" },

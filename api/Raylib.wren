@@ -51,7 +51,7 @@ class Raylib {
     } else if (color is List) {
       clearBackground_List(color)
     } else {
-      Fiber.abort("Invalid argument.")
+      Fiber.abort("Invalid argument, 'RlColor' or 'List' expected.")
     }
   }
 
@@ -78,6 +78,11 @@ class Raylib {
   foreign static drawText(font, text, rect, font_size, spacing, do_wrap, color)
   foreign static drawText(font, text, rect, font_size, spacing, do_wrap, color, select_range, select_color, select_back)
 
+  foreign static isKeyUp(keycode)
+  foreign static isKeyDown(keycode)
+  foreign static isKeyPressed(keycode)
+  foreign static isKeyReleased(keycode)
+
   /*
     foreign static BeginMode2D(camera)
     foreign static EndMode2D()
@@ -99,27 +104,6 @@ class Raylib {
   foreign static fps
   foreign static frameTime
   foreign static time
-
-  //foreign static isKeyUp_kc(keycode)
-  //foreign static isKeyDown_kc(keycode)
-  //foreign static IsKeyPressed_kc(keycode)
-  //foreign static IsKeyReleased_kc(keycode)
-
-  static isKeyUp_kc(keycode) {
-
-  }
-
-  static isKeyDown_kc(keycode) {
-
-  }
-
-  static IsKeyPressed_kc(keycode) {
-
-  }
-
-  static IsKeyReleased_kc(keycode) {
-
-  }
 
   // Some more stuff ...
 }

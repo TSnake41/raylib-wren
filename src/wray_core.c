@@ -262,36 +262,33 @@ void wray_OpenURL(WrenVM *vm)
   OpenURL(wrenGetSlotString(vm, 1));
 }
 
-void wray_DrawFPS(WrenVM *vm)
+void wray_IsKeyUp(WrenVM *vm)
 {
-  DrawFPS(
-    wrenGetSlotDouble(vm, 1),
-    wrenGetSlotDouble(vm, 2)
-  );
+  wrenEnsureSlots(vm, 1);
+  int key = wrenGetSlotDouble(vm, 1);
+  wrenSetSlotDouble(vm, 1, IsKeyUp(key));
 }
 
-void wray_DrawText(WrenVM *vm)
+void wray_isKeyDown(WrenVM *vm)
 {
-  DrawText(
-    wrenGetSlotString(vm, 1), /* text */
-    wrenGetSlotDouble(vm, 2), /* x */
-    wrenGetSlotDouble(vm, 3), /* y */
-    wrenGetSlotDouble(vm, 4), /* font_size */
-    *((Color *)wrenGetSlotForeign(vm, 5)) /* color */
-  );
+  wrenEnsureSlots(vm, 1);
+
+  int key = wrenGetSlotDouble(vm, 1);
+  wrenSetSlotDouble(vm, 1, IsKeyDown(key));
 }
 
-void wray_DrawTextEx(WrenVM *vm)
+void wray_IsKeyPressed(WrenVM *vm)
 {
-  NYI
+  wrenEnsureSlots(vm, 1);
+
+  int key = wrenGetSlotDouble(vm, 1);
+  wrenSetSlotDouble(vm, 1, IsKeyPressed(key));
 }
 
-void wray_DrawTextRec(WrenVM *vm)
+void wray_IsKeyReleased(WrenVM *vm)
 {
-  NYI
-}
+  wrenEnsureSlots(vm, 1);
 
-void wray_DrawTextRecEx(WrenVM *vm)
-{
-  NYI
+  int key = wrenGetSlotDouble(vm, 1);
+  wrenSetSlotDouble(vm, 1, IsKeyReleased(key));
 }
