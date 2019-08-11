@@ -33,7 +33,7 @@ foreign class RlColor {
 
   static lightGray { new(200, 200, 200) }
   static gray { new(200, 200, 200) }
-  static drakGray { new(200, 200, 200) }
+  static darkGray { new(200, 200, 200) }
   static yellow { new(200, 200, 200) }
   static gold { new(200, 200, 200) }
   static orange { new(200, 200, 200) }

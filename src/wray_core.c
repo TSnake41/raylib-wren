@@ -266,7 +266,7 @@ void wray_IsKeyUp(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);
   int key = wrenGetSlotDouble(vm, 1);
-  wrenSetSlotDouble(vm, 1, IsKeyUp(key));
+  wrenSetSlotBool(vm, 0, IsKeyUp(key));
 }
 
 void wray_isKeyDown(WrenVM *vm)
@@ -274,7 +274,7 @@ void wray_isKeyDown(WrenVM *vm)
   wrenEnsureSlots(vm, 1);
 
   int key = wrenGetSlotDouble(vm, 1);
-  wrenSetSlotDouble(vm, 1, IsKeyDown(key));
+  wrenSetSlotBool(vm, 0, IsKeyDown(key));
 }
 
 void wray_IsKeyPressed(WrenVM *vm)
@@ -282,7 +282,7 @@ void wray_IsKeyPressed(WrenVM *vm)
   wrenEnsureSlots(vm, 1);
 
   int key = wrenGetSlotDouble(vm, 1);
-  wrenSetSlotDouble(vm, 1, IsKeyPressed(key));
+  wrenSetSlotBool(vm, 0, IsKeyPressed(key));
 }
 
 void wray_IsKeyReleased(WrenVM *vm)
@@ -290,5 +290,5 @@ void wray_IsKeyReleased(WrenVM *vm)
   wrenEnsureSlots(vm, 1);
 
   int key = wrenGetSlotDouble(vm, 1);
-  wrenSetSlotDouble(vm, 1, IsKeyReleased(key));
+  wrenSetSlotBool(vm, 0, IsKeyReleased(key));
 }

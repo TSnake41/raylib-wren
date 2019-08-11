@@ -1,4 +1,4 @@
-var keyboard_keys = {
+var KeyboardKeys = {
   // Alphanumeric keys
   "apostrophe": 39,
   "comma": 44,
@@ -119,5 +119,5 @@ var keyboard_keys = {
 }
 
 class RlKey {
-  static keyboard { keyboard_keys }
+  static keyboard { KeyboardKeys }
 }
