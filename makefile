@@ -22,7 +22,7 @@ SRC := src/wray.c src/wray_funcs.c src/wray_api.c src/wray_typecheck.c \
 
 OBJ := $(SRC:.c=.o)
 
-all: libraylib.a libwren.a libwray.a wray_standalone
+all: libraylib.a libwren.a libwray.a wray_standalone wray_embedded
 
 %.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -42,8 +42,11 @@ src/wray_api.c: $(WRAY_API)
 wray_standalone: libwray.a src/wray_standalone.o
 	$(CC) -o $@ $^ -lwray $(LDFLAGS)
 
+wray_embedded: libwray.a src/lib/miniz.o src/wray_builder.o src/wray_embedded.o
+	$(CC) -o $@ $^ -lwray $(LDFLAGS)
+
 clean:
-	rm -rf src/wray_api.c \
+	rm -rf src/wray_api.c wray_embedded \
 		wray_standalone src/wray_standalone.o \
 		libwray.a $(OBJ)
 
