@@ -213,33 +213,26 @@ void wray_DrawRingLines(WrenVM *vm)
 
 void wray_DrawRectangle(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 1, "RlVector2");
-  wray_CheckForeignType(vm, 2, "RlVector2");
-  wray_CheckForeignType(vm, 3, "RlColor");
+  wray_CheckForeignType(vm, 1, "RlRectangle");
+  wray_CheckForeignType(vm, 2, "RlColor");
 
-  Vector2 *pos = wrenGetSlotForeign(vm, 1);
-  Vector2 *size = wrenGetSlotForeign(vm, 2);
-
-  DrawRectangle(
-    pos->x, pos->y,
-    size->x, size->y,
-    *(Color *)wrenGetSlotForeign(vm, 3)
+  DrawRectangleRec(
+    *(Rectangle *)wrenGetSlotForeign(vm, 1),
+    *(Color *)wrenGetSlotForeign(vm, 2)
   );
 }
 
 void wray_DrawRectangleLines(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 1, "RlVector2");
-  wray_CheckForeignType(vm, 2, "RlVector2");
-  wray_CheckForeignType(vm, 3, "RlColor");
+  wray_CheckForeignType(vm, 1, "RlRectangle");
+  wray_CheckForeignType(vm, 2, "RlColor");
 
-  Vector2 *pos = wrenGetSlotForeign(vm, 1);
-  Vector2 *size = wrenGetSlotForeign(vm, 2);
+  Rectangle *rectangle = wrenGetSlotForeign(vm, 1);
 
   DrawRectangleLines(
-    pos->x, pos->y,
-    size->x, size->y,
-    *(Color *)wrenGetSlotForeign(vm, 3)
+    rectangle->x, rectangle->y,
+    rectangle->width, rectangle->height,
+    *(Color *)wrenGetSlotForeign(vm, 2)
   );
 }
 
