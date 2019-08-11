@@ -24,20 +24,22 @@
 
 #define WRAY_VECN_GET(n, vm) \
   wrenEnsureSlots(vm, 1); \
-  uint32_t i = wrenGetSlotDouble(vm, 1); \
+  unsigned int i = wrenGetSlotDouble(vm, 1); \
   if (i > n) { \
     wrenSetSlotString(vm, 0, "Vector index out of bounds."); \
     wrenAbortFiber(vm, 0); \
+    return; \
   } \
   /* NOTE: Assumes VectorN struct is packed and ordered. */ \
   float *vec = wrenGetSlotForeign(vm, 0); \
   wrenSetSlotDouble(vm, 0, vec[i])
 
 #define WRAY_VECN_SET(n, vm) \
-  uint32_t i = wrenGetSlotDouble(vm, 1); \
+  unsigned int i = wrenGetSlotDouble(vm, 1); \
   if (i > n) { \
     wrenSetSlotString(vm, 0, "Vector index out of bounds."); \
     wrenAbortFiber(vm, 0); \
+    return; \
   } \
   /* NOTE: Assumes VectorN struct is packed and ordered. */ \
   float *vec = wrenGetSlotForeign(vm, 0); \

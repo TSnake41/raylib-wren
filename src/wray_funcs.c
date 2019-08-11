@@ -16,9 +16,11 @@
 
 #include "wray_internal.h"
 #include "wray_core.h"
+#include "wray_draw.h"
+
 #include "wray_color.h"
 #include "wray_vector.h"
-#include "wray_draw.h"
+#include "wray_rectangle.h"
 
 #define WRAY_STATIC_FN(name, sig) { wray_##name, true, "Raylib", sig },
 
@@ -76,16 +78,52 @@ wray_binding_func wray_funcs[] = {
 
   WRAY_STATIC_FN(DrawText, "drawText(_,_,_,_,_)")
 
+  /* draw */
   /* TODO: Move these overloads to RlFont, they are hardly implementable as it is. */
   WRAY_STATIC_FN(DrawTextEx, "drawText(_,_,_,_,_,_)")
   WRAY_STATIC_FN(DrawTextRec, "drawText(_,_,_,_,_,_,_)")
   WRAY_STATIC_FN(DrawTextRecEx, "drawText(_,_,_,_,_,_,_,_,_,_)")
 
+  WRAY_STATIC_FN(DrawPixel, "drawPixel(_,_)")
+
+  WRAY_STATIC_FN(DrawLine, "drawLine(_,_,_)")
+  WRAY_STATIC_FN(DrawLineThick, "drawLine(_,_,_,_)")
+  WRAY_STATIC_FN(DrawLineBezier, "drawLineBezier(_,_,_,_)")
+  WRAY_STATIC_FN(DrawLineStrip, "drawLineStrip(_,_)")
+
+  WRAY_STATIC_FN(DrawCircle, "drawCircle(_,_,_)")
+  WRAY_STATIC_FN(DrawCircleLines, "drawCircleLines(_,_,_)")
+  WRAY_STATIC_FN(DrawCircleSector, "drawCircleSector(_,_,_,_,_,_)")
+  WRAY_STATIC_FN(DrawCircleSectorLines, "drawCircleSectorLines(_,_,_,_,_,_)")
+  WRAY_STATIC_FN(DrawCircleGradient, "drawCircleGradient(_,_,_,_)")
+
+  WRAY_STATIC_FN(DrawRing, "drawRing(_,_,_,_,_,_,_)")
+  WRAY_STATIC_FN(DrawRingLines, "drawRingLines(_,_,_,_,_,_,_)")
+
+  WRAY_STATIC_FN(DrawRectangle, "drawRectangle(_,_)")
+  WRAY_STATIC_FN(DrawRectangleLines, "drawRectangleLines(_,_)")
+  WRAY_STATIC_FN(DrawRectangleLinesThick, "drawRectangleLines(_,_,_)")
+  WRAY_STATIC_FN(DrawRectangleRounded, "drawRectangleRounded(_,_,_,_)")
+  WRAY_STATIC_FN(DrawRectangleRoundedLines, "drawRectangleRoundedLines(_,_,_,_)")
+
+  WRAY_STATIC_FN(DrawRectangleGradient, "drawRectangleGradient(_,_,_,_,_)")
+  WRAY_STATIC_FN(DrawRectangleGradientV, "drawRectangleGradientV(_,_,_)")
+  WRAY_STATIC_FN(DrawRectangleGradientH, "drawRectangleGradientH(_,_,_)")
+
+  WRAY_STATIC_FN(DrawTriangle, "drawTriangle(_,_,_,_)")
+  WRAY_STATIC_FN(DrawTriangleLines, "drawTriangleLines(_,_,_,_)")
+  WRAY_STATIC_FN(DrawTriangleFan, "drawTriangleFan(_,_)")
+  WRAY_STATIC_FN(DrawPoly, "drawPoly(_,_,_,_,_)")
+
+  WRAY_STATIC_FN(ShapesTexture, "shapesTexture(_,_)")
+
+  /* input */
   WRAY_STATIC_FN(IsKeyUp, "isKeyUp(_)")
   WRAY_STATIC_FN(isKeyDown, "isKeyDown(_)")
   WRAY_STATIC_FN(IsKeyPressed, "isKeyPressed(_)")
   WRAY_STATIC_FN(IsKeyReleased, "isKeyReleased(_)")
 
+  /* misc */
   WRAY_STATIC_SET(TargetFPS, "targetFPS=(_)")
   WRAY_STATIC_GET(FPS, "fps")
   WRAY_STATIC_GET(FrameTime, "frameTime")
@@ -127,6 +165,11 @@ wray_binding_func wray_funcs[] = {
   { wray_vec4_index_get, false, "RlVector4", "[_]" },
   { wray_vec4_index_set, false, "RlVector4", "[_]=(_)" },
 
+  /* Rectangle class */
+  { wray_rectangle_new, false, "RlRectangle", "init new(_,_,_,_)" },
+  { wray_rectangle_index_get, false, "RlRectangle", "[_]" },
+  { wray_rectangle_index_set, false, "RlRectangle", "[_]=(_)" },
+
   { NULL, NULL, NULL, NULL }
 };
 
@@ -135,5 +178,6 @@ wray_class_binding_func wray_class_funcs[] = {
   { "RlVector2", { wray_vec2_initialize, NULL } },
   { "RlVector3", { wray_vec3_initialize, NULL } },
   { "RlVector4", { wray_vec4_initialize, NULL } },
+  { "RlRectangle", { wray_rectangle_initialize, NULL } },
   { NULL, { NULL, NULL } }
 };
