@@ -1,1 +1,1 @@
-raylib-wren/wray raylib wren binding.
+raylib-wren raylib binding.
