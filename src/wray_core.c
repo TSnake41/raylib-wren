@@ -75,11 +75,10 @@ void wray_WindowTitle_set(WrenVM *vm)
 
 void wray_WindowPosition_set(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 3);
-  wrenGetListElement(vm, 0, 0, 1); /* x */
-  wrenGetListElement(vm, 0, 1, 2); /* y */
+  wray_CheckForeignType(vm, 1, "RlVector2");
 
-  SetWindowPosition(wrenGetSlotDouble(vm, 1), wrenGetSlotDouble(vm, 2));
+  Vector2 *v = wrenGetSlotForeign(vm, 1);
+  SetWindowPosition(v->x, v->y);
 }
 
 void wray_WindowIcon_set(WrenVM *vm)
@@ -94,24 +93,23 @@ void wray_SetWindowMonitor(WrenVM *vm)
 
 void wray_SetWindowSize(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 3);
-  wrenGetListElement(vm, 0, 0, 1); /* w */
-  wrenGetListElement(vm, 0, 1, 2); /* h */
+  wray_CheckForeignType(vm, 1, "RlVector2");
 
-  SetWindowSize(wrenGetSlotDouble(vm, 1), wrenGetSlotDouble(vm, 2));
+  Vector2 *v = wrenGetSlotForeign(vm, 1);
+  SetWindowSize(v->x, v->y);
 }
 
 void wray_WindowMinSize_set(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 3);
-  wrenGetListElement(vm, 0, 0, 1); /* w */
-  wrenGetListElement(vm, 0, 1, 2); /* h */
+  wray_CheckForeignType(vm, 1, "RlVector2");
 
-  SetWindowMinSize(wrenGetSlotDouble(vm, 1), wrenGetSlotDouble(vm, 2));
+  Vector2 *v = wrenGetSlotForeign(vm, 1);
+  SetWindowMinSize(v->x, v->y);
 }
 
 void wray_ScreenSize_get(WrenVM *vm)
 {
+  /* TODO: Might create new RlVector2 ? */
   wrenEnsureSlots(vm, 3);
   wrenSetSlotNewList(vm, 0);
 
@@ -130,7 +128,6 @@ void wray_MonitorCount_get(WrenVM *vm)
 
 void wray_GetMonitorName(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
   wrenSetSlotString(vm, 0, GetMonitorName(wrenGetSlotDouble(vm, 1)));
 }
 
@@ -161,37 +158,7 @@ void wray_CursorLocked_set(WrenVM *vm)
   wrenGetSlotBool(vm, 0) ? DisableCursor() : EnableCursor();
 }
 
-void wray_ClearBackgroundList(WrenVM *vm)
-{
-  wrenEnsureSlots(vm, 5);
-
-  size_t elem_count = wrenGetListCount(vm, 0);
-
-  if (elem_count < 3) {
-    wrenSetSlotString(vm, 0, "List must have at least 3 numbers.");
-    wrenAbortFiber(vm, 0);
-  }
-
-  wrenGetListElement(vm, 0, 0, 1); /* r */
-  wrenGetListElement(vm, 0, 1, 2); /* g */
-  wrenGetListElement(vm, 0, 2, 3); /* b */
-
-  if (elem_count > 3)
-    wrenGetListElement(vm, 0, 3, 4); /* a */
-
-  Color color;
-
-  color.r = wrenGetSlotDouble(vm, 1);
-  color.g = wrenGetSlotDouble(vm, 2);
-  color.b = wrenGetSlotDouble(vm, 3);
-
-  if (elem_count > 3)
-    color.r = wrenGetSlotDouble(vm, 4);
-
-  ClearBackground(color);
-}
-
-void wray_ClearBackgroundColor(WrenVM *vm)
+void wray_ClearBackground(WrenVM *vm)
 {
   wray_CheckForeignType(vm, 1, "RlColor");
 
@@ -252,7 +219,6 @@ void wray_StorageSaveValue(WrenVM *vm)
 
 void wray_StorageLoadValue(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
   int index = wrenGetSlotDouble(vm, 1);
   wrenSetSlotDouble(vm, 0, StorageLoadValue(index));
 }
@@ -264,31 +230,24 @@ void wray_OpenURL(WrenVM *vm)
 
 void wray_IsKeyUp(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
   int key = wrenGetSlotDouble(vm, 1);
   wrenSetSlotBool(vm, 0, IsKeyUp(key));
 }
 
 void wray_isKeyDown(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
-
   int key = wrenGetSlotDouble(vm, 1);
   wrenSetSlotBool(vm, 0, IsKeyDown(key));
 }
 
 void wray_IsKeyPressed(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
-
   int key = wrenGetSlotDouble(vm, 1);
   wrenSetSlotBool(vm, 0, IsKeyPressed(key));
 }
 
 void wray_IsKeyReleased(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
-
   int key = wrenGetSlotDouble(vm, 1);
   wrenSetSlotBool(vm, 0, IsKeyReleased(key));
 }

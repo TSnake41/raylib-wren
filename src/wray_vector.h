@@ -18,20 +18,27 @@
 #define H_WRAY_VECTOR
 
 #include <wray.h>
+#include "wray_internal.h"
 
 void wray_vec2_initialize(WrenVM *);
 void wray_vec2_new(WrenVM *);
 void wray_vec2_index_get(WrenVM *);
 void wray_vec2_index_set(WrenVM *);
 
+extern const wray_binding_class wray_vec2_class;
+
 void wray_vec3_initialize(WrenVM *);
 void wray_vec3_new(WrenVM *);
 void wray_vec3_index_get(WrenVM *);
 void wray_vec3_index_set(WrenVM *);
 
+extern const wray_binding_class wray_vec3_class;
+
 void wray_vec4_initialize(WrenVM *);
 void wray_vec4_new(WrenVM *);
 void wray_vec4_index_get(WrenVM *);
 void wray_vec4_index_set(WrenVM *);
+
+extern const wray_binding_class wray_vec4_class;
 
 #endif /* H_WRAY_VECTOR */

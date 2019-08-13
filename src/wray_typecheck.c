@@ -31,7 +31,6 @@ void wrenDebugPrintStackTrace(WrenVM *vm);
 
 static void wray_type_error_abort(WrenVM *vm, int slot, const char *expected)
 {
-  wrenEnsureSlots(vm, 1);
   const char *format = "Expected parameter of slot %d to be '%s', got '%s'.";
   const char *got_type = wrenGetSlotTypeName(vm, slot);
 

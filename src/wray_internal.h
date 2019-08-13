@@ -25,19 +25,18 @@ typedef struct wray_binding_func {
   WrenForeignMethodFn func;
   bool is_static;
 
-  const char *class;
-  const char *signature;
+  const char *sig;
 } wray_binding_func;
 
-typedef struct wray_class_binding_func {
+typedef struct wray_binding_class {
   const char *class;
   WrenForeignClassMethods methods;
-} wray_class_binding_func;
+  wray_binding_func funcs[];
+} wray_binding_class;
 
+extern const wray_binding_class *wray_classes[];
+extern const size_t wray_classes_count;
 extern const char *wray_api;
-
-extern wray_binding_func wray_funcs[];
-extern wray_class_binding_func wray_class_funcs[];
 
 #define NYI \
   wrenEnsureSlots(vm, 1); \

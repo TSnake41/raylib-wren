@@ -73,6 +73,15 @@ void wray_vec2_index_set(WrenVM *vm)
   WRAY_VECN_SET(2, vm);
 }
 
+const wray_binding_class wray_vec2_class = {
+  "RlVector2", { wray_vec2_initialize, NULL }, {
+    { wray_vec2_new, false, "init new(_,_)" },
+    { wray_vec2_index_get, false, "[_]" },
+    { wray_vec2_index_set, false, "[_]=(_)" },
+    { NULL, NULL, NULL }
+  }
+};
+
 /*
  * Vector3 binding
  */
@@ -101,6 +110,15 @@ void wray_vec3_index_set(WrenVM *vm)
 {
   WRAY_VECN_SET(3, vm);
 }
+
+const wray_binding_class wray_vec3_class = {
+  "RlVector3", { wray_vec3_initialize, NULL }, {
+    { wray_vec3_new, false, "init new(_,_,_)" },
+    { wray_vec3_index_get, false, "[_]" },
+    { wray_vec3_index_set, false, "[_]=(_)" },
+    { NULL, NULL, NULL }
+  }
+};
 
 /*
  * Vector4 binding
@@ -131,3 +149,12 @@ void wray_vec4_index_set(WrenVM *vm)
 {
   WRAY_VECN_SET(4, vm);
 }
+
+const wray_binding_class wray_vec4_class = {
+  "RlVector4", { wray_vec4_initialize, NULL }, {
+    { wray_vec4_new, false, "init new(_,_,_,_)" },
+    { wray_vec4_index_get, false, "[_]" },
+    { wray_vec4_index_set, false, "[_]=(_)" },
+    { NULL, NULL, NULL }
+  }
+};

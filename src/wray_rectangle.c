@@ -39,7 +39,6 @@ void wray_rectangle_new(WrenVM *vm)
 /* NOTE: This part assumes Rectangle struct is packed and ordered. */
 void wray_rectangle_index_get(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
   unsigned int i = wrenGetSlotDouble(vm, 1);
 
   if (i > 4) {
@@ -54,7 +53,6 @@ void wray_rectangle_index_get(WrenVM *vm)
 
 void wray_rectangle_index_set(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
   unsigned int i = wrenGetSlotDouble(vm, 1);
 
   if (i > 4) {
@@ -66,3 +64,12 @@ void wray_rectangle_index_set(WrenVM *vm)
   float *vec = wrenGetSlotForeign(vm, 0);
   vec[i] = wrenGetSlotDouble(vm, 2);
 }
+
+const wray_binding_class wray_rectangle_class = {
+  "RlRectangle", { wray_rectangle_initialize, NULL }, {
+    { wray_rectangle_new, false, "init new(_,_,_,_)" },
+    { wray_rectangle_index_get, false, "[_]" },
+    { wray_rectangle_index_set, false, "[_]=(_)" },
+    { NULL, NULL, NULL }
+  }
+};

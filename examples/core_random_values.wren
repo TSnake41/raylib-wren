@@ -29,4 +29,4 @@ while (!Raylib.windowShouldClose) {
   Raylib.endDrawing()
 }
 
-Raylib.CloseWindow()
+Raylib.closeWindow()

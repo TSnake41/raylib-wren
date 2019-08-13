@@ -42,26 +42,40 @@ static void error_func(WrenVM* vm, WrenErrorType type, const char* module, int l
 }
 
 WrenForeignMethodFn wray_bind_foreign_method(WrenVM *vm, const char* module,
-  const char *class, bool is_static, const char *signature)
+  const char *class, bool is_static, const char *sig)
 {
-  for (wray_binding_func *current = wray_funcs; current->class != NULL; current++) {
-    if (strcmp(class, current->class) == 0
-      && strcmp(signature, current->signature) == 0
-      && is_static == current->is_static
-    ) {
-      return current->func;
+  if (strcmp(module, "raylib") != 0)
+    return NULL;
+
+  /* Check each wray binding class. */
+  for (size_t i = 0; i < wray_classes_count; i++) {
+    const wray_binding_class *c = wray_classes[i];
+
+    if (strcmp(c->class, class) == 0) {
+      const wray_binding_func *f = c->funcs;
+
+      /* Check each functions of the binding class. */
+      for (; f->func; f++)
+        if ((f->is_static == is_static) && (strcmp(f->sig, sig) == 0))
+          return f->func;
     }
   }
-
   return NULL;
 }
 
 WrenForeignClassMethods wray_bind_foreign_class(WrenVM *vm, const char *module,
   const char *class)
 {
-  for (wray_class_binding_func *current = wray_class_funcs; current->class != NULL; current++)
-    if (strcmp(class, current->class) == 0)
-      return current->methods;
+  if (strcmp(module, "raylib") != 0)
+    return (WrenForeignClassMethods){ NULL, NULL };
+
+  /* Check each wray binding class. */
+  for (size_t i = 0; i < wray_classes_count; i++) {
+    const wray_binding_class *c = wray_classes[i];
+
+    if (strcmp(c->class, class) == 0)
+      return c->methods;
+  }
 
   return (WrenForeignClassMethods){ NULL, NULL };
 }

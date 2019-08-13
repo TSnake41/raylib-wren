@@ -47,9 +47,7 @@ void wray_CursorVisible_get(WrenVM *);
 void wray_CursorVisible_set(WrenVM *);
 void wray_CursorLocked_set(WrenVM *);
 
-void wray_ClearBackgroundList(WrenVM *);
-void wray_ClearBackgroundColor(WrenVM *);
-
+void wray_ClearBackground(WrenVM *);
 void wray_BeginDrawing(WrenVM *);
 void wray_EndDrawing(WrenVM *);
 

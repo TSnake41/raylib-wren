@@ -18,8 +18,12 @@
 #define H_WRAY_COLOR
 
 #include <wren.h>
+#include "wray_internal.h"
 
 void wray_color_initialize(WrenVM *vm);
+void wray_color_new_hex(WrenVM *vm);
+void wray_color_new_rgba(WrenVM *vm);
+void wray_color_new_rgb(WrenVM *vm);
 
 void wray_color_hex_get(WrenVM *vm);
 
@@ -33,8 +37,6 @@ void wray_color_g_set(WrenVM *vm);
 void wray_color_b_set(WrenVM *vm);
 void wray_color_a_set(WrenVM *vm);
 
-void wray_color_new_hex(WrenVM *vm);
-void wray_color_new_rgba(WrenVM *vm);
-void wray_color_new_rgb(WrenVM *vm);
+extern const wray_binding_class wray_color_class;
 
 #endif /* H_WRAY_COLOR */

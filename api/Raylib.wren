@@ -42,9 +42,7 @@ class Raylib {
 
   foreign static cursorLocked=(locked)
 
-  foreign static clearBackground_Color(color)
-  foreign static clearBackground_List(color)
-
+  foreign static clearBackground(color)
   foreign static beginDrawing()
   foreign static endDrawing()
 
@@ -128,17 +126,6 @@ class Raylib {
   foreign static fps
   foreign static frameTime
   foreign static time
-
-  // Some shortcut functions.
-  static clearBackground(color) {
-    if (color is RlColor) {
-      clearBackground_Color(color)
-    } else if (color is List) {
-      clearBackground_List(color)
-    } else {
-      Fiber.abort("Invalid argument, 'RlColor' or 'List' expected.")
-    }
-  }
 
   static drawPixel(x, y, color) {
     drawPixel(RlVector2.new(x, y), color)

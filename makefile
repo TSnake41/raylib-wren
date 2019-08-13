@@ -14,11 +14,11 @@ ifeq ($(OS),Windows_NT)
 endif
 
 WRAY_API := api/Raylib.wren api/RlColor.wren api/RlKey.wren api/RlVector.wren \
-	api/RlRectangle.wren
+	api/RlRectangle.wren api/RlImage.wren
 
 SRC := src/wray.c src/wray_funcs.c src/wray_api.c src/wray_typecheck.c \
 	src/wray_core.c src/wray_color.c src/wray_vector.c src/wray_draw.c \
-	src/wray_rectangle.c
+	src/wray_rectangle.c src/wray_image.c
 
 OBJ := $(SRC:.c=.o)
 
@@ -46,8 +46,8 @@ wray_embedded: libwray.a src/lib/miniz.o src/wray_builder.o src/wray_embedded.o
 	$(CC) -o $@ $^ -lwray $(LDFLAGS)
 
 clean:
-	rm -rf src/wray_api.c wray_embedded \
-		wray_standalone src/wray_standalone.o \
+	rm -rf src/wray_api.c wray_embedded src/wray_builder.o \
+		wray_standalone src/wray_standalone.o src/lib/miniz.o \
 		libwray.a $(OBJ)
 
 	$(MAKE) -C wren clean

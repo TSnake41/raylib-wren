@@ -60,7 +60,6 @@ void wray_color_new_rgb(WrenVM *vm)
 
 void wray_color_hex_get(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
   Color *c = wrenGetSlotForeign(vm, 0);
 
   /* hack as int is signed */
@@ -72,25 +71,21 @@ void wray_color_hex_get(WrenVM *vm)
 
 void wray_color_r_get(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
   wrenSetSlotDouble(vm, 0, ((Color *)wrenGetSlotForeign(vm, 0))->r);
 }
 
 void wray_color_g_get(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
   wrenSetSlotDouble(vm, 0, ((Color *)wrenGetSlotForeign(vm, 0))->g);
 }
 
 void wray_color_b_get(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
   wrenSetSlotDouble(vm, 0, ((Color *)wrenGetSlotForeign(vm, 0))->b);
 }
 
 void wray_color_a_get(WrenVM *vm)
 {
-  wrenEnsureSlots(vm, 1);
   wrenSetSlotDouble(vm, 0, ((Color *)wrenGetSlotForeign(vm, 0))->a);
 }
 
@@ -113,3 +108,23 @@ void wray_color_a_set(WrenVM *vm)
 {
   ((Color *)wrenGetSlotForeign(vm, 0))->a = wrenGetSlotDouble(vm, 1);
 }
+
+const wray_binding_class wray_color_class = {
+  "RlColor", { wray_color_initialize, NULL }, {
+    { wray_color_new_hex, false, "init new(_)" },
+    { wray_color_new_rgba, false, "init new(_,_,_,_)" },
+    { wray_color_new_rgb, false, "init new(_,_,_)" },
+
+    { wray_color_hex_get, false, "hex" },
+    { wray_color_r_get, false, "r" },
+    { wray_color_g_get, false, "g" },
+    { wray_color_b_get, false, "b" },
+    { wray_color_a_get, false, "a" },
+
+    { wray_color_r_set, false, "r=(_)" },
+    { wray_color_g_set, false, "g=(_)" },
+    { wray_color_b_set, false, "b=(_)" },
+    { wray_color_a_set, false, "a=(_)" },
+    { NULL, NULL, NULL }
+  }
+};

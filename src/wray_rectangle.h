@@ -17,13 +17,14 @@
 #ifndef H_WRAY_RECTANGLE
 #define H_WRAY_RECTANGLE
 
-#include <wray.h>
+#include <wren.h>
+#include "wray_internal.h"
 
 void wray_rectangle_initialize(WrenVM *);
-
 void wray_rectangle_new(WrenVM *);
-
 void wray_rectangle_index_get(WrenVM *);
 void wray_rectangle_index_set(WrenVM *);
+
+extern const wray_binding_class wray_rectangle_class;
 
 #endif /* H_WRAY_RECTANGLE */
