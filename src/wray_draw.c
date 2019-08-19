@@ -414,7 +414,26 @@ void wray_DrawPoly(WrenVM *vm)
   );
 }
 
-void wray_ShapesTexture(WrenVM *vm)
+void wray_DrawTexture(WrenVM *vm)
 {
-  NYI
+  wray_CheckForeignType(vm, 1, "RlTexture2D");
+  wray_CheckForeignType(vm, 2, "RlVector2");
+  wray_CheckForeignType(vm, 3, "RlColor");
+
+  DrawTextureV(
+    *(Texture2D *)wrenGetSlotForeign(vm, 1),
+    *(Vector2 *)wrenGetSlotForeign(vm, 2),
+    *(Color *)wrenGetSlotForeign(vm, 3)
+  );
+}
+
+void wray_SetShapesTexture(WrenVM *vm)
+{
+  wray_CheckForeignType(vm, 1, "RlTexture2D");
+  wray_CheckForeignType(vm, 2, "RlRectangle");
+
+  SetShapesTexture(
+    *(Texture2D *)wrenGetSlotForeign(vm, 1),
+    *(Rectangle *)wrenGetSlotForeign(vm, 2)
+  );
 }

@@ -28,7 +28,8 @@ class Raylib {
   foreign static setWindowMonitor(monitor)
   foreign static setWindowSize(size)
 
-  foreign static screenSize
+  foreign static screenWidth
+  foreign static screenHeight
   foreign static monitorCount
   foreign static clipboardText
   foreign static clipboardText=(text)
@@ -39,7 +40,6 @@ class Raylib {
 
   foreign static cursorVisible
   foreign static cursorVisible=(shown)
-
   foreign static cursorLocked=(locked)
 
   foreign static clearBackground(color)
@@ -98,7 +98,8 @@ class Raylib {
   foreign static drawTriangleFan(points, color)
   foreign static drawPoly(center, sides, radius, rotation, color)
 
-  foreign static shapesTexture(texture, source)
+  foreign static drawTexture(texture, position, color)
+  foreign static setShapesTexture(texture, source)
 
   foreign static isKeyUp(keycode)
   foreign static isKeyDown(keycode)
@@ -126,6 +127,8 @@ class Raylib {
   foreign static fps
   foreign static frameTime
   foreign static time
+
+  static screenSize { RlVector2.new(screenWidth, screenHeight) }
 
   static drawPixel(x, y, color) {
     drawPixel(RlVector2.new(x, y), color)

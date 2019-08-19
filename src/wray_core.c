@@ -83,7 +83,8 @@ void wray_WindowPosition_set(WrenVM *vm)
 
 void wray_WindowIcon_set(WrenVM *vm)
 {
-  NYI
+  wray_CheckForeignType(vm, 1, "RlImage");
+  SetWindowIcon(*(Image *)wrenGetSlotForeign(vm, 1));
 }
 
 void wray_SetWindowMonitor(WrenVM *vm)
@@ -107,17 +108,14 @@ void wray_WindowMinSize_set(WrenVM *vm)
   SetWindowMinSize(v->x, v->y);
 }
 
-void wray_ScreenSize_get(WrenVM *vm)
+void wray_ScreenWidth_get(WrenVM *vm)
 {
-  /* TODO: Might create new RlVector2 ? */
-  wrenEnsureSlots(vm, 3);
-  wrenSetSlotNewList(vm, 0);
+  wrenSetSlotDouble(vm, 0, GetScreenWidth());
+}
 
-  wrenSetSlotDouble(vm, 1, GetScreenWidth());
-  wrenSetSlotDouble(vm, 2, GetScreenHeight());
-
-  wrenInsertInList(vm, 0, -1, 1); /* w */
-  wrenInsertInList(vm, 0, -1, 2); /* h */
+void wray_ScreenHeight_get(WrenVM *vm)
+{
+  wrenSetSlotDouble(vm, 0, GetScreenHeight());
 }
 
 void wray_MonitorCount_get(WrenVM *vm)

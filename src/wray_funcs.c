@@ -17,11 +17,7 @@
 #include "wray_internal.h"
 #include "wray_core.h"
 #include "wray_draw.h"
-
-#include "wray_color.h"
-#include "wray_vector.h"
-#include "wray_rectangle.h"
-#include "wray_image.h"
+#include "wray_classes.h"
 
 #define STATIC_FN(name, sig) { wray_##name, true, sig },
 
@@ -51,7 +47,8 @@ static const wray_binding_class wray_raylib_class = {
     STATIC_FN(SetWindowMonitor, "setWindowMonitor(_)")
     STATIC_FN(SetWindowSize, "setWindowSize(_)")
 
-    STATIC_GET(ScreenSize, "screenSize")
+    STATIC_GET(ScreenWidth, "screenWidth")
+    STATIC_GET(ScreenHeight, "screenHeight")
     STATIC_GET(MonitorCount, "monitorCount")
     STATIC_GET(ClipboardText, "clipboardText")
     STATIC_SET(ClipboardText, "clipboardText=(_)")
@@ -115,7 +112,8 @@ static const wray_binding_class wray_raylib_class = {
     STATIC_FN(DrawTriangleFan, "drawTriangleFan(_,_)")
     STATIC_FN(DrawPoly, "drawPoly(_,_,_,_,_)")
 
-    STATIC_FN(ShapesTexture, "shapesTexture(_,_)")
+    STATIC_FN(SetShapesTexture, "setShapesTexture(_,_)")
+    STATIC_FN(DrawTexture, "drawTexture(_,_,_)")
 
     /* input */
     STATIC_FN(IsKeyUp, "isKeyUp(_)")

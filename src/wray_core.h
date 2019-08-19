@@ -34,7 +34,10 @@ void wray_WindowIcon_set(WrenVM *);
 void wray_SetWindowSize(WrenVM *);
 void wray_SetWindowMonitor(WrenVM *);
 void wray_WindowMinSize_set(WrenVM *);
-void wray_ScreenSize_get(WrenVM *);
+
+void wray_ScreenWidth_get(WrenVM *);
+void wray_ScreenHeight_get(WrenVM *);
+
 void wray_MonitorCount_get(WrenVM *);
 void wray_WindowPosition_set(WrenVM *);
 
@@ -70,9 +73,9 @@ void wray_DrawTextEx(WrenVM *);
 void wray_DrawTextRec(WrenVM *);
 void wray_DrawTextRecEx(WrenVM *);
 
-void wray_IsKeyUp(WrenVM *vm);
-void wray_isKeyDown(WrenVM *vm);
-void wray_IsKeyPressed(WrenVM *vm);
-void wray_IsKeyReleased(WrenVM *vm);
+void wray_IsKeyUp(WrenVM *);
+void wray_isKeyDown(WrenVM *);
+void wray_IsKeyPressed(WrenVM *);
+void wray_IsKeyReleased(WrenVM *);
 
 #endif /* H_WRAY_CORE */

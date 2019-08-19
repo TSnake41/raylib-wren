@@ -15,6 +15,7 @@
 */
 
 #include <stdint.h>
+#include <string.h>
 
 #include <raylib.h>
 #include <raymath.h>
@@ -45,6 +46,69 @@
   float *vec = wrenGetSlotForeign(vm, 0); \
   vec[i] = wrenGetSlotDouble(vm, 2);
 
+#define WRAY_VECN_OP(n, op, vm) \
+  wray_CheckForeignType(vm, 1, "RlVector" #n) \
+  Vector##n *a = wrenGetSlotForeign(vm, 0); \
+  Vector##n *b = wrenGetSlotForeign(vm, 1); \
+  *a = Vector##n##op(*a, *b)
+
+/* Generate most operators functions (add, sub, mul, div, dot, length, dist, negate). */
+#define WRAY_VECN_GENOP(n) \
+  void wray_vec##n##_add(WrenVM *vm) { WRAY_VECN_OP(n, Add, vm); } \
+  void wray_vec##n##_sub(WrenVM *vm) { WRAY_VECN_OP(n, Subtract, vm); } \
+  void wray_vec##n##_mul(WrenVM *vm) { \
+    if (wrenGetSlotType(vm, 1) == WREN_TYPE_NUM) { \
+      Vector##n *a = wrenGetSlotForeign(vm, 0); \
+      *a = Vector##n##Scale(*a, wrenGetSlotDouble(vm, 1)); \
+    } else { WRAY_VECN_OP(n, MultiplyV, vm); } \
+  } \
+  void wray_vec##n##_div(WrenVM *vm) { \
+    if (wrenGetSlotType(vm, 1) == WREN_TYPE_NUM) { \
+      Vector##n *a = wrenGetSlotForeign(vm, 0); \
+      *a = Vector##n##Divide(*a, wrenGetSlotDouble(vm, 1)); \
+    } else { WRAY_VECN_OP(n, DivideV, vm); } \
+  } \
+  void wray_vec##n##_dot(WrenVM *vm) { \
+    wray_CheckForeignType(vm, 1, "RlVector" #n); \
+    wrenSetSlotDouble(vm, 0, Vector##n##DotProduct( \
+      *(Vector##n *)wrenGetSlotForeign(vm, 0), \
+      *(Vector##n *)wrenGetSlotForeign(vm, 1) \
+    )); \
+  } \
+  void wray_vec##n##_dist(WrenVM *vm) { \
+    wray_CheckForeignType(vm, 1, "RlVector" #n); \
+    wrenSetSlotDouble(vm, 0, Vector##n##Distance( \
+      *(Vector##n *)wrenGetSlotForeign(vm, 0), \
+      *(Vector##n *)wrenGetSlotForeign(vm, 1) \
+    )); \
+  } \
+  void wray_vec##n##_length(WrenVM *vm) { \
+    wrenSetSlotDouble(vm, 0, Vector##n##Length( \
+      *(Vector##n *)wrenGetSlotForeign(vm, 0) \
+    )); \
+  } \
+  void wray_vec##n##_negate(WrenVM *vm) { \
+    Vector##n *a = wrenGetSlotForeign(vm, 0); \
+    *a = Vector##n##Negate(*a); \
+  } \
+  void wray_vec##n##_normalize(WrenVM *vm) { \
+    Vector##n *a = wrenGetSlotForeign(vm, 0); \
+    *a = Vector##n##Normalize(*a); \
+  } \
+  void wray_vec##n##_lerp(WrenVM *vm) { \
+    wray_CheckForeignType(vm, 1, "RlVector" #n); \
+    Vector##n *a = wrenGetSlotForeign(vm, 0); \
+    Vector##n *b = wrenGetSlotForeign(vm, 1); \
+    *a = Vector##n##Lerp(*a, *b, wrenGetSlotDouble(vm, 2)); \
+  } \
+  void wray_vec##n##_copy(WrenVM *vm) { \
+    wray_CheckForeignType(vm, 1, "RlVector" #n); \
+    Vector##n *a = wrenGetSlotForeign(vm, 0); \
+    Vector##n *b = wrenGetSlotForeign(vm, 1); \
+    memcpy(b, a, sizeof(Vector##n)); \
+    wrenSetSlotHandle(vm, 0, wrenGetSlotHandle(vm, 1)); /* Move b to slot 0. */ \
+  }
+
 /*
  * Vector2 binding
  */
@@ -73,11 +137,24 @@ void wray_vec2_index_set(WrenVM *vm)
   WRAY_VECN_SET(2, vm);
 }
 
+WRAY_VECN_GENOP(2)
+
 const wray_binding_class wray_vec2_class = {
   "RlVector2", { wray_vec2_initialize, NULL }, {
     { wray_vec2_new, false, "init new(_,_)" },
     { wray_vec2_index_get, false, "[_]" },
     { wray_vec2_index_set, false, "[_]=(_)" },
+    /* NOTE: _prefixed functions modify self value. */
+    { wray_vec2_add, false, "add_(_)" },
+    { wray_vec2_sub, false, "sub_(_)" },
+    { wray_vec2_mul, false, "mul_(_)" },
+    { wray_vec2_div, false, "div_(_)" },
+    { wray_vec2_dot, false, "dot(_)" },
+    { wray_vec2_lerp, false, "lerp_(_,_,_)" },
+    { wray_vec2_negate, false, "negated_" },
+    { wray_vec2_dist, false, "distance(_)" },
+    { wray_vec2_length, false, "length" },
+    { wray_vec2_copy, false, "copy(_)" },
     { NULL, NULL, NULL }
   }
 };
@@ -111,11 +188,23 @@ void wray_vec3_index_set(WrenVM *vm)
   WRAY_VECN_SET(3, vm);
 }
 
+WRAY_VECN_GENOP(3)
+
 const wray_binding_class wray_vec3_class = {
   "RlVector3", { wray_vec3_initialize, NULL }, {
     { wray_vec3_new, false, "init new(_,_,_)" },
     { wray_vec3_index_get, false, "[_]" },
     { wray_vec3_index_set, false, "[_]=(_)" },
+    { wray_vec3_add, false, "add_(_)" },
+    { wray_vec3_sub, false, "sub_(_)" },
+    { wray_vec3_mul, false, "mul_(_)" },
+    { wray_vec3_div, false, "div_(_)" },
+    { wray_vec3_dot, false, "dot(_)" },
+    { wray_vec3_lerp, false, "lerp_(_,_,_)" },
+    { wray_vec3_negate, false, "negated_" },
+    { wray_vec3_dist, false, "distance(_)" },
+    { wray_vec3_length, false, "length" },
+    { wray_vec3_copy, false, "copy(_)" },
     { NULL, NULL, NULL }
   }
 };

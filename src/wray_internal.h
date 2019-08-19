@@ -43,6 +43,13 @@ extern const char *wray_api;
   wrenSetSlotString(vm, 0, "This function is not yet implemented."); \
   wrenAbortFiber(vm, 0);
 
+/* Get a field, and return it, make the function associated to it. */
+#define MAKE_FIELD_GETTER(type_internal, wren_type, type, name) \
+void wray_##type_internal##_##name##_get(WrenVM *vm) \
+{ \
+  wrenSetSlot##wren_type(vm, 0, ((type *)wrenGetSlotForeign(vm, 0))->name); \
+}
+
 #ifdef WRAY_TYPE_CHECK
 #include "wray_typecheck.h"
 

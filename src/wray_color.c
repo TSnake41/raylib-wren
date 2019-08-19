@@ -69,44 +69,33 @@ void wray_color_hex_get(WrenVM *vm)
   wrenSetSlotDouble(vm, 0, hex);
 }
 
-void wray_color_r_get(WrenVM *vm)
+/* NOTE: This part assumes Color struct is packed and ordered. */
+void wray_color_index_get(WrenVM *vm)
 {
-  wrenSetSlotDouble(vm, 0, ((Color *)wrenGetSlotForeign(vm, 0))->r);
+  unsigned int i = wrenGetSlotDouble(vm, 1);
+
+  if (i > 4) {
+    wrenSetSlotString(vm, 0, "Color index out of bounds.");
+    wrenAbortFiber(vm, 0);
+    return;
+  }
+
+  unsigned char *vec = wrenGetSlotForeign(vm, 0);
+  wrenSetSlotDouble(vm, 0, vec[i]);
 }
 
-void wray_color_g_get(WrenVM *vm)
+void wray_color_index_set(WrenVM *vm)
 {
-  wrenSetSlotDouble(vm, 0, ((Color *)wrenGetSlotForeign(vm, 0))->g);
-}
+  unsigned int i = wrenGetSlotDouble(vm, 1);
 
-void wray_color_b_get(WrenVM *vm)
-{
-  wrenSetSlotDouble(vm, 0, ((Color *)wrenGetSlotForeign(vm, 0))->b);
-}
+  if (i > 4) {
+    wrenSetSlotString(vm, 0, "Color index out of bounds.");
+    wrenAbortFiber(vm, 0);
+    return;
+  }
 
-void wray_color_a_get(WrenVM *vm)
-{
-  wrenSetSlotDouble(vm, 0, ((Color *)wrenGetSlotForeign(vm, 0))->a);
-}
-
-void wray_color_r_set(WrenVM *vm)
-{
-  ((Color *)wrenGetSlotForeign(vm, 0))->r = wrenGetSlotDouble(vm, 1);
-}
-
-void wray_color_g_set(WrenVM *vm)
-{
-  ((Color *)wrenGetSlotForeign(vm, 0))->g = wrenGetSlotDouble(vm, 1);
-}
-
-void wray_color_b_set(WrenVM *vm)
-{
-  ((Color *)wrenGetSlotForeign(vm, 0))->b = wrenGetSlotDouble(vm, 1);
-}
-
-void wray_color_a_set(WrenVM *vm)
-{
-  ((Color *)wrenGetSlotForeign(vm, 0))->a = wrenGetSlotDouble(vm, 1);
+  unsigned char *vec = wrenGetSlotForeign(vm, 0);
+  vec[i] = wrenGetSlotDouble(vm, 2);
 }
 
 const wray_binding_class wray_color_class = {
@@ -116,15 +105,8 @@ const wray_binding_class wray_color_class = {
     { wray_color_new_rgb, false, "init new(_,_,_)" },
 
     { wray_color_hex_get, false, "hex" },
-    { wray_color_r_get, false, "r" },
-    { wray_color_g_get, false, "g" },
-    { wray_color_b_get, false, "b" },
-    { wray_color_a_get, false, "a" },
-
-    { wray_color_r_set, false, "r=(_)" },
-    { wray_color_g_set, false, "g=(_)" },
-    { wray_color_b_set, false, "b=(_)" },
-    { wray_color_a_set, false, "a=(_)" },
+    { wray_color_index_get, false, "[_]" },
+    { wray_color_index_set, false, "[_]=(_)" },
     { NULL, NULL, NULL }
   }
 };

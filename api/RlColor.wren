@@ -1,15 +1,18 @@
 foreign class RlColor {
+  foreign [index]
+  foreign [index]=(value)
+
+  r { this[0] }
+  g { this[1] }
+  b { this[2] }
+  a { this[3] }
+
+  r=(value) { this[0] = value }
+  g=(value) { this[1] = value }
+  b=(value) { this[2] = value }
+  a=(value) { this[3] = value }
+
   foreign hex
-
-  foreign r
-  foreign g
-  foreign b
-  foreign a
-
-  foreign r=(value)
-  foreign g=(value)
-  foreign b=(value)
-  foreign a=(value)
 
   foreign construct new(r, g, b, a)
   foreign construct new(r, g, b)

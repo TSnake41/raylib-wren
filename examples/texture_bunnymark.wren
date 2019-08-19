@@ -74,7 +74,7 @@ while (!Raylib.windowShouldClose) {
   Raylib.clearBackground(RlColor.rayWhite)
 
   for (i in 0..(bunniesCount - 1)) {
-    texBunny.draw(bunnies[i].position, bunnies[i].color)
+    Raylib.drawTexture(texBunny, bunnies[i].position, bunnies[i].color)
   }
 
   Raylib.drawRectangle(RlRectangle.new(0, 0, screenWidth, 40), RlColor.black)

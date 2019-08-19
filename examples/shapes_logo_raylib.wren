@@ -4,8 +4,8 @@ var screenWidth = 800
 var screenHeight = 450
 
 // Set config flags.
-//Raylib.configFlags = RlConfigFlags.vsync
-//Raylib.targetFPS = 60
+Raylib.configFlags = RlConfigFlags.vsync
+Raylib.targetFPS = 60
 
 var wrenColor = RlColor.new(0x383838FF)
 

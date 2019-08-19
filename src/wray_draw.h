@@ -19,37 +19,38 @@
 
 #include <wren.h>
 
-void wray_DrawPixel(WrenVM *vm);
+void wray_DrawPixel(WrenVM *);
 
-void wray_DrawLine(WrenVM *vm);
-void wray_DrawLineThick(WrenVM *vm);
-void wray_DrawLineBezier(WrenVM *vm);
-void wray_DrawLineStrip(WrenVM *vm);
+void wray_DrawLine(WrenVM *);
+void wray_DrawLineThick(WrenVM *);
+void wray_DrawLineBezier(WrenVM *);
+void wray_DrawLineStrip(WrenVM *);
 
-void wray_DrawCircle(WrenVM *vm);
-void wray_DrawCircleLines(WrenVM *vm);
-void wray_DrawCircleSector(WrenVM *vm);
-void wray_DrawCircleSectorLines(WrenVM *vm);
-void wray_DrawCircleGradient(WrenVM *vm);
+void wray_DrawCircle(WrenVM *);
+void wray_DrawCircleLines(WrenVM *);
+void wray_DrawCircleSector(WrenVM *);
+void wray_DrawCircleSectorLines(WrenVM *);
+void wray_DrawCircleGradient(WrenVM *);
 
-void wray_DrawRing(WrenVM *vm);
-void wray_DrawRingLines(WrenVM *vm);
+void wray_DrawRing(WrenVM *);
+void wray_DrawRingLines(WrenVM *);
 
-void wray_DrawRectangle(WrenVM *vm);
-void wray_DrawRectangleLines(WrenVM *vm);
-void wray_DrawRectangleLinesThick(WrenVM *vm);
-void wray_DrawRectangleRounded(WrenVM *vm);
-void wray_DrawRectangleRoundedLines(WrenVM *vm);
+void wray_DrawRectangle(WrenVM *);
+void wray_DrawRectangleLines(WrenVM *);
+void wray_DrawRectangleLinesThick(WrenVM *);
+void wray_DrawRectangleRounded(WrenVM *);
+void wray_DrawRectangleRoundedLines(WrenVM *);
 
-void wray_DrawRectangleGradient(WrenVM *vm);
-void wray_DrawRectangleGradientV(WrenVM *vm);
-void wray_DrawRectangleGradientH(WrenVM *vm);
+void wray_DrawRectangleGradient(WrenVM *);
+void wray_DrawRectangleGradientV(WrenVM *);
+void wray_DrawRectangleGradientH(WrenVM *);
 
-void wray_DrawTriangle(WrenVM *vm);
-void wray_DrawTriangleLines(WrenVM *vm);
-void wray_DrawTriangleFan(WrenVM *vm);
-void wray_DrawPoly(WrenVM *vm);
+void wray_DrawTriangle(WrenVM *);
+void wray_DrawTriangleLines(WrenVM *);
+void wray_DrawTriangleFan(WrenVM *);
+void wray_DrawPoly(WrenVM *);
 
-void wray_ShapesTexture(WrenVM *vm);
+void wray_DrawTexture(WrenVM *);
+void wray_SetShapesTexture(WrenVM *);
 
 #endif /* H_WRAY_DRAW */

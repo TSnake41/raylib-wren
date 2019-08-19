@@ -14,31 +14,17 @@
   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-#ifndef H_WRAY_VECTOR
-#define H_WRAY_VECTOR
+#ifndef H_WRAY_CLASSES
+#define H_WRAY_CLASSES
 
-#include <wray.h>
 #include "wray_internal.h"
 
-void wray_vec2_initialize(WrenVM *);
-void wray_vec2_new(WrenVM *);
-void wray_vec2_index_get(WrenVM *);
-void wray_vec2_index_set(WrenVM *);
-
+extern const wray_binding_class wray_color_class;
+extern const wray_binding_class wray_image_class;
+extern const wray_binding_class wray_texture2d_class;
+extern const wray_binding_class wray_rectangle_class;
 extern const wray_binding_class wray_vec2_class;
-
-void wray_vec3_initialize(WrenVM *);
-void wray_vec3_new(WrenVM *);
-void wray_vec3_index_get(WrenVM *);
-void wray_vec3_index_set(WrenVM *);
-
 extern const wray_binding_class wray_vec3_class;
-
-void wray_vec4_initialize(WrenVM *);
-void wray_vec4_new(WrenVM *);
-void wray_vec4_index_get(WrenVM *);
-void wray_vec4_index_set(WrenVM *);
-
 extern const wray_binding_class wray_vec4_class;
 
-#endif /* H_WRAY_VECTOR */
+#endif /* H_WRAY_CLASSES */

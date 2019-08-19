@@ -1,4 +1,4 @@
-CFLAGS := -O2 -s -DWRAY_TYPE_CHECK
+CFLAGS := -O2 -s
 LDFLAGS := -O2 -s
 
 AR ?= ar
