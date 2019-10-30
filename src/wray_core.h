@@ -78,4 +78,20 @@ void wray_isKeyDown(WrenVM *);
 void wray_IsKeyPressed(WrenVM *);
 void wray_IsKeyReleased(WrenVM *);
 
+void wray_ExitKey_set(WrenVM *vm);
+void wray_KeyPressed_get(WrenVM *vm);
+
+void wray_IsMouseButtonPressed(WrenVM *);
+void wray_IsMouseButtonDown(WrenVM *);
+void wray_IsMouseButtonReleased(WrenVM *);
+void wray_IsMouseButtonUp(WrenVM *);
+
+void wray_MouseX_get(WrenVM *);
+void wray_MouseY_get(WrenVM *);
+void wray_MouseWheelMove_get(WrenVM *);
+
+void wray_MousePosition_set(WrenVM *);
+void wray_MouseOffset_set(WrenVM *);
+void wray_MouseScale_set(WrenVM *);
+
 #endif /* H_WRAY_CORE */

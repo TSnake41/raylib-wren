@@ -1,5 +1,5 @@
 CFLAGS := -O2 -s
-LDFLAGS := -O2 -s
+LDFLAGS := -O2 -s -lm
 
 AR ?= ar
 LUA ?= luajit
@@ -7,14 +7,14 @@ LUA ?= luajit
 PKG_CONFIG_PATH := raylib
 
 CFLAGS += -Iinclude -Iraylib/src -Iwren/src/include
-LDFLAGS += -Lraylib/src -lraylib -Lwren/lib -L. -lwren
+LDFLAGS +=  -Lwren/lib -L. -lwren `pkg-config --libs --cflags --static raylib` -Lraylib/src -lraylib
 
 ifeq ($(OS),Windows_NT)
 	LDFLAGS += -lopengl32 -lgdi32 -lwinmm
 endif
 
-WRAY_API := api/Raylib.wren api/RlColor.wren api/RlKey.wren api/RlVector.wren \
-	api/RlRectangle.wren api/RlImage.wren
+WRAY_API := api/Raylib.wren api/Color.wren api/Key.wren api/Math.wren \
+	api/Image.wren
 
 SRC := src/wray.c src/wray_funcs.c src/wray_api.c src/wray_typecheck.c \
 	src/wray_core.c src/wray_color.c src/wray_vector.c src/wray_draw.c \
@@ -48,7 +48,7 @@ wray_embedded: libwray.a src/lib/miniz.o src/wray_builder.o src/wray_embedded.o
 clean:
 	rm -rf src/wray_api.c wray_embedded src/wray_builder.o \
 		wray_standalone src/wray_standalone.o src/lib/miniz.o \
-		libwray.a $(OBJ)
+		libwray.a $(OBJ) src/wray_embedded.o
 
 	$(MAKE) -C wren clean
 

@@ -87,6 +87,10 @@ int wray_build_executable(const char *self_path, const char *input_path)
   append_file(output, self);
   fclose(self);
 
+  /* Get the offset to put it at the end of the file. */
+  fpos_t offset;
+  fgetpos(output, &offset);
+
   if (S_ISREG(st.st_mode)) {
     /* Consider input as a bare bundle, just append file to get output. */
     FILE *input = fopen(input_path, "rb");
@@ -154,6 +158,10 @@ int wray_build_executable(const char *self_path, const char *input_path)
       puts("Can't finalize archive.");
 
     mz_zip_end(&zip);
+
+    // Write offset
+    fwrite(&offset, sizeof(fpos_t), 1, output);
+    fclose(output);
   }
 
   free(output_path);

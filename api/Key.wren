@@ -111,13 +111,19 @@ var KeyboardKeys = {
   "kp_equal": 336,
 
   // Android buttons (?)
-  // TODO: Move them ?
   "back": 4,
   "menu": 82,
   "volume_up": 24,
   "volume_down": 25
 }
 
+var MouseButton = {
+  "left": 0,
+  "right": 1,
+  "middle": 2
+}
+
 class RlKey {
   static keyboard { KeyboardKeys }
+  static mouseButton { MouseButton }
 }

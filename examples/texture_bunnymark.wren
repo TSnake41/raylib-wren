@@ -34,12 +34,12 @@ for (i in 1..maxBunnies) {
 }
 
 while (!Raylib.windowShouldClose) {
-  if (Raylib.isKeyDown(RlKey.keyboard["a"])) {
+  if (Raylib.isMouseButtonDown(RlKey.mouseButton["left"])) {
     for (i in 1..100) {
       if (bunniesCount < maxBunnies) {
         var bunny = bunnies[bunniesCount]
-        bunny.position.x = random.int(0, screenWidth)
-        bunny.position.y = random.int(0, screenHeight)
+        bunny.position.x = Raylib.mouseX
+        bunny.position.y = Raylib.mouseY
 
         bunny.speed.x = random.float(-250, 250) / 60
         bunny.speed.y = random.float(-250, 250) / 60

@@ -11,6 +11,9 @@ class RlConfigFlags {
 }
 
 class Raylib {
+  //
+  // module: core
+  //
   foreign static initWindow(width, height, title)
   foreign static closeWindow()
   foreign static windowShouldClose
@@ -57,16 +60,40 @@ class Raylib {
   foreign static storageLoadValue(position)
 
   foreign static openURL(url)
-
   foreign static drawFPS(x, y)
-  foreign static drawText(text, x, y, font_size, color)
 
-  // WTF ?
-  foreign static drawText(font, text, position, font_size, spacing, color)
-  foreign static drawText(font, text, rect, font_size, spacing, do_wrap, color)
-  foreign static drawText(font, text, rect, font_size, spacing, do_wrap, color, select_range, select_color, select_back)
+  foreign static isKeyUp(keycode)
+  foreign static isKeyDown(keycode)
+  foreign static isKeyPressed(keycode)
+  foreign static isKeyReleased(keycode)
+  foreign static exitKey=(key)
+  foreign static keyPressed
 
-  // Basic shapes drawing functions
+  foreign static isMouseButtonPressed(button)
+  foreign static isMouseButtonDown(button)
+  foreign static isMouseButtonReleased(button)
+  foreign static isMouseButtonUp(button)
+
+  foreign static mouseX
+  foreign static mouseY
+
+  static mousePosition { RlVector2.new(mouseX, mouseY) }
+
+  foreign static mousePosition=(position)
+  foreign static mouseOffset=(offset)
+  foreign static mouseScale=(scale)
+  foreign static mouseWheelMove
+
+  foreign static targetFPS=(fps)
+  foreign static fps
+  foreign static frameTime
+  foreign static time
+
+  static screenSize { RlVector2.new(screenWidth, screenHeight) }
+
+  //
+  // module: shapes
+  //
   foreign static drawPixel(position, color)
 
   foreign static drawLine(start, end, color)
@@ -101,35 +128,7 @@ class Raylib {
   foreign static drawTexture(texture, position, color)
   foreign static setShapesTexture(texture, source)
 
-  foreign static isKeyUp(keycode)
-  foreign static isKeyDown(keycode)
-  foreign static isKeyPressed(keycode)
-  foreign static isKeyReleased(keycode)
-
-  /*
-    foreign static BeginMode2D(camera)
-    foreign static EndMode2D()
-    foreign static BeginMode3D(camera)
-    foreign static EndMode3D()
-    foreign static BeginTextureMode(target)
-    foreign static EndTextureMode()
-  */
-
-  /*
-    Implemented in rlCamera class
-
-    foreign static GetMouseRay(Vector2 mousePosition);
-    foreign static GetWorldToScreen(Vector3 position);
-    foreign static GetCameraMatrix(camera);
-  */
-
-  foreign static targetFPS=(fps)
-  foreign static fps
-  foreign static frameTime
-  foreign static time
-
-  static screenSize { RlVector2.new(screenWidth, screenHeight) }
-
+  // Some rectangle/vector-less variants.
   static drawPixel(x, y, color) {
     drawPixel(RlVector2.new(x, y), color)
   }
@@ -208,4 +207,22 @@ class Raylib {
   static drawRectangleGradient(x, y, w, h, c1, c2, c3, c4) {
     drawRectangleGradient(RlRectangle.new(x, y, w, h), c1, c2, c3, c4)
   }
+
+  //
+  // module: text
+  //
+  foreign static drawText(text, x, y, font_size, color)
+
+  // WTF ?
+  foreign static drawText(font, text, position, font_size, spacing, color)
+  foreign static drawText(font, text, rect, font_size, spacing, do_wrap, color)
+  foreign static drawText(font, text, rect, font_size, spacing, do_wrap, color, select_range, select_color, select_back)
+
+  //
+  // module: audio
+  //
+  /*foreign static initAudioDevice()
+  foreign static closeAudioDevice()
+  foreign static isAudioDeviceReady
+  foreign static masterVolume=(volume)*/
 }

@@ -249,3 +249,80 @@ void wray_IsKeyReleased(WrenVM *vm)
   int key = wrenGetSlotDouble(vm, 1);
   wrenSetSlotBool(vm, 0, IsKeyReleased(key));
 }
+
+void wray_IsMouseButtonPressed(WrenVM *vm)
+{
+  int button = wrenGetSlotDouble(vm, 1);
+  wrenSetSlotBool(vm, 0, IsMouseButtonPressed(button));
+}
+
+void wray_IsMouseButtonDown(WrenVM *vm)
+{
+  int button = wrenGetSlotDouble(vm, 1);
+  wrenSetSlotBool(vm, 0, IsMouseButtonDown(button));
+}
+
+void wray_IsMouseButtonReleased(WrenVM *vm)
+{
+  int button = wrenGetSlotDouble(vm, 1);
+  wrenSetSlotBool(vm, 0, IsMouseButtonReleased(button));
+}
+
+void wray_IsMouseButtonUp(WrenVM *vm)
+{
+  int button = wrenGetSlotDouble(vm, 1);
+  wrenSetSlotBool(vm, 0, IsMouseButtonUp(button));
+}
+
+void wray_ExitKey_set(WrenVM *vm)
+{
+  SetExitKey(wrenGetSlotDouble(vm, 1));
+}
+
+void wray_KeyPressed_get(WrenVM *vm)
+{
+  wrenEnsureSlots(vm, 1);
+  wrenSetSlotDouble(vm, 0, GetKeyPressed());
+}
+
+void wray_MouseX_get(WrenVM *vm)
+{
+  wrenEnsureSlots(vm, 1);
+  wrenSetSlotDouble(vm, 0, GetMouseX());
+}
+
+void wray_MouseY_get(WrenVM *vm)
+{
+  wrenEnsureSlots(vm, 1);
+  wrenSetSlotDouble(vm, 0, GetMouseY());
+}
+
+void wray_MouseWheelMove_get(WrenVM *vm)
+{
+  wrenEnsureSlots(vm, 1);
+  wrenSetSlotDouble(vm, 0, GetMouseWheelMove());
+}
+
+void wray_MousePosition_set(WrenVM *vm)
+{
+  wray_CheckForeignType(vm, 0, "RlVector2");
+
+  Vector2 *v = wrenGetSlotForeign(vm, 0);
+  SetMousePosition(v->x, v->y);
+}
+
+void wray_MouseOffset_set(WrenVM *vm)
+{
+  wray_CheckForeignType(vm, 0, "RlVector2");
+
+  Vector2 *v = wrenGetSlotForeign(vm, 0);
+  SetMouseOffset(v->x, v->y);
+}
+
+void wray_MouseScale_set(WrenVM *vm)
+{
+  wray_CheckForeignType(vm, 0, "RlVector2");
+
+  Vector2 *v = wrenGetSlotForeign(vm, 0);
+  SetMouseScale(v->x, v->y);
+}

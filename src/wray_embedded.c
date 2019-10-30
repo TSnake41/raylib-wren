@@ -58,15 +58,28 @@ static char *load_mod_zip_func(WrenVM *vm, const char *name)
 int main(int argc, const char **argv)
 {
   mz_zip_zero_struct(&zip_file);
+  bool ready = false;
 
-  if (!mz_zip_reader_init_file(&zip_file, argv[0], 0)) {
-    printf("error: %s\n", mz_zip_get_error_string(mz_zip_get_last_error(&zip_file)));
+  FILE *f = fopen(argv[0], "rb");
 
+  if (f != NULL) {
+    /* Read offset at the end of the file */
+    fpos_t offset;
+    fseek(f, -(long)sizeof(fpos_t), SEEK_END);
+    fread(&offset, sizeof(fpos_t), 1, f);
+
+    fsetpos(f, &offset);
+
+    if (mz_zip_reader_init_cfile(&zip_file, f, 0, 0))
+      ready = true;
+  }
+
+  if (!ready) {
     if (argc < 2) {
       puts("Usage: wray_embedded <input>");
       return 0;
     } else
-      return wray_build_executable(argv[0], argv[1]);
+      return wray_build_executable(argv[0], argv[1]);  
   }
 
   WrenConfiguration config;

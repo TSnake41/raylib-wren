@@ -121,6 +121,22 @@ static const wray_binding_class wray_raylib_class = {
     STATIC_FN(IsKeyPressed, "isKeyPressed(_)")
     STATIC_FN(IsKeyReleased, "isKeyReleased(_)")
 
+    STATIC_FN(IsMouseButtonPressed, "isMouseButtonPressed(_)")
+    STATIC_FN(IsMouseButtonDown, "isMouseButtonDown(_)")
+    STATIC_FN(IsMouseButtonReleased, "isMouseButtonReleased(_)")
+    STATIC_FN(IsMouseButtonUp, "isMouseButtonUp(_)")
+
+    STATIC_SET(ExitKey, "exitKey=(_)")
+    STATIC_GET(KeyPressed, "keyPressed")
+
+    STATIC_GET(MouseX, "mouseX")
+    STATIC_GET(MouseY, "mouseY")
+    STATIC_GET(MouseWheelMove, "mouseWheelMove")
+
+    STATIC_SET(MousePosition, "mousePosition=(_)")
+    STATIC_SET(MouseOffset, "mouseOffset=(_)")
+    STATIC_SET(MouseScale, "mouseScale=(_)")
+
     /* misc */
     STATIC_SET(TargetFPS, "targetFPS=(_)")
     STATIC_GET(FPS, "fps")
