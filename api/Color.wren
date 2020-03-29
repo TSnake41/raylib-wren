@@ -13,6 +13,7 @@ foreign class RlColor {
   a=(value) { this[3] = value }
 
   foreign hex
+  foreign hsv
 
   foreign construct new(r, g, b, a)
   foreign construct new(r, g, b)
@@ -35,12 +36,12 @@ foreign class RlColor {
   }
 
   static lightGray { new(200, 200, 200) }
-  static gray { new(200, 200, 200) }
-  static darkGray { new(200, 200, 200) }
-  static yellow { new(200, 200, 200) }
-  static gold { new(200, 200, 200) }
-  static orange { new(200, 200, 200) }
-  static pink { new(200, 200, 200) }
+  static gray { new(130, 130, 130) }
+  static darkGray { new(80, 80, 80) }
+  static yellow { new(253, 249, 0) }
+  static gold { new(255, 203, 0) }
+  static orange { new(255, 161, 0) }
+  static pink { new(255, 109, 194) }
   static red { new(230, 41, 55) }
   static maroon { new(190, 33, 55) }
   static green { new(0, 228, 48) }

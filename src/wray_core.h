@@ -62,9 +62,6 @@ void wray_Time_get(WrenVM *);
 void wray_ConfigFlags_set(WrenVM *);
 void wray_TakeScreenshot(WrenVM *);
 
-void wray_StorageSaveValue(WrenVM *);
-void wray_StorageLoadValue(WrenVM *);
-
 void wray_OpenURL(WrenVM *);
 
 void wray_DrawFPS(WrenVM *);

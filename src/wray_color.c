@@ -21,13 +21,13 @@
 
 #include "wray_internal.h"
 
-void wray_color_initialize(WrenVM *vm)
+static void wray_color_initialize(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);
   wrenSetSlotNewForeign(vm, 0, 0, sizeof(struct Color));
 }
 
-void wray_color_new_hex(WrenVM *vm)
+static void wray_color_new_hex(WrenVM *vm)
 {
   Color *c = wrenGetSlotForeign(vm, 0);
   uint32_t n = wrenGetSlotDouble(vm, 1);
@@ -38,7 +38,7 @@ void wray_color_new_hex(WrenVM *vm)
   c->a = (n >> 0) & 0xFF;
 }
 
-void wray_color_new_rgba(WrenVM *vm)
+static void wray_color_new_rgba(WrenVM *vm)
 {
   Color *c = wrenGetSlotForeign(vm, 0);
 
@@ -48,7 +48,7 @@ void wray_color_new_rgba(WrenVM *vm)
   c->a = wrenGetSlotDouble(vm, 4);
 }
 
-void wray_color_new_rgb(WrenVM *vm)
+static void wray_color_new_rgb(WrenVM *vm)
 {
   Color *c = wrenGetSlotForeign(vm, 0);
 
@@ -58,7 +58,7 @@ void wray_color_new_rgb(WrenVM *vm)
   c->a = 0xFF;
 }
 
-void wray_color_hex_get(WrenVM *vm)
+static void wray_color_hex_get(WrenVM *vm)
 {
   Color *c = wrenGetSlotForeign(vm, 0);
 
@@ -69,8 +69,18 @@ void wray_color_hex_get(WrenVM *vm)
   wrenSetSlotDouble(vm, 0, hex);
 }
 
+static void wray_color_hsv_get(WrenVM *vm)
+{
+  Color *color = wrenGetSlotForeign(vm, 0);
+
+  wrenSetSlotHandle(vm, 0, WRAY_GET_CLASSES(vm)->vec3);
+  Vector3 *hsv = wrenSetSlotNewForeign(vm, 0, 0, sizeof(Vector3));
+
+  *hsv = ColorToHSV(*color);
+}
+
 /* NOTE: This part assumes Color struct is packed and ordered. */
-void wray_color_index_get(WrenVM *vm)
+static void wray_color_index_get(WrenVM *vm)
 {
   unsigned int i = wrenGetSlotDouble(vm, 1);
 
@@ -84,7 +94,7 @@ void wray_color_index_get(WrenVM *vm)
   wrenSetSlotDouble(vm, 0, vec[i]);
 }
 
-void wray_color_index_set(WrenVM *vm)
+static void wray_color_index_set(WrenVM *vm)
 {
   unsigned int i = wrenGetSlotDouble(vm, 1);
 
@@ -105,6 +115,7 @@ const wray_binding_class wray_color_class = {
     { wray_color_new_rgb, false, "init new(_,_,_)" },
 
     { wray_color_hex_get, false, "hex" },
+    { wray_color_hsv_get, false, "hsv" },
     { wray_color_index_get, false, "[_]" },
     { wray_color_index_set, false, "[_]=(_)" },
     { NULL, NULL, NULL }

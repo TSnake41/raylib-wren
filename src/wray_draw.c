@@ -319,8 +319,8 @@ void wray_DrawRectangleGradientH(WrenVM *vm)
   DrawRectangleGradientH(
     rectangle->x, rectangle->y,
     rectangle->width, rectangle->height,
-    *(Color *)wrenGetSlotForeign(vm, 3),
-    *(Color *)wrenGetSlotForeign(vm, 4)
+    *(Color *)wrenGetSlotForeign(vm, 2),
+    *(Color *)wrenGetSlotForeign(vm, 3)
   );
 }
 

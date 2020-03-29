@@ -17,6 +17,7 @@ foreign class RlVector2 {
   foreign div_(v)
   foreign lerp_(v,a,b)
   foreign negated_
+  foreign normalized_
 
   foreign dot(vec)
   foreign copy(dst)
@@ -27,6 +28,7 @@ foreign class RlVector2 {
   static zero { new() }
 
   clone { copy(RlVector2.new()) }
+  normalized { clone.normalized_ }
 
   - { clone.negated_ }
 
@@ -58,6 +60,7 @@ foreign class RlVector3 {
   foreign div_(v)
   foreign lerp_(v,a,b)
   foreign negated_
+  foreign normalized_
 
   foreign dot(vec)
   foreign copy(dst)
@@ -70,6 +73,7 @@ foreign class RlVector3 {
   clone { copy(RlVector3.new()) }
 
   - { clone.negated_ }
+  normalized { clone.normalized_ }
 
   +(v) { clone.add_(v) }
   -(v) { clone.sub_(v) }
@@ -115,7 +119,7 @@ foreign class RlRectangle {
 
   foreign construct new(x, y, w, h)
 
-  new(pos, size) {
+  static new(pos, size) {
     return new(pos.x, pos.y, size.x, size.y)
   }
 }

@@ -17,8 +17,8 @@ WRAY_API := api/Raylib.wren api/Color.wren api/Key.wren api/Math.wren \
 	api/Image.wren
 
 SRC := src/wray.c src/wray_funcs.c src/wray_api.c src/wray_typecheck.c \
-	src/wray_core.c src/wray_color.c src/wray_vector.c src/wray_draw.c \
-	src/wray_rectangle.c src/wray_image.c
+	src/wray_core.c src/wray_class.c src/wray_color.c src/wray_vector.c \
+	src/wray_draw.c src/wray_rectangle.c src/wray_image.c
 
 OBJ := $(SRC:.c=.o)
 

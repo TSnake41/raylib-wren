@@ -23,6 +23,8 @@
 #include <wren.h>
 #include "wray_internal.h"
 
+#define Vector2Multiply Vector2MultiplyV
+
 #define WRAY_VECN_GET(n, vm) \
   wrenEnsureSlots(vm, 1); \
   unsigned int i = wrenGetSlotDouble(vm, 1); \
@@ -54,54 +56,54 @@
 
 /* Generate most operators functions (add, sub, mul, div, dot, length, dist, negate). */
 #define WRAY_VECN_GENOP(n) \
-  void wray_vec##n##_add(WrenVM *vm) { WRAY_VECN_OP(n, Add, vm); } \
-  void wray_vec##n##_sub(WrenVM *vm) { WRAY_VECN_OP(n, Subtract, vm); } \
-  void wray_vec##n##_mul(WrenVM *vm) { \
+  static void wray_vec##n##_add(WrenVM *vm) { WRAY_VECN_OP(n, Add, vm); } \
+  static void wray_vec##n##_sub(WrenVM *vm) { WRAY_VECN_OP(n, Subtract, vm); } \
+  static void wray_vec##n##_mul(WrenVM *vm) { \
     if (wrenGetSlotType(vm, 1) == WREN_TYPE_NUM) { \
       Vector##n *a = wrenGetSlotForeign(vm, 0); \
       *a = Vector##n##Scale(*a, wrenGetSlotDouble(vm, 1)); \
-    } else { WRAY_VECN_OP(n, MultiplyV, vm); } \
+    } else { WRAY_VECN_OP(n, Multiply, vm); } \
   } \
-  void wray_vec##n##_div(WrenVM *vm) { \
+  static void wray_vec##n##_div(WrenVM *vm) { \
     if (wrenGetSlotType(vm, 1) == WREN_TYPE_NUM) { \
       Vector##n *a = wrenGetSlotForeign(vm, 0); \
       *a = Vector##n##Divide(*a, wrenGetSlotDouble(vm, 1)); \
     } else { WRAY_VECN_OP(n, DivideV, vm); } \
   } \
-  void wray_vec##n##_dot(WrenVM *vm) { \
+  static void wray_vec##n##_dot(WrenVM *vm) { \
     wray_CheckForeignType(vm, 1, "RlVector" #n); \
     wrenSetSlotDouble(vm, 0, Vector##n##DotProduct( \
       *(Vector##n *)wrenGetSlotForeign(vm, 0), \
       *(Vector##n *)wrenGetSlotForeign(vm, 1) \
     )); \
   } \
-  void wray_vec##n##_dist(WrenVM *vm) { \
+  static void wray_vec##n##_dist(WrenVM *vm) { \
     wray_CheckForeignType(vm, 1, "RlVector" #n); \
     wrenSetSlotDouble(vm, 0, Vector##n##Distance( \
       *(Vector##n *)wrenGetSlotForeign(vm, 0), \
       *(Vector##n *)wrenGetSlotForeign(vm, 1) \
     )); \
   } \
-  void wray_vec##n##_length(WrenVM *vm) { \
+  static void wray_vec##n##_length(WrenVM *vm) { \
     wrenSetSlotDouble(vm, 0, Vector##n##Length( \
       *(Vector##n *)wrenGetSlotForeign(vm, 0) \
     )); \
   } \
-  void wray_vec##n##_negate(WrenVM *vm) { \
+  static void wray_vec##n##_negate(WrenVM *vm) { \
     Vector##n *a = wrenGetSlotForeign(vm, 0); \
     *a = Vector##n##Negate(*a); \
   } \
-  void wray_vec##n##_normalize(WrenVM *vm) { \
+  static void wray_vec##n##_normalize(WrenVM *vm) { \
     Vector##n *a = wrenGetSlotForeign(vm, 0); \
     *a = Vector##n##Normalize(*a); \
   } \
-  void wray_vec##n##_lerp(WrenVM *vm) { \
+  static void wray_vec##n##_lerp(WrenVM *vm) { \
     wray_CheckForeignType(vm, 1, "RlVector" #n); \
     Vector##n *a = wrenGetSlotForeign(vm, 0); \
     Vector##n *b = wrenGetSlotForeign(vm, 1); \
     *a = Vector##n##Lerp(*a, *b, wrenGetSlotDouble(vm, 2)); \
   } \
-  void wray_vec##n##_copy(WrenVM *vm) { \
+  static void wray_vec##n##_copy(WrenVM *vm) { \
     wray_CheckForeignType(vm, 1, "RlVector" #n); \
     Vector##n *a = wrenGetSlotForeign(vm, 0); \
     Vector##n *b = wrenGetSlotForeign(vm, 1); \
@@ -113,13 +115,13 @@
  * Vector2 binding
  */
 
-void wray_vec2_initialize(WrenVM *vm)
+static void wray_vec2_initialize(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);
   wrenSetSlotNewForeign(vm, 0, 0, sizeof(struct Vector2));
 }
 
-void wray_vec2_new(WrenVM *vm)
+static void wray_vec2_new(WrenVM *vm)
 {
   Vector2 *v = wrenGetSlotForeign(vm, 0);
 
@@ -127,12 +129,12 @@ void wray_vec2_new(WrenVM *vm)
   v->y = wrenGetSlotDouble(vm, 2);
 }
 
-void wray_vec2_index_get(WrenVM *vm)
+static void wray_vec2_index_get(WrenVM *vm)
 {
   WRAY_VECN_GET(2, vm);
 }
 
-void wray_vec2_index_set(WrenVM *vm)
+static void wray_vec2_index_set(WrenVM *vm)
 {
   WRAY_VECN_SET(2, vm);
 }
@@ -152,6 +154,7 @@ const wray_binding_class wray_vec2_class = {
     { wray_vec2_dot, false, "dot(_)" },
     { wray_vec2_lerp, false, "lerp_(_,_,_)" },
     { wray_vec2_negate, false, "negated_" },
+    { wray_vec2_normalize, false, "normalized_" },
     { wray_vec2_dist, false, "distance(_)" },
     { wray_vec2_length, false, "length" },
     { wray_vec2_copy, false, "copy(_)" },
@@ -163,13 +166,13 @@ const wray_binding_class wray_vec2_class = {
  * Vector3 binding
  */
 
-void wray_vec3_initialize(WrenVM *vm)
+static void wray_vec3_initialize(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);
   wrenSetSlotNewForeign(vm, 0, 0, sizeof(struct Vector3));
 }
 
-void wray_vec3_new(WrenVM *vm)
+static void wray_vec3_new(WrenVM *vm)
 {
   Vector3 *v = wrenGetSlotForeign(vm, 0);
 
@@ -178,12 +181,12 @@ void wray_vec3_new(WrenVM *vm)
   v->z = wrenGetSlotDouble(vm, 3);
 }
 
-void wray_vec3_index_get(WrenVM *vm)
+static void wray_vec3_index_get(WrenVM *vm)
 {
   WRAY_VECN_GET(3, vm);
 }
 
-void wray_vec3_index_set(WrenVM *vm)
+static void wray_vec3_index_set(WrenVM *vm)
 {
   WRAY_VECN_SET(3, vm);
 }
@@ -202,6 +205,7 @@ const wray_binding_class wray_vec3_class = {
     { wray_vec3_dot, false, "dot(_)" },
     { wray_vec3_lerp, false, "lerp_(_,_,_)" },
     { wray_vec3_negate, false, "negated_" },
+    { wray_vec3_normalize, false, "normalized_" },
     { wray_vec3_dist, false, "distance(_)" },
     { wray_vec3_length, false, "length" },
     { wray_vec3_copy, false, "copy(_)" },
@@ -213,13 +217,13 @@ const wray_binding_class wray_vec3_class = {
  * Vector4 binding
  */
 
-void wray_vec4_initialize(WrenVM *vm)
+static void wray_vec4_initialize(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);
   wrenSetSlotNewForeign(vm, 0, 0, sizeof(struct Vector4));
 }
 
-void wray_vec4_new(WrenVM *vm)
+static void wray_vec4_new(WrenVM *vm)
 {
   Vector4 *v = wrenGetSlotForeign(vm, 0);
 
@@ -229,12 +233,12 @@ void wray_vec4_new(WrenVM *vm)
   v->w = wrenGetSlotDouble(vm, 4);
 }
 
-void wray_vec4_index_get(WrenVM *vm)
+static void wray_vec4_index_get(WrenVM *vm)
 {
   WRAY_VECN_GET(4, vm);
 }
 
-void wray_vec4_index_set(WrenVM *vm)
+static void wray_vec4_index_set(WrenVM *vm)
 {
   WRAY_VECN_SET(4, vm);
 }

@@ -1,3 +1,4 @@
+
 import "raylib" for Raylib, RlColor, RlConfigFlags
 
 var screenWidth = 800

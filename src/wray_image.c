@@ -19,18 +19,18 @@
 #include <wren.h>
 #include "wray_internal.h"
 
-void wray_image_initialize(WrenVM *vm)
+static void wray_image_initialize(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);
   wrenSetSlotNewForeign(vm, 0, 0, sizeof(struct Image));
 }
 
-void wray_image_finalize(void *ptr)
+static void wray_image_finalize(void *ptr)
 {
   UnloadImage(*(Image *)ptr);
 }
 
-void wray_image_new(WrenVM *vm)
+static void wray_image_new(WrenVM *vm)
 {
   Image *i = wrenGetSlotForeign(vm, 0);
   *i = LoadImage(wrenGetSlotString(vm, 1));
@@ -42,7 +42,7 @@ MAKE_FIELD_GETTER(image, Double, Image, height)
 MAKE_FIELD_GETTER(image, Double, Image, format)
 MAKE_FIELD_GETTER(image, Double, Image, mipmaps)
 
-void wray_image_toPOT(WrenVM *vm)
+static void wray_image_toPOT(WrenVM *vm)
 {
   wray_CheckForeignType(vm, 1, "RlColor");
 
@@ -61,18 +61,18 @@ const wray_binding_class wray_image_class = {
   }
 };
 
-void wray_texture2d_initialize(WrenVM *vm)
+static void wray_texture2d_initialize(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);
   wrenSetSlotNewForeign(vm, 0, 0, sizeof(struct Texture2D));
 }
 
-void wray_texture2d_finalize(void *ptr)
+static void wray_texture2d_finalize(void *ptr)
 {
   UnloadTexture(*(Texture2D *)ptr);
 }
 
-void wray_texture2d_new(WrenVM *vm)
+static void wray_texture2d_new(WrenVM *vm)
 {
   Texture2D *i = wrenGetSlotForeign(vm, 0);
 

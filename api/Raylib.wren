@@ -54,11 +54,6 @@ class Raylib {
 
   foreign static takeScreenshot(path)
 
-  /* No filesystem functions, they will instead be implemented as a separate module. */
-
-  foreign static storageSaveValue(position, value)
-  foreign static storageLoadValue(position)
-
   foreign static openURL(url)
   foreign static drawFPS(x, y)
 

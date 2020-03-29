@@ -22,7 +22,7 @@
 
 static void write_func(struct WrenVM *vm, const char *str)
 {
-  puts(str ? str : "");
+  fputs(str ? str : "", stdout);
 }
 
 static void error_func(WrenVM* vm, WrenErrorType type, const char* module, int line,
@@ -41,50 +41,39 @@ static void error_func(WrenVM* vm, WrenErrorType type, const char* module, int l
   }
 }
 
-WrenForeignMethodFn wray_bind_foreign_method(WrenVM *vm, const char* module,
-  const char *class, bool is_static, const char *sig)
-{
-  if (strcmp(module, "raylib") != 0)
-    return NULL;
-
-  /* Check each wray binding class. */
-  for (size_t i = 0; i < wray_classes_count; i++) {
-    const wray_binding_class *c = wray_classes[i];
-
-    if (strcmp(c->class, class) == 0) {
-      const wray_binding_func *f = c->funcs;
-
-      /* Check each functions of the binding class. */
-      for (; f->func; f++)
-        if ((f->is_static == is_static) && (strcmp(f->sig, sig) == 0))
-          return f->func;
-    }
-  }
-  return NULL;
-}
-
-WrenForeignClassMethods wray_bind_foreign_class(WrenVM *vm, const char *module,
-  const char *class)
-{
-  if (strcmp(module, "raylib") != 0)
-    return (WrenForeignClassMethods){ NULL, NULL };
-
-  /* Check each wray binding class. */
-  for (size_t i = 0; i < wray_classes_count; i++) {
-    const wray_binding_class *c = wray_classes[i];
-
-    if (strcmp(c->class, class) == 0)
-      return c->methods;
-  }
-
-  return (WrenForeignClassMethods){ NULL, NULL };
-}
-
-void wray_init(WrenVM *vm)
+static void wray_init(WrenVM *vm)
 {
   puts("[WRAY] Initialize API.");
 
-  wrenInterpret(vm, "raylib", wray_api);
+  if (wrenInterpret(vm, "raylib", wray_api) != WREN_RESULT_SUCCESS)
+    /* API interpretation failed. */
+    return;
+
+  wray_internal *internal = malloc(sizeof(wray_internal));
+  if (!internal) {
+    /* Allocation failed. */
+    wrenSetSlotString(vm, 0, "Internal structure alloction failed.");
+    wrenAbortFiber(vm, 0);
+    return;
+  }
+
+  /* Make class handles. */
+  wray_make_class_handles(vm, &internal->handles);
+
+  wrenSetUserData(vm, internal);
+}
+
+static void wray_finalizer(WrenVM *vm)
+{
+  puts("[WRAY] Freeing VM");
+
+  wray_internal *internal = wrenGetUserData(vm);
+
+  if (internal) {
+    wray_release_class_handles(vm, &internal->handles);
+
+    free(internal);
+  }
 }
 
 WrenVM *wray_new_vm(WrenConfiguration *user_config)
@@ -101,6 +90,8 @@ WrenVM *wray_new_vm(WrenConfiguration *user_config)
 
   config.bindForeignMethodFn = wray_bind_foreign_method;
   config.bindForeignClassFn = wray_bind_foreign_class;
+
+  config.finalizerFn = wray_finalizer;
 
   WrenVM *vm = wrenNewVM(&config);
   if (vm)

@@ -1,4 +1,5 @@
 *.o
-wray_standalone\.exe
+wray_standalone*
+wray_embedded*
 src/wray_api\.c
 libwray\.a

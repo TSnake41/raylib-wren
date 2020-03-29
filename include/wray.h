@@ -27,6 +27,4 @@ WrenForeignClassMethods wray_bind_foreign_class(WrenVM *, const char *,
 
 WrenVM *wray_new_vm(WrenConfiguration *);
 
-void wray_init(WrenVM *);
-
 #endif /* H_WRAY */

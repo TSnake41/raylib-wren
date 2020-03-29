@@ -29,6 +29,8 @@
 // TODO: Expose this function to Wren C API ?
 void wrenDebugPrintStackTrace(WrenVM *vm);
 
+// TODO: Use class handles ?
+
 static void wray_type_error_abort(WrenVM *vm, int slot, const char *expected)
 {
   const char *format = "Expected parameter of slot %d to be '%s', got '%s'.";

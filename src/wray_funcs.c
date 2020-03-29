@@ -17,14 +17,14 @@
 #include "wray_internal.h"
 #include "wray_core.h"
 #include "wray_draw.h"
-#include "wray_classes.h"
+#include "wray_class.h"
 
 #define STATIC_FN(name, sig) { wray_##name, true, sig },
 
 #define STATIC_GET(name, sig) { wray_##name##_get, true, sig },
 #define STATIC_SET(name, sig) { wray_##name##_set, true, sig },
 
-static const wray_binding_class wray_raylib_class = {
+const wray_binding_class wray_raylib_class = {
   "Raylib", { NULL, NULL }, {
     /* core */
     STATIC_FN(InitWindow, "initWindow(_,_,_)")
@@ -66,9 +66,6 @@ static const wray_binding_class wray_raylib_class = {
 
     STATIC_SET(ConfigFlags, "configFlags=(_)")
     STATIC_FN(TakeScreenshot, "takeScreenshot(_)")
-
-    STATIC_FN(StorageSaveValue, "storageSaveValue(_,_)")
-    STATIC_FN(StorageLoadValue, "storageLoadValue(_)")
 
     STATIC_FN(OpenURL, "openURL(_)")
     STATIC_FN(DrawFPS, "drawFPS(_,_)")
@@ -145,17 +142,3 @@ static const wray_binding_class wray_raylib_class = {
     { NULL, NULL, NULL }
   }
 };
-
-const wray_binding_class *wray_classes[] = {
-  /* Default static class */
-  &wray_raylib_class,
-
-  &wray_vec2_class,
-  &wray_vec3_class,
-  &wray_vec4_class,
-  &wray_rectangle_class,
-  &wray_color_class,
-  &wray_image_class,
-  &wray_texture2d_class
-};
-const size_t wray_classes_count = sizeof(wray_classes) / sizeof(wray_classes[0]);

@@ -17,26 +17,14 @@
 #ifndef H_WRAY_INTERNAL
 #define H_WRAY_INTERNAL
 
-#include <stdbool.h>
 #include <wren.h>
 #include <wray.h>
 
-typedef struct wray_binding_func {
-  WrenForeignMethodFn func;
-  bool is_static;
+#include "wray_class.h"
 
-  const char *sig;
-} wray_binding_func;
-
-typedef struct wray_binding_class {
-  const char *class;
-  WrenForeignClassMethods methods;
-  wray_binding_func funcs[];
-} wray_binding_class;
-
-extern const wray_binding_class *wray_classes[];
-extern const size_t wray_classes_count;
-extern const char *wray_api;
+typedef struct wray_internal {
+  wray_class_handles handles;
+} wray_internal;
 
 #define NYI \
   wrenEnsureSlots(vm, 1); \
@@ -49,6 +37,8 @@ void wray_##type_internal##_##name##_get(WrenVM *vm) \
 { \
   wrenSetSlot##wren_type(vm, 0, ((type *)wrenGetSlotForeign(vm, 0))->name); \
 }
+
+#define WRAY_GET_CLASSES(vm) (&((wray_internal *)wrenGetUserData(vm))->handles)
 
 #ifdef WRAY_TYPE_CHECK
 #include "wray_typecheck.h"

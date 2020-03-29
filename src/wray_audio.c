@@ -14,17 +14,26 @@
   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-#ifndef H_WRAY_CLASSES
-#define H_WRAY_CLASSES
-
+#include <wren.h>
 #include "wray_internal.h"
+#include <raylib.h>
 
-extern const wray_binding_class wray_color_class;
-extern const wray_binding_class wray_image_class;
-extern const wray_binding_class wray_texture2d_class;
-extern const wray_binding_class wray_rectangle_class;
-extern const wray_binding_class wray_vec2_class;
-extern const wray_binding_class wray_vec3_class;
-extern const wray_binding_class wray_vec4_class;
+void wray_InitAudioDevice(WrenVM *vm)
+{
+  InitAudioDevice();
+}
 
-#endif /* H_WRAY_CLASSES */
+void wray_CloseAudioDevice(WrenVM *vm)
+{
+  CloseAudioDevice();
+}
+
+void wray_IsAudioDeviceReady_get(WrenVM *vm)
+{
+
+}
+
+void wray_MasterVolume_set(WrenVM *v)
+{
+
+}
