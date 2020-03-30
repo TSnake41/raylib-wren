@@ -67,6 +67,9 @@ const wray_binding_class wray_raylib_class = {
     STATIC_SET(ConfigFlags, "configFlags=(_)")
     STATIC_FN(TakeScreenshot, "takeScreenshot(_)")
 
+    STATIC_FN(SaveStorageValue, "saveStorageValue(_,_)")
+    STATIC_FN(LoadStorageValue, "loadStorageValue(_)")
+
     STATIC_FN(OpenURL, "openURL(_)")
     STATIC_FN(DrawFPS, "drawFPS(_,_)")
 

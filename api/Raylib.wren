@@ -54,6 +54,9 @@ class Raylib {
 
   foreign static takeScreenshot(path)
 
+  foreign static saveStorageValue(position, value)
+  foreign static loadStorageValue(position)
+
   foreign static openURL(url)
   foreign static drawFPS(x, y)
 

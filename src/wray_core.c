@@ -207,6 +207,21 @@ void wray_TakeScreenshot(WrenVM *vm)
   TakeScreenshot(wrenGetSlotString(vm, 1));
 }
 
+
+void wray_SaveStorageValue(WrenVM *vm)
+{
+  SaveStorageValue(
+    wrenGetSlotDouble(vm, 1),
+    wrenGetSlotDouble(vm, 2)
+  );
+}
+
+void wray_LoadStorageValue(WrenVM *vm)
+{
+  int index = wrenGetSlotDouble(vm, 1);
+  wrenSetSlotDouble(vm, 0, LoadStorageValue(index));
+}
+
 void wray_OpenURL(WrenVM *vm)
 {
   OpenURL(wrenGetSlotString(vm, 1));
