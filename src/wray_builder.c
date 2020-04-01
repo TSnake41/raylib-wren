@@ -58,7 +58,7 @@ int wray_build_executable(const char *self_path, const char *input_path)
   }
 
   size_t arg_len = strlen(input_path);
-  size_t len = arg_len + 5; // + ".exe\0"
+  size_t len = arg_len + 5; // + ".exe\0" (or _out\0)
 
   char output_path[len];
   strcpy(output_path, input_path);
@@ -69,7 +69,11 @@ int wray_build_executable(const char *self_path, const char *input_path)
     arg_len--;
   }
 
+  #ifndef WIN32
+  strncpy(output_path + arg_len, "_out", 5);
+  #else
   strncpy(output_path + arg_len, ".exe", 5);
+  #endif
 
   FILE *output = fopen(output_path, "wb");
   if (output == NULL) {
@@ -162,9 +166,13 @@ int wray_build_executable(const char *self_path, const char *input_path)
     // Write offset
     fwrite(&offset, sizeof(fpos_t), 1, output);
     fclose(output);
+
+    #ifndef WIN32
+    puts("Set execute bit.");
+    chmod(output_path, 0777);
+    #endif
   }
 
-  free(output_path);
   return 0;
 }
 #endif
