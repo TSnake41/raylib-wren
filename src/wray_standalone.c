@@ -38,7 +38,7 @@ static char *load_mod_fs_func(WrenVM *vm, const char *name)
   free(path);
 
   if (f == NULL) {
-    printf("[WRAY_STANDALONE] Can't load %s.\n", name);
+    printf("WRAY_STANDALONE: Can't load %s.\n", name);
     return NULL;
   }
 
@@ -49,7 +49,7 @@ static char *load_mod_fs_func(WrenVM *vm, const char *name)
   char *buffer = malloc(size + 1);
   if (buffer == NULL) {
     /* Oh common... */
-    printf("[WRAY_STANDALONE] %s: Can't allocate file buffer.\n", path);
+    printf("WRAY_STANDALONE: %s: Can't allocate file buffer.\n", path);
 
     fclose(f);
     return NULL;

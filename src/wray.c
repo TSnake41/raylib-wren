@@ -30,20 +30,20 @@ static void error_func(WrenVM* vm, WrenErrorType type, const char* module, int l
 {
   switch (type) {
     case WREN_ERROR_COMPILE:
-      printf("[WREN] Compiler error in %s:%d\n[WREN] -> %s\n", module, line, message);
+      printf("WREN: Compiler error in %s:%d\nWREN: -> %s\n", module, line, message);
       break;
     case WREN_ERROR_RUNTIME:
-      printf("[WREN] Runtime error : %s\n[WREN] Stacktrace : \n", message);
+      printf("WREN: Runtime error : %s\nWREN: Stacktrace : \n", message);
       break;
     case WREN_ERROR_STACK_TRACE:
-      printf("[WREN] -> %s:%d - %s\n", module, line, message);
+      printf("WREN: -> %s:%d - %s\n", module, line, message);
       break;
   }
 }
 
 static void wray_init(WrenVM *vm)
 {
-  puts("[WRAY] Initialize API.");
+  puts("WRAY: Initialize API.");
 
   if (wrenInterpret(vm, "raylib", wray_api) != WREN_RESULT_SUCCESS)
     /* API interpretation failed. */
@@ -65,7 +65,7 @@ static void wray_init(WrenVM *vm)
 
 static void wray_finalizer(WrenVM *vm)
 {
-  puts("[WRAY] Freeing VM");
+  puts("WRAY: Freeing VM");
 
   wray_internal *internal = wrenGetUserData(vm);
 

@@ -33,20 +33,20 @@ static char *load_mod_zip_func(WrenVM *vm, const char *name)
 {
   int index = mz_zip_reader_locate_file(&zip_file, name, NULL, 0);
   if (index == -1) {
-    printf("[WRAY_EMBEDDED] %s: File not found.\n", name);
+    printf("WRAY_EMBEDDED: %s: File not found.\n", name);
     return NULL;
   }
 
   mz_zip_archive_file_stat stat;
   if (!mz_zip_reader_file_stat(&zip_file, index, &stat)) {
-    printf("[WRAY_EMBEDDED] %s: Can't get file information.\n", name);
+    printf("WRAY_EMBEDDED: %s: Can't get file information.\n", name);
     return NULL;
   }
 
   size_t size = stat.m_uncomp_size;
   char *buffer = malloc(size + 1);
   if (buffer == NULL) {
-    printf("[WRAY_EMBEDDED] %s: Can't allocate file buffer.\n", name);
+    printf("WRAY_EMBEDDED: %s: Can't allocate file buffer.\n", name);
     return NULL;
   }
   buffer[size] = '\0';

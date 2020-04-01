@@ -85,7 +85,7 @@ const size_t wray_classes_count = sizeof(wray_classes) / sizeof(wray_classes[0])
 
 void wray_make_class_handles(WrenVM *vm, wray_class_handles *handles)
 {
-  puts("[WRAY] Making class handles");
+  puts("WRAY: Making class handles");
 
   wrenEnsureSlots(vm, 1);
 
@@ -108,7 +108,7 @@ void wray_make_class_handles(WrenVM *vm, wray_class_handles *handles)
 
 void wray_release_class_handles(WrenVM *vm, wray_class_handles *handles)
 {
-  puts("[WRAY] Releasing class handles");
+  puts("WRAY: Releasing class handles");
 
   wrenReleaseHandle(vm, handles->vec2);
   wrenReleaseHandle(vm, handles->vec3);
