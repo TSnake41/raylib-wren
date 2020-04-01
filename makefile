@@ -51,5 +51,6 @@ clean:
 		libwray.a $(OBJ) src/wray_embedded.o
 
 	$(MAKE) -C wren clean
+	$(MAKE) -C raylib/src clean
 
 .PHONY: libwray.a wray_standalone
