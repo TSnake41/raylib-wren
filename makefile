@@ -4,13 +4,17 @@ LDFLAGS := -O2 -s -lm
 AR ?= ar
 LUA ?= luajit
 
-PKG_CONFIG_PATH := raylib
-
-CFLAGS += -Iinclude -Iraylib/src -Iwren/src/include
-LDFLAGS +=  -Lwren/lib -L. -lwren `pkg-config --libs --cflags --static raylib` -Lraylib/src -lraylib
+CFLAGS += -Iinclude -Iwren/src/include -Iraylib/src
+LDFLAGS += -Lwren/lib -L. -lwren -Lraylib/src -lraylib
 
 ifeq ($(OS),Windows_NT)
-	LDFLAGS += -lopengl32 -lgdi32 -lwinmm
+	LDFLAGS += -lopengl32 -lgdi32 -lwinmm -static
+else ifeq ($(shell uname),Darwin)
+	LDFLAGS += -framework CoreVideo -framework IOKit -framework Cocoa \
+		-framework GLUT -framework OpenGL \
+		-Wl,-pagezero_size,10000,-image_base,100000000
+else
+	LDFLAGS += -ldl -lX11 -lpthread
 endif
 
 WRAY_API := api/Raylib.wren api/Color.wren api/Key.wren api/Math.wren \
