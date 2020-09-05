@@ -21,10 +21,8 @@
 #include <wren.h>
 #include <wray.h>
 
-static char *load_mod_fs_func(WrenVM *vm, const char *name)
+static char *load_mod_fs_func(WrenVM *vm, char *name)
 {
-  /* TODO: Bundling */
-
   /* Append .wren to the path */
   size_t path_size = strlen(name) + 6;
   char *path = malloc(path_size + 1);
@@ -32,7 +30,11 @@ static char *load_mod_fs_func(WrenVM *vm, const char *name)
   if (path == NULL)
     return NULL;
 
-  snprintf(path, path_size, "%s.wren", name);
+  if (strstr(name, ".wren"))
+    strncpy(path, name, path_size);
+  else
+    /* Add .wren suffix to path. */
+    snprintf(path, path_size, "%s.wren", name);
 
   FILE *f = fopen(path, "rb");
   free(path);

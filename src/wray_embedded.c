@@ -29,7 +29,7 @@ int wray_build_executable(const char *self_path, const char *input_path);
 
 static mz_zip_archive zip_file;
 
-static char *load_mod_zip_func(WrenVM *vm, const char *name)
+static char *load_mod_zip_func(WrenVM *vm, char *name)
 {
   int index = mz_zip_reader_locate_file(&zip_file, name, NULL, 0);
   if (index == -1) {
@@ -55,26 +55,11 @@ static char *load_mod_zip_func(WrenVM *vm, const char *name)
   return buffer;
 }
 
-int main(int argc, const char **argv)
+int main(int argc, char **argv)
 {
   mz_zip_zero_struct(&zip_file);
-  bool ready = false;
 
-  FILE *f = fopen(argv[0], "rb");
-
-  if (f != NULL) {
-    /* Read offset at the end of the file */
-    fpos_t offset;
-    fseek(f, -(long)sizeof(fpos_t), SEEK_END);
-    fread(&offset, sizeof(fpos_t), 1, f);
-
-    fsetpos(f, &offset);
-
-    if (mz_zip_reader_init_cfile(&zip_file, f, 0, 0))
-      ready = true;
-  }
-
-  if (!ready) {
+  if (!mz_zip_reader_init_file(&zip_file, argv[0], 0)) {
     if (argc < 2) {
       puts("Usage: wray_embedded <input>");
       return 0;
