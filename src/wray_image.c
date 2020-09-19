@@ -27,7 +27,8 @@ static void wray_image_initialize(WrenVM *vm)
 
 static void wray_image_finalize(void *ptr)
 {
-  UnloadImage(*(Image *)ptr);
+  // Finalizer is called by CloseWindow.
+  // UnloadImage(*(Image *)ptr);
 }
 
 static void wray_image_new(WrenVM *vm)
@@ -42,21 +43,13 @@ MAKE_FIELD_GETTER(image, Double, Image, height)
 MAKE_FIELD_GETTER(image, Double, Image, format)
 MAKE_FIELD_GETTER(image, Double, Image, mipmaps)
 
-static void wray_image_toPOT(WrenVM *vm)
-{
-  wray_CheckForeignType(vm, 1, "RlColor");
-
-  ImageToPOT(wrenGetSlotForeign(vm, 0), *(Color *)wrenGetSlotForeign(vm, 1));
-}
-
 const wray_binding_class wray_image_class = {
-  "RlImage", { wray_image_initialize, wray_image_finalize }, {
+  "Image", { wray_image_initialize, wray_image_finalize }, {
     { wray_image_new, false, "init new(_)" },
     { wray_image_width_get, false, "width" },
     { wray_image_height_get, false, "height" },
     { wray_image_format_get, false, "format" },
     { wray_image_mipmaps_get, false, "mipmaps" },
-    { wray_image_toPOT, false, "toPOT(_)" },
     { NULL, NULL, NULL }
   }
 };
@@ -81,7 +74,7 @@ static void wray_texture2d_new(WrenVM *vm)
     *i = LoadTexture(wrenGetSlotString(vm, 1));
   } else {
     /* Load from Image */
-    wray_CheckForeignType(vm, 1, "RlImage");
+    wray_CheckForeignType(vm, 1, "Image");
     *i = LoadTextureFromImage(*(Image *)wrenGetSlotForeign(vm, 1));
   }
 }
@@ -91,13 +84,30 @@ MAKE_FIELD_GETTER(texture2d, Double, Texture2D, height)
 MAKE_FIELD_GETTER(texture2d, Double, Texture2D, format)
 MAKE_FIELD_GETTER(texture2d, Double, Texture2D, mipmaps)
 
+void wray_texture2d_draw(WrenVM *vm)
+{
+  wray_CheckForeignType(vm, 3, "Color");
+
+  DrawTextureEx(
+    *(Texture2D *)wrenGetSlotForeign(vm, 0),
+    (Vector2){
+      wrenGetSlotDouble(vm, 1),
+      wrenGetSlotDouble(vm, 2),
+    },
+    wrenGetSlotDouble(vm, 3),
+    wrenGetSlotDouble(vm, 4),
+    *(Color *)wrenGetSlotForeign(vm, 5)
+  );
+}
+
 const wray_binding_class wray_texture2d_class = {
-  "RlTexture2D", { wray_texture2d_initialize, wray_texture2d_finalize }, {
+  "Texture2D", { wray_texture2d_initialize, wray_texture2d_finalize }, {
     { wray_texture2d_new, false, "init new(_)" },
     { wray_texture2d_width_get, false, "width" },
     { wray_texture2d_height_get, false, "height" },
     { wray_texture2d_format_get, false, "format" },
     { wray_texture2d_mipmaps_get, false, "mipmaps" },
+    { wray_texture2d_draw, false, "draw(_,_,_,_,_)" },
     { NULL, NULL, NULL }
   }
 };

@@ -123,7 +123,7 @@ var MouseButton = {
   "middle": 2
 }
 
-class RlKey {
+class Key {
   static keyboard { KeyboardKeys }
   static mouseButton { MouseButton }
 }

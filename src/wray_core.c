@@ -174,6 +174,14 @@ void wray_EndDrawing(WrenVM *vm)
   EndDrawing();
 }
 
+void wray_DrawFPS(WrenVM *vm)
+{
+  DrawFPS(
+    wrenGetSlotDouble(vm, 1),
+    wrenGetSlotDouble(vm, 2)
+  );
+}
+
 void wray_TargetFPS_set(WrenVM *vm)
 {
   SetTargetFPS(wrenGetSlotDouble(vm, 1));

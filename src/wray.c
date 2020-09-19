@@ -58,7 +58,7 @@ static void wray_init(WrenVM *vm)
   }
 
   /* Make class handles. */
-  wray_make_class_handles(vm, &internal->handles);
+  wray_make_class_handles(vm, &internal->class_handles);
 
   wrenSetUserData(vm, internal);
 }
@@ -70,7 +70,7 @@ static void wray_finalizer(WrenVM *vm)
   wray_internal *internal = wrenGetUserData(vm);
 
   if (internal) {
-    wray_release_class_handles(vm, &internal->handles);
+    wray_release_class_handles(vm, &internal->class_handles);
 
     free(internal);
   }

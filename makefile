@@ -7,6 +7,13 @@ LUA ?= luajit
 CFLAGS += -Iinclude -Iwren/src/include -Iraylib/src
 LDFLAGS += -Lwren/lib -L. -lwren -Lraylib/src -lraylib
 
+# raylib settings
+PLATFORM ?= PLATFORM_DESKTOP
+GRAPHICS ?= GRAPHICS_API_OPENGL_33
+
+USE_WAYLAND_DISPLAY ?= FALSE
+USE_EXTERNAL_GLFW ?= FALSE
+
 ifeq ($(OS),Windows_NT)
 	LDFLAGS += -lopengl32 -lgdi32 -lwinmm -static
 else ifeq ($(shell uname),Darwin)
@@ -18,11 +25,12 @@ else
 endif
 
 WRAY_API := api/Raylib.wren api/Color.wren api/Key.wren api/Math.wren \
-	api/Image.wren
+	api/Structures.wren api/World.wren api/2dPrimitives.wren \
+	api/3dPrimitives.wren
 
 SRC := src/wray.c src/wray_funcs.c src/wray_api.c src/wray_typecheck.c \
-	src/wray_core.c src/wray_class.c src/wray_color.c src/wray_vector.c \
-	src/wray_draw.c src/wray_rectangle.c src/wray_image.c
+	src/wray_core.c src/wray_color.c src/wray_class.c \
+	src/wray_primitives.c src/wray_draw.c src/wray_image.c
 
 OBJ := $(SRC:.c=.o)
 
@@ -35,7 +43,11 @@ libwren.a: wren
 	$(MAKE) -C wren static
 
 libraylib.a:
-	$(MAKE) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" -C raylib/src
+	$(MAKE) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+		USE_WAYLAND_DISPLAY="$(USE_WAYLAND_DISPLAY)" \
+		USE_EXTERNAL_GLFW="$(USE_EXTERNAL_GLFW)" \
+		PLATFORM="$(PLATFORM)" GRAPHICS="$(GRAPHICS)" \
+		-C raylib/src
 
 libwray.a: $(OBJ)
 	$(AR) rcu $@ $^

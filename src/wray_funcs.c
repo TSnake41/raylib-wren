@@ -73,48 +73,6 @@ const wray_binding_class wray_raylib_class = {
     STATIC_FN(OpenURL, "openURL(_)")
     STATIC_FN(DrawFPS, "drawFPS(_,_)")
 
-    STATIC_FN(DrawText, "drawText(_,_,_,_,_)")
-
-    /* draw */
-    /* TODO: Move these overloads to RlFont, they are hardly implementable as it is. */
-    STATIC_FN(DrawTextEx, "drawText(_,_,_,_,_,_)")
-    STATIC_FN(DrawTextRec, "drawText(_,_,_,_,_,_,_)")
-    STATIC_FN(DrawTextRecEx, "drawText(_,_,_,_,_,_,_,_,_,_)")
-
-    STATIC_FN(DrawPixel, "drawPixel(_,_)")
-
-    STATIC_FN(DrawLine, "drawLine(_,_,_)")
-    STATIC_FN(DrawLineThick, "drawLine(_,_,_,_)")
-    STATIC_FN(DrawLineBezier, "drawLineBezier(_,_,_,_)")
-    STATIC_FN(DrawLineStrip, "drawLineStrip(_,_)")
-
-    STATIC_FN(DrawCircle, "drawCircle(_,_,_)")
-    STATIC_FN(DrawCircleLines, "drawCircleLines(_,_,_)")
-    STATIC_FN(DrawCircleSector, "drawCircleSector(_,_,_,_,_,_)")
-    STATIC_FN(DrawCircleSectorLines, "drawCircleSectorLines(_,_,_,_,_,_)")
-    STATIC_FN(DrawCircleGradient, "drawCircleGradient(_,_,_,_)")
-
-    STATIC_FN(DrawRing, "drawRing(_,_,_,_,_,_,_)")
-    STATIC_FN(DrawRingLines, "drawRingLines(_,_,_,_,_,_,_)")
-
-    STATIC_FN(DrawRectangle, "drawRectangle(_,_)")
-    STATIC_FN(DrawRectangleLines, "drawRectangleLines(_,_)")
-    STATIC_FN(DrawRectangleLinesThick, "drawRectangleLines(_,_,_)")
-    STATIC_FN(DrawRectangleRounded, "drawRectangleRounded(_,_,_,_)")
-    STATIC_FN(DrawRectangleRoundedLines, "drawRectangleRoundedLines(_,_,_,_)")
-
-    STATIC_FN(DrawRectangleGradient, "drawRectangleGradient(_,_,_,_,_)")
-    STATIC_FN(DrawRectangleGradientV, "drawRectangleGradientV(_,_,_)")
-    STATIC_FN(DrawRectangleGradientH, "drawRectangleGradientH(_,_,_)")
-
-    STATIC_FN(DrawTriangle, "drawTriangle(_,_,_,_)")
-    STATIC_FN(DrawTriangleLines, "drawTriangleLines(_,_,_,_)")
-    STATIC_FN(DrawTriangleFan, "drawTriangleFan(_,_)")
-    STATIC_FN(DrawPoly, "drawPoly(_,_,_,_,_)")
-
-    STATIC_FN(SetShapesTexture, "setShapesTexture(_,_)")
-    STATIC_FN(DrawTexture, "drawTexture(_,_,_)")
-
     /* input */
     STATIC_FN(IsKeyUp, "isKeyUp(_)")
     STATIC_FN(isKeyDown, "isKeyDown(_)")

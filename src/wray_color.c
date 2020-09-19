@@ -69,16 +69,6 @@ static void wray_color_hex_get(WrenVM *vm)
   wrenSetSlotDouble(vm, 0, hex);
 }
 
-static void wray_color_hsv_get(WrenVM *vm)
-{
-  Color *color = wrenGetSlotForeign(vm, 0);
-
-  wrenSetSlotHandle(vm, 0, WRAY_GET_CLASSES(vm)->vec3);
-  Vector3 *hsv = wrenSetSlotNewForeign(vm, 0, 0, sizeof(Vector3));
-
-  *hsv = ColorToHSV(*color);
-}
-
 /* NOTE: This part assumes Color struct is packed and ordered. */
 static void wray_color_index_get(WrenVM *vm)
 {
@@ -109,13 +99,12 @@ static void wray_color_index_set(WrenVM *vm)
 }
 
 const wray_binding_class wray_color_class = {
-  "RlColor", { wray_color_initialize, NULL }, {
+  "Color", { wray_color_initialize, NULL }, {
     { wray_color_new_hex, false, "init new(_)" },
     { wray_color_new_rgba, false, "init new(_,_,_,_)" },
     { wray_color_new_rgb, false, "init new(_,_,_)" },
 
     { wray_color_hex_get, false, "hex" },
-    { wray_color_hsv_get, false, "hsv" },
     { wray_color_index_get, false, "[_]" },
     { wray_color_index_set, false, "[_]=(_)" },
     { NULL, NULL, NULL }

@@ -68,10 +68,6 @@ void wray_LoadStorageValue(WrenVM *);
 void wray_OpenURL(WrenVM *);
 
 void wray_DrawFPS(WrenVM *);
-void wray_DrawText(WrenVM *);
-void wray_DrawTextEx(WrenVM *);
-void wray_DrawTextRec(WrenVM *);
-void wray_DrawTextRecEx(WrenVM *);
 
 void wray_IsKeyUp(WrenVM *);
 void wray_isKeyDown(WrenVM *);

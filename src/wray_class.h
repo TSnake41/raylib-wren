@@ -37,16 +37,12 @@ extern const size_t wray_classes_count;
 extern const char *wray_api;
 
 typedef struct wray_class_handles {
-  WrenHandle *color;
   WrenHandle *image;
   WrenHandle *texture2d;
-  WrenHandle *rectangle;
-  WrenHandle *vec2;
-  WrenHandle *vec3;
-  WrenHandle *vec4;
+  WrenHandle *color;
 } wray_class_handles;
 
-void wray_release_class_handles(WrenVM *vm, wray_class_handles *handles);
 void wray_make_class_handles(WrenVM *vm, wray_class_handles *handles);
+void wray_release_class_handles(WrenVM *vm, wray_class_handles *handles);
 
 #endif /* H_WRAY_CLASS */

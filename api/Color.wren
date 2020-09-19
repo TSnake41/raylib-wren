@@ -1,4 +1,4 @@
-foreign class RlColor {
+foreign class Color {
   foreign [index]
   foreign [index]=(value)
 
@@ -13,7 +13,7 @@ foreign class RlColor {
   a=(value) { this[3] = value }
 
   foreign hex
-  foreign hsv
+  //foreign hsv
 
   foreign construct new(r, g, b, a)
   foreign construct new(r, g, b)

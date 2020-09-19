@@ -23,7 +23,7 @@
 #include "wray_class.h"
 
 typedef struct wray_internal {
-  wray_class_handles handles;
+  wray_class_handles class_handles;
 } wray_internal;
 
 #define NYI \
