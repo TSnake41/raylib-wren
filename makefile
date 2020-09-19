@@ -29,8 +29,8 @@ WRAY_API := api/Raylib.wren api/Color.wren api/Key.wren api/Math.wren \
 	api/3dPrimitives.wren
 
 SRC := src/wray.c src/wray_funcs.c src/wray_api.c src/wray_typecheck.c \
-	src/wray_core.c src/wray_color.c src/wray_class.c \
-	src/wray_primitives.c src/wray_draw.c src/wray_image.c
+	src/wray_core.c src/wray_color.c src/wray_class.c src/wray_draw.c \
+	src/wray_image.c
 
 OBJ := $(SRC:.c=.o)
 
@@ -40,10 +40,10 @@ all: libraylib.a libwren.a libwray.a wray_standalone wray_embedded
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 libwren.a: wren
-	$(MAKE) -C wren static
+	$(MAKE) -C wren CC=$(CC) AR=$(AR)
 
 libraylib.a:
-	$(MAKE) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+	$(MAKE) CC=$(CC) AR=$(AR) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
 		USE_WAYLAND_DISPLAY="$(USE_WAYLAND_DISPLAY)" \
 		USE_EXTERNAL_GLFW="$(USE_EXTERNAL_GLFW)" \
 		PLATFORM="$(PLATFORM)" GRAPHICS="$(GRAPHICS)" \

@@ -11,9 +11,7 @@ World.add(WObject.new(190, 200, 0, [
 	// Create a text component, this component indicate that this object
 	// draws text.
 	Text.new("Congrats! You created your first window!", 20, Color.lightGray)
-])) {
-	
-}
+]))
 
 World.background = Color.rayWhite
 

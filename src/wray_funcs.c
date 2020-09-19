@@ -16,7 +16,6 @@
 
 #include "wray_internal.h"
 #include "wray_core.h"
-#include "wray_draw.h"
 #include "wray_class.h"
 
 #define STATIC_FN(name, sig) { wray_##name, true, sig },
