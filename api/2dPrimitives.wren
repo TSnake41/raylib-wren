@@ -6,6 +6,9 @@ class Rectangle {
     _h = h
     _color = color
     _lines = lines
+
+    _ox = 0
+    _oy = 0
   }
 
   construct new(w, h, color) {
@@ -13,6 +16,9 @@ class Rectangle {
     _h = h
     _color = color
     _lines = false
+
+    _ox = 0
+    _oy = 0
   }
 
   construct new(w, h) {
@@ -20,7 +26,15 @@ class Rectangle {
     _h = h
     _color = Color.white
     _lines = false
+
+    _ox = 0
+    _oy = 0
   }
+
+  ox { _ox }
+  ox=(value) { _ox = value }
+  oy { _oy }
+  oy=(value) { _oy = value }
 
   w { _w }
   w=(value) { _w = value }
@@ -37,7 +51,7 @@ class Rectangle {
   foreign static draw(x, y, w, h, color, lines)
 
   draw(p, x, y, z) {
-    Rectangle.draw(x, y, _w, _h, _color, _lines)
+    Rectangle.draw(x + _ox, y + _oy, _w, _h, _color, _lines)
   }
 
   update(p, dt) {}
@@ -47,25 +61,39 @@ class Circle {
   name { "Circle" }
 
   construct new(radius, color, lines) {
-    _r = radius
+    _radius = radius
     _color = color
     _lines = lines
+
+    _ox = 0
+    _oy = 0
   }
 
   construct new(radius, color) {
-    _r = radius
+    _radius = radius
     _color = color
     _lines = false
+
+    _ox = 0
+    _oy = 0
   }
 
   construct new(radius) {
-    _r = radius
+    _radius = radius
     _color = Color.white
     _lines = false
+
+    _ox = 0
+    _oy = 0
   }
 
-  radius { _r }
-  radius=(value) { _r = value }
+  ox { _ox }
+  ox=(value) { _ox = value }
+  oy { _oy }
+  oy=(value) { _oy = value }
+
+  radius { _radius }
+  radius=(value) { _radius = value }
 
   color { _color }
   color=(c) { _color = c }
@@ -76,7 +104,7 @@ class Circle {
   foreign static draw(x, y, radius, color, lines)
 
   draw(p, x, y, z) {
-    Circle.draw(x, y, _radius, _color, _lines)
+    Circle.draw(x + _ox, y + _oy, _radius, _color, _lines)
   }
 
   update(p, dt) {}
@@ -99,7 +127,15 @@ class Sprite {
   construct new(image, color) {
     _texture = Texture2D.new(image)
     _color = color
+
+    _ox = 0
+    _oy = 0
   }
+
+  ox { _ox }
+  ox=(value) { _ox = value }
+  oy { _oy }
+  oy=(value) { _oy = value }
 
   static new(image) { new(image, Color.white) }
 
@@ -113,7 +149,7 @@ class Sprite {
   color=(value) { _color = value }
 
   draw(p, x, y, z) {
-    _texture.draw(x, y, _color, _r, _scale)
+    _texture.draw(x + _ox, y + _oy, _color, _r, _scale)
   }
 
   update(p, dt) {}
@@ -126,7 +162,15 @@ class Text {
     _text = text
     _size = size
     _color = color
+
+    _ox = 0
+    _oy = 0
   }
+
+  ox { _ox }
+  ox=(value) { _ox = value }
+  oy { _oy }
+  oy=(value) { _oy = value }
 
   static new(text, size) { new(text, size, Color.white) }
   static new(text) { new(text, 20, Color.white) }
@@ -144,8 +188,25 @@ class Text {
   foreign static draw(x, y, text, size, color)
 
   draw(p, x, y, z) {
-    Text.draw(x, y, _text, _size, _color)
+    Text.draw(x + _ox, y + _oy, _text, _size, _color)
   }
 
+  update(p, dt) {}
+}
+
+class FpsDisplay {
+  construct new() {
+    _ox = 0
+    _oy = 0
+  }
+
+  ox { _ox }
+  ox=(value) { _ox = value }
+  oy { _oy }
+  oy=(value) { _oy = value }
+
+  draw(p, x, y, z) {
+    Raylib.drawFPS(x + _ox, y + _oy)
+  }
   update(p, dt) {}
 }

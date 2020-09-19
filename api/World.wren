@@ -16,7 +16,7 @@ class World {
   // systems { _systems }
 
   add(e) {
-    entities.add(e)
+    _entities.add(e)
   }
 
   update(p, dt) {
@@ -113,14 +113,12 @@ class WObject {
   find(name) { _components.where {|c| c.name == name} }
 
   update(parent, dt) {
-    if (_update != null) {
-      _update.call(this, dt)
-    }
+    if (_update != null) _update.call(this, dt)
 
-    components.each {|c| c.update(this, dt)}
+    _components.each {|c| c.update(this, dt)}
   }
 
   draw(parent, px, py, pz) {
-    components.each {|c| c.draw(this, px + _x, py + _y, pz + _z)}
+    _components.each {|c| c.draw(this, px + _x, py + _y, pz + _z)}
   }
 }
