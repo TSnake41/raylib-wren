@@ -9,6 +9,8 @@ var ball = WObject.new(400, 225, 0, [
   Circle.new(50, Color.maroon),
   Text.new("", 20, Color.black)
 ]) {|self|
+  self["Text"].text = "%(self.x) %(self.y)"
+
   if (Raylib.isKeyDown(Key.keyboard["right"])) {
     self.x = self.x + 2.0
   }
@@ -25,9 +27,8 @@ var ball = WObject.new(400, 225, 0, [
 
 var ball_text = ball["Text"]
 
-ball_text.ox = -48
+ball_text.ox = -45
 ball_text.oy = -75
-ball_text.text = "raylib eh?"
 
 World.add(ball)
 

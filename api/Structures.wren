@@ -6,3 +6,12 @@ foreign class Image {
   foreign format
   foreign mipmaps
 }
+
+foreign class Texture2D {
+  foreign construct new(image)
+
+  foreign width
+  foreign height
+  foreign format
+  foreign mipmaps
+}

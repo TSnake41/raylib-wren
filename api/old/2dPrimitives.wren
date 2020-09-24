@@ -110,23 +110,16 @@ class Circle {
   update(p, dt) {}
 }
 
-foreign class Texture2D {
-  foreign construct new(image)
-
-  foreign width
-  foreign height
-  foreign format
-  foreign mipmaps
-
-  foreign draw(x, y, rotation, scale, color)
-}
 
 class Sprite {
   name { "Sprite" }
 
   construct new(image, color) {
-    _texture = Texture2D.new(image)
+    _texture = image is Texture2D ? image : Texture2D.new(image)
     _color = color
+
+    _scale = 1
+    _rotation = 0
 
     _ox = 0
     _oy = 0
@@ -139,8 +132,8 @@ class Sprite {
 
   static new(image) { new(image, Color.white) }
 
-  rotation { _r }
-  rotation=(value) { _r = value }
+  rotation { _rotation }
+  rotation=(value) { _rotation = value }
 
   scale { _scale }
   scale=(value) { _scale = value }
@@ -149,7 +142,7 @@ class Sprite {
   color=(value) { _color = value }
 
   draw(p, x, y, z) {
-    _texture.draw(x + _ox, y + _oy, _color, _r, _scale)
+    _texture.draw(x + _ox, y + _oy, _rotation, _scale, _color)
   }
 
   update(p, dt) {}

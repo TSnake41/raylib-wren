@@ -33,13 +33,13 @@ void wray_WindowTitle_set(WrenVM *);
 void wray_WindowIcon_set(WrenVM *);
 void wray_SetWindowSize(WrenVM *);
 void wray_SetWindowMonitor(WrenVM *);
-void wray_WindowMinSize_set(WrenVM *);
+void wray_SetWindowMinSize(WrenVM *);
 
 void wray_ScreenWidth_get(WrenVM *);
 void wray_ScreenHeight_get(WrenVM *);
 
 void wray_MonitorCount_get(WrenVM *);
-void wray_WindowPosition_set(WrenVM *);
+void wray_SetWindowPosition(WrenVM *);
 
 void wray_ClipboardText_get(WrenVM *);
 void wray_ClipboardText_set(WrenVM *);
@@ -86,8 +86,8 @@ void wray_MouseX_get(WrenVM *);
 void wray_MouseY_get(WrenVM *);
 void wray_MouseWheelMove_get(WrenVM *);
 
-void wray_MousePosition_set(WrenVM *);
-void wray_MouseOffset_set(WrenVM *);
-void wray_MouseScale_set(WrenVM *);
+void wray_SetMousePosition(WrenVM *);
+void wray_SetMouseOffset(WrenVM *);
+void wray_SetMouseScale(WrenVM *);
 
 #endif /* H_WRAY_CORE */

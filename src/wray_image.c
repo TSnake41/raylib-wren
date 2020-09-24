@@ -86,7 +86,8 @@ MAKE_FIELD_GETTER(texture2d, Double, Texture2D, mipmaps)
 
 void wray_texture2d_draw(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 3, "Color");
+  wray_CheckForeignType(vm, 0, "Texture2D");
+  wray_CheckForeignType(vm, 5, "Color");
 
   DrawTextureEx(
     *(Texture2D *)wrenGetSlotForeign(vm, 0),

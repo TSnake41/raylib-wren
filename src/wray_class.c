@@ -60,10 +60,7 @@ WrenForeignClassMethods wray_bind_foreign_class(WrenVM *vm, const char *module,
 }
 
 extern const wray_binding_class wray_raylib_class;
-
-extern const wray_binding_class wray_rectangle_class;
-extern const wray_binding_class wray_circle_class;
-extern const wray_binding_class wray_text_class;
+extern const wray_binding_class wray_draw_class;
 
 extern const wray_binding_class wray_image_class;
 extern const wray_binding_class wray_texture2d_class;
@@ -72,10 +69,7 @@ extern const wray_binding_class wray_color_class;
 const wray_binding_class *wray_classes[] = {
   /* Default static class */
   &wray_raylib_class,
-
-  &wray_rectangle_class,
-  &wray_circle_class,
-  &wray_text_class,
+  &wray_draw_class,
 
   &wray_image_class,
   &wray_texture2d_class,

@@ -39,12 +39,12 @@ const wray_binding_class wray_raylib_class = {
     STATIC_FN(ToggleFullscreen, "toggleFullscreen()")
 
     STATIC_SET(WindowTitle, "windowTitle=(_)")
-    STATIC_SET(WindowPosition, "windowPosition=(_)")
+    STATIC_FN(SetWindowPosition, "setWindowPosition(_,_)")
     STATIC_SET(WindowIcon, "windowIcon=(_)")
-    STATIC_SET(WindowMinSize, "windowMinSize=(_)")
+    STATIC_FN(SetWindowMinSize, "setWindowMinSize(_,_)")
 
     STATIC_FN(SetWindowMonitor, "setWindowMonitor(_)")
-    STATIC_FN(SetWindowSize, "setWindowSize(_)")
+    STATIC_FN(SetWindowSize, "setWindowSize(_,_)")
 
     STATIC_GET(ScreenWidth, "screenWidth")
     STATIC_GET(ScreenHeight, "screenHeight")
@@ -90,9 +90,9 @@ const wray_binding_class wray_raylib_class = {
     STATIC_GET(MouseY, "mouseY")
     STATIC_GET(MouseWheelMove, "mouseWheelMove")
 
-    STATIC_SET(MousePosition, "mousePosition=(_)")
-    STATIC_SET(MouseOffset, "mouseOffset=(_)")
-    STATIC_SET(MouseScale, "mouseScale=(_)")
+    STATIC_FN(SetMousePosition, "setMousePosition(_,_)")
+    STATIC_FN(SetMouseOffset, "setMouseOffset(_,_)")
+    STATIC_FN(SetMouseScale, "setMouseScale(_,_)")
 
     /* misc */
     STATIC_SET(TargetFPS, "targetFPS=(_)")

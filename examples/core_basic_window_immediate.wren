@@ -1,4 +1,4 @@
-import "raylib" for Raylib, Text, Color, ConfigFlags
+import "raylib" for Raylib, Color, ConfigFlags
 
 // some basic setup
 Raylib.configFlags = ConfigFlags.vsync
@@ -10,7 +10,7 @@ while (!Raylib.windowShouldClose) {
   Raylib.beginDrawing()
   Raylib.clearBackground(Color.rayWhite)
 
-  Text.draw(190, 200, "Congrats! You created your first window!", 20, Color.lightGray)
+  Raylib.drawText("Congrats! You created your first window!", 190, 200, 20, Color.lightGray)
 
   Raylib.endDrawing()
 }

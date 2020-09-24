@@ -73,17 +73,17 @@ void wray_WindowTitle_set(WrenVM *vm)
   SetWindowTitle(wrenGetSlotString(vm, 1));
 }
 
-void wray_WindowPosition_set(WrenVM *vm)
+void wray_SetWindowPosition(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 1, "RlVector2");
-
-  Vector2 *v = wrenGetSlotForeign(vm, 1);
-  SetWindowPosition(v->x, v->y);
+  SetWindowPosition(
+    wrenGetSlotDouble(vm, 1),
+    wrenGetSlotDouble(vm, 2)
+  );
 }
 
 void wray_WindowIcon_set(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 1, "RlImage");
+  wray_CheckForeignType(vm, 1, "Image");
   SetWindowIcon(*(Image *)wrenGetSlotForeign(vm, 1));
 }
 
@@ -94,18 +94,18 @@ void wray_SetWindowMonitor(WrenVM *vm)
 
 void wray_SetWindowSize(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 1, "RlVector2");
-
-  Vector2 *v = wrenGetSlotForeign(vm, 1);
-  SetWindowSize(v->x, v->y);
+  SetWindowSize(
+    wrenGetSlotDouble(vm, 1),
+    wrenGetSlotDouble(vm, 2)
+  );
 }
 
-void wray_WindowMinSize_set(WrenVM *vm)
+void wray_SetWindowMinSize(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 1, "RlVector2");
-
-  Vector2 *v = wrenGetSlotForeign(vm, 1);
-  SetWindowMinSize(v->x, v->y);
+  SetWindowMinSize(
+    wrenGetSlotDouble(vm, 1),
+    wrenGetSlotDouble(vm, 2)
+  );
 }
 
 void wray_ScreenWidth_get(WrenVM *vm)
@@ -158,7 +158,7 @@ void wray_CursorLocked_set(WrenVM *vm)
 
 void wray_ClearBackground(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 1, "RlColor");
+  wray_CheckForeignType(vm, 1, "Color");
 
   Color *c = wrenGetSlotForeign(vm, 1);
   ClearBackground(*c);
@@ -312,26 +312,26 @@ void wray_MouseWheelMove_get(WrenVM *vm)
   wrenSetSlotDouble(vm, 0, GetMouseWheelMove());
 }
 
-void wray_MousePosition_set(WrenVM *vm)
+void wray_SetMousePosition(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 0, "RlVector2");
-
-  Vector2 *v = wrenGetSlotForeign(vm, 0);
-  SetMousePosition(v->x, v->y);
+  SetMousePosition(
+    wrenGetSlotDouble(vm, 1),
+    wrenGetSlotDouble(vm, 2)
+  );
 }
 
-void wray_MouseOffset_set(WrenVM *vm)
+void wray_SetMouseOffset(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 0, "RlVector2");
-
-  Vector2 *v = wrenGetSlotForeign(vm, 0);
-  SetMouseOffset(v->x, v->y);
+  SetMouseOffset(
+    wrenGetSlotDouble(vm, 1),
+    wrenGetSlotDouble(vm, 2)
+  );
 }
 
-void wray_MouseScale_set(WrenVM *vm)
+void wray_SetMouseScale(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 0, "RlVector2");
-
-  Vector2 *v = wrenGetSlotForeign(vm, 0);
-  SetMouseScale(v->x, v->y);
+  SetMouseScale(
+    wrenGetSlotDouble(vm, 1),
+    wrenGetSlotDouble(vm, 2)
+  );
 }
