@@ -89,8 +89,8 @@ void wray_draw_circle(WrenVM *vm)
   if (wrenGetSlotType(vm, 6) == WREN_TYPE_NUM) {
     is_sector = true;
 
-    float start = wrenGetSlotDouble(vm, 6);
-    float end = wrenGetSlotDouble(vm, 7);
+    double start = wrenGetSlotDouble(vm, 6);
+    double end = wrenGetSlotDouble(vm, 7);
 
     int segments = wrenGetSlotDouble(vm, 8);
 
@@ -104,6 +104,25 @@ void wray_draw_circle(WrenVM *vm)
     else
       DrawCircleV(center, radius, color);
   }
+}
+
+/* drawCircleGradient(x, y, radius, c1, c2) */
+void wray_draw_circle_gradient(WrenVM *vm)
+{
+  Vector2 position = (Vector2){
+    wrenGetSlotDouble(vm, 1),
+    wrenGetSlotDouble(vm, 2)
+  };
+
+  double radius = wrenGetSlotDouble(vm, 3);
+
+  wray_CheckForeignType(vm, 4, "Color");
+  Color c1 = *(Color *)wrenGetSlotForeign(vm, 4);
+
+  wray_CheckForeignType(vm, 5, "Color");
+  Color c2 = *(Color *)wrenGetSlotForeign(vm, 5);
+
+  DrawCircleGradient(position.x, position.y, radius, c1, c2);
 }
 
 /* drawEllipse(x, y, w, h, color, lines) */
@@ -194,7 +213,7 @@ void wray_draw_rectangle_lines(WrenVM *vm)
 
     DrawRectangleLinesEx(rect, thick, color);
   } else
-    DrawRectangle(rect.x, rect.y, rect.width, rect.height, color);
+    DrawRectangleLines(rect.x, rect.y, rect.width, rect.height, color);
 }
 
 /* drawRectangleRounded(x, y, w, h, roundness, segments, color, lines_thick) */
@@ -370,6 +389,7 @@ const wray_binding_class wray_draw_class = {
     { wray_draw_pixel, true, "drawPixel(_,_,_)" },
     { wray_draw_line, true, "drawLine(_,_,_,_,_,_,_)" },
     { wray_draw_circle, true, "drawCircle(_,_,_,_,_,_,_,_)" },
+    { wray_draw_circle_gradient, true, "drawCircleGradient(_,_,_,_,_)" },
     { wray_draw_ellipse, true, "drawEllipse(_,_,_,_,_,_)" },
     { wray_draw_ring, true, "drawRing(_,_,_,_,_,_,_,_,_)" },
     { wray_draw_rectangle_pro, true, "drawRectanglePro(_,_,_,_,_,_,_,_)" },

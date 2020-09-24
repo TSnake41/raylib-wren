@@ -1,5 +1,5 @@
 *.o
-./wray_standalone*
-./wray_embedded*
+./wray_s*
+./wray_e*
 src/wray_api\.c
 libwray\.a

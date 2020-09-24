@@ -22,10 +22,16 @@ class Vector2 {
     return new(_x / l, _y / l)
   }
 
-  - { new(-_x, -_y) }
+  dot(v) {
+    return _x * v.x + _y * v.y
+  }
 
-  +(v) { new(_x + v.x, _y + v.y) }
-  -(v) { new(_x - v.x, _y - v.y) }
+  distance(v) { (this - v).length }
+
+  - { Vector2.new(-_x, -_y) }
+
+  +(v) { Vector2.new(_x + v.x, _y + v.y) }
+  -(v) { Vector2.new(_x - v.x, _y - v.y) }
 }
 
 class Vector3 {

@@ -73,7 +73,7 @@ World.background = Color.white
 // Create global world.
 World.globalWorld = World.new()
 
-class WObject {
+class Entity {
   construct new(x, y, z, components, update) {
     _x = x
     _y = y
@@ -85,6 +85,7 @@ class WObject {
 
   static new(x, y, z, components) { new(x, y, z, components, null) }
   static new(x, y, z) { new(x, y, z, [], null) }
+  static new(x, y) { new(x, y, 0, [], null) }
   static new() { new(0, 0, 0, [], null) }
 
   x { _x }

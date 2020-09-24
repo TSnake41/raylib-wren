@@ -95,6 +95,7 @@ class Raylib {
   foreign static drawPixel(x, y, color)
   foreign static drawLine(ax, ay, bx, by, color, thick, bezier)
   foreign static drawCircle(x, y, radius, color, lines, startAngle, endAngle, segments)
+  foreign static drawCircleGradient(x, y, radius, c1, c2)
   foreign static drawEllipse(x, y, w, h, color, lines)
   foreign static drawRing(x, y, inner, outer, start, end, segments, color, lines)
   foreign static drawRectanglePro(x, y, w, h, ox, oy, rotation, color)
@@ -206,11 +207,11 @@ class Raylib {
   }
 
   static drawRectangleGradientV(x, y, w, h, c1, c2) {
-    drawRectangleGradient(x, y, w, h, c1, c1, c2, c2)
+    drawRectangleGradient(x, y, w, h, c1, c2, c2, c1)
   }
 
   static drawRectangleGradientH(x, y, w, h, c1, c2) {
-    drawRectangleGradient(x, y, w, h, c1, c2, c1, c2)
+    drawRectangleGradient(x, y, w, h, c1, c1, c2, c2)
   }
 
   static drawTriangle(v1, v2, v3, color) {

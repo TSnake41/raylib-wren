@@ -36,7 +36,7 @@ SRC := src/wray.c src/wray_funcs.c src/wray_api.c src/wray_typecheck.c \
 
 OBJ := $(SRC:.c=.o)
 
-all: libraylib.a libwren.a libwray.a wray_standalone wray_embedded
+all: libraylib.a libwren.a libwray.a wray_s wray_e
 
 %.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -57,18 +57,18 @@ libwray.a: $(OBJ)
 src/wray_api.c: $(WRAY_API)
 	$(LUA) tools/wren2str.lua $@ wray_api $^
 
-wray_standalone: libwray.a src/wray_standalone.o
+wray_s: libwray.a src/wray_s.o
 	$(CC) -o $@ $^ -lwray $(LDFLAGS)
 
-wray_embedded: libwray.a src/lib/miniz.o src/wray_builder.o src/wray_embedded.o
+wray_e: libwray.a src/lib/miniz.o src/wray_builder.o src/wray_e.o
 	$(CC) -o $@ $^ -lwray $(LDFLAGS)
 
 clean:
-	rm -rf src/wray_api.c wray_embedded src/wray_builder.o \
-		wray_standalone src/wray_standalone.o src/lib/miniz.o \
-		libwray.a $(OBJ) src/wray_embedded.o
+	rm -rf src/wray_api.c src/wray_builder.o \
+		wray_s src/wray_s.o src/lib/miniz.o \
+		libwray.a $(OBJ) wray_e src/wray_e.o
 
 	$(MAKE) -C wren clean
 	$(MAKE) -C raylib/src clean
 
-.PHONY: libwray.a wray_standalone
+.PHONY: libwray.a wray_s wray_e

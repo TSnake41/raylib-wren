@@ -62,7 +62,7 @@ static void wray_texture2d_initialize(WrenVM *vm)
 
 static void wray_texture2d_finalize(void *ptr)
 {
-  UnloadTexture(*(Texture2D *)ptr);
+  // UnloadTexture(*(Texture2D *)ptr);
 }
 
 static void wray_texture2d_new(WrenVM *vm)
