@@ -30,6 +30,7 @@
 #define strcasecmp strcmpi
 #endif
 #else
+#include <unistd.h>
 #include <dirent.h>
 #endif
 
@@ -46,9 +47,27 @@ static void append_file(FILE *dst, FILE *src)
   } while(count == 4096);
 }
 
+static void finalize_archive(mz_zip_archive *zip, const char *output_path)
+{
+    puts("Finalizing zip archive...");
+
+    if (!mz_zip_writer_finalize_archive(zip))
+      puts("Can't finalize archive.");
+
+    mz_zip_end(zip);
+
+    #ifndef WIN32
+    puts("Set execute bit.");
+    chmod(output_path, 0777);
+    #endif
+}
+
 int wray_build_executable(const char *self_path, const char *input_path)
 {
   printf("Create new executable from %s.\n", input_path);
+
+  mz_zip_archive zip;
+  mz_zip_zero_struct(&zip);
 
   struct stat st;
   int result = stat(input_path, &st);
@@ -92,16 +111,29 @@ int wray_build_executable(const char *self_path, const char *input_path)
   fclose(self);
 
   if (S_ISREG(st.st_mode)) {
-    /* Consider input as a bare bundle, just append file to get output. */
-    FILE *input = fopen(input_path, "rb");
+    size_t len = strlen(input_path);
 
-    append_file(output, input);
-    fclose(input);
+    if (len >= 5 && (strncmp(input_path + len - 5, ".wren", 5) == 0)) {
+      /* .wren file input. */
+      if (!mz_zip_writer_init_cfile(&zip, output, 0)) {
+        puts("Can't initialize zip writter inside output.");
+        return 0;
+      }
+
+      /* Add input as 'main'. */
+      if (!mz_zip_writer_add_file(&zip, "main", input_path, NULL, 0, 0))
+        printf("miniz error: %x\n", mz_zip_get_last_error(&zip));
+
+      finalize_archive(&zip, output_path);
+    } else {
+      /* Consider input as a bare bundle, just append file to get output. */
+      FILE *input = fopen(input_path, "rb");
+
+      append_file(output, input);
+      fclose(input);
+    }
   } else if (S_ISDIR(st.st_mode)) {
     /* We need to explore the directory and write each file to a zip file. */
-    mz_zip_archive zip;
-    mz_zip_zero_struct(&zip);
-
     if (!mz_zip_writer_init_cfile(&zip, output, 0)) {
       puts("Can't initialize zip writter inside output.");
       return 0;
@@ -152,17 +184,7 @@ int wray_build_executable(const char *self_path, const char *input_path)
 
     closedir(d);
 
-    puts("Finalizing zip archive...");
-
-    if (!mz_zip_writer_finalize_archive(&zip))
-      puts("Can't finalize archive.");
-
-    mz_zip_end(&zip);
-
-    #ifndef WIN32
-    puts("Set execute bit.");
-    chmod(output_path, 0777);
-    #endif
+    finalize_archive(&zip, output_path);
   }
 
   return 0;

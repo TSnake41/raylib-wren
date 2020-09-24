@@ -70,7 +70,7 @@ int main(int argc, char **argv)
   WrenConfiguration config;
   wrenInitConfiguration(&config);
 
-  config.loadModuleFn = load_mod_zip_func;
+  config.loadModuleFn = (WrenLoadModuleFn)load_mod_zip_func;
 
   WrenVM *vm = wray_new_vm(&config);
 
