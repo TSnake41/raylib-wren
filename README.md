@@ -2,34 +2,32 @@
 
 # raylib-wren (wray)
 
-Wren binding for [raylib](https://www.raylib.com/), a simple and easy-to-use
-library to learn videogames programming.
+[Wren](https://wren.io) binding for [raylib](https://www.raylib.com/), a simple
+and easy-to-use library to learn videogames programming.
 
-This binding supports raylib 3.0, previous version may support raylib 2.6.
+This binding supports raylib 3.1-dev, previous version may support raylib 2.6.
 
-## Usage (wray_standalone)
+## Usage (wray_s)
 
-wray_standalone is the simplest way to use raylib-wren.
-You need to give it a module path which is script file without '.wren'.
+wray_s is the simplest way to use raylib-wren.
+You need to give it a module path which is script file with or without '.wren'.
 
 ```shell
-./wray_standalone examples/core_basic_window
+./wray_s examples/core_basic_window.wren
 ```
 
-## Usage (wray_embedded)
+## Usage (wray_e)
 
-wray_embedded is the embedding-mode binary of raylib-wren.
+wray_e is the embedding-mode binary of raylib-wren.
 It allows you to build a autonomous executable which can be ran on any computer
 without the need of any runtime which can be very useful to distribute your
 game.
 
-To use it, you need to make a project directory containing your code with a
-main.wren file which is the entry point of your application.
-
-Then, call wray_embedded on it to build the project as a autonomous executable.
+To build a project as a autonomous, you need to call wray_e on a .wren file or
+a project directory with a main.wren file.
 
 ```shell
-./wray_embedded examples/embedded
+./wray_e examples/core_basic_window
 ```
 
 Currently, there is no support for loading embedded assets, so if your game
@@ -50,7 +48,7 @@ You need to use `wray_new_vm` to make a Wren VM with wray loaded in.
 A loader must be provided to properly load functions, otherwise, Wren will not
 be able to load anything.
 
-Check `src/wray_standalone.c` for an example.
+Check `src/wray_s.c` for a example.
 
 ## Building
 
@@ -68,10 +66,10 @@ edit LUA variable in `makefile`.
 ## Example
 
 ```wren
-import "raylib" for Raylib, RlColor, RlConfigFlags
+import "raylib" for Raylib, Color, ConfigFlags
 
 // Set config flags.
-Raylib.configFlags = RlConfigFlags.vsync
+Raylib.configFlags = ConfigFlags.vsync
 Raylib.targetFPS = 60
 
 Raylib.initWindow(800, 450, "raylib [core] example - basic window")
@@ -80,7 +78,7 @@ while (!Raylib.windowShouldClose) {
 	Raylib.beginDrawing()
 
 	Raylib.clearBackground(RlColor.rayWhite)
-	Raylib.drawText("Congrats! You created your first window!", 190, 200, 20, RlColor.lightGray)
+	Raylib.drawText("Congrats! You created your first window!", 190, 200, 20, Color.lightGray)
 
 	Raylib.endDrawing()
 }
@@ -90,7 +88,7 @@ Raylib.closeWindow()
 
 ## Compatibility
 
-raylib-wren is currently compatible with raylib 3.0 API.
+raylib-wren is currently compatible with raylib 3.1-dev API.
 Only a subset of the API supported, any contribution on API is welcome.
 
 There is currently no support for rlgl, physac and raygui.
@@ -99,9 +97,8 @@ There is currently no support for rlgl, physac and raygui.
 
 ### Adding/remove a function
 
-- modify src/raylib/wray_api.wren
-- modify corresponding src/wray_\*.c and src/wray_\*.h
 - modify api/\*.wren
+- modify corresponding src/wray_\*.c and src/wray_\*.h
 
 ### Type-checking
 
