@@ -1,5 +1,7 @@
 import "raylib" for Raylib, Color, ConfigFlags
 
+System.print(Color.new(0, 0, 0) is Class)
+
 // some basic setup
 Raylib.configFlags = ConfigFlags.vsync
 Raylib.targetFPS = 60

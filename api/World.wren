@@ -1,31 +1,161 @@
-// TODO: Implement systems
+class GameEntity {
+  construct new(components) {
+    _components = components.toList
+    _componentsTypes = _components.map {|c| c.type }.toList
+  }
+
+  construct new() {
+    _components = []
+    _componentsTypes = []
+  }
+
+  components { _components }
+  componentsTypes { _componentsTypes }
+
+  [filter] {
+    if (filter is Class) {
+      for (c in _components) {
+        if (c is filter) return c
+      }
+    } else if (filter is String) {
+      for (c in _components) {
+        if (c.name == filter) return c
+      }
+    } else Fiber.abort("Invalid component lookup, expects Class or String.")
+  }
+
+  all(filter) {
+    if (filter is Class) {
+      return _components.where {|c| c is filter }
+    } else if (filter is String) {
+      return _components.where {|c| c.name == filter}
+    }
+  }
+
+  remove(component) {
+    Fiber.abort("NYI")
+  }
+
+  add(component) {
+    _components.add(component)
+
+    if (!_componentsType.contains(component.type)) {
+      _componentsTypes.add(component.type)
+    }
+  }
+}
+
+class GameSystem {
+  construct new(filter, fn) {
+    _filter = filter
+    _fn = fn
+    _active = true
+  }
+
+  construct new(fn) {
+    _filter = null
+    _fn = fn
+    _active = true
+  }
+
+  fn { _fn }
+  filter { _filter }
+  active { _active }
+}
 
 class World {
   //
   // World instance
   //
-  construct new(entities) {
-    _entities = []
-    // _systems = []
-
-    _interupted = true
+  construct new(entities, systems) {
+    _entities = entities
+    _systems = systems
   }
-  static new() { new([]) }
+
+  static new() { new([], []) }
 
   entities { _entities }
-  // systems { _systems }
+  systems { _systems }
 
   add(e) {
     _entities.add(e)
   }
 
-  update(p, dt) {
-    _entities.each {|c| c.update(this, dt)}
+  remove(e) {
+    // Look for e
+    // TODO: Optimize it, custom garbage collector ?
+    for (i in 0...(_entities.count)) {
+      if (_entities[i] == e) {
+        _entities.removeAt(i)
+        return
+      }
+    }
   }
 
-  draw(p, px, py, pz) {
-    _entities.each {|c| c.draw(this, px, py, pz)}
+  emit(event, a, b, c, d, e, f, g) {
+    _systems.where {|s| s.active }.each {|s|
+      var filter = s.filter
+
+      if (filter is List) {
+        s.fn.call(_entities.where {|e|
+          return filter.all {|c| e.componentsTypes.contains(c) }
+        }, event, a, b, c, d, e, f)
+
+      } else if (filter is Class) {
+        s.fn.call(_entities.where {|e|
+          return e.componentsTypes.contains(filter)
+        }, event, a, b, c, d, e, f)
+
+      } else Fiber.abort("Invalid system filter")
+
+      return
+    }
   }
+
+  emit(event, a, b, c, d, e, f) { emit(event, a, b, c, d, e, f, null) }
+  emit(event, a, b, c, d, e) { emit(event, a, b, c, d, e, null, null) }
+  emit(event, a, b, c, d) { emit(event, a, b, c, d, null, null, null) }
+
+  emit(event, a, b, c) {
+    _systems.where {|s| s.active }.each {|s|
+      var filter = s.filter
+
+      if (filter is List) {
+        s.fn.call(_entities.where {|e|
+          return filter.all {|c| e.componentsTypes.contains(c) }
+        }, event, a, b, c)
+      } else if (filter is Class) {
+        s.fn.call(_entities.where {|e|
+          return e.componentsTypes.contains(filter)
+        }, event, a, b, c)
+
+      } else Fiber.abort("Invalid system filter")
+
+      return
+    }
+  }
+  emit(event, a, b) { emit(event, a, b, null) }
+
+  emit(event, a) {
+    _systems.where {|s| s.active }.each {|s|
+      var filter = s.filter
+
+      if (filter is List) {
+        s.fn.call(_entities.where {|e|
+          return filter.all {|c| e.componentsTypes.contains(c) }
+        }, event, a)
+
+      } else if (filter is Class) {
+        s.fn.call(_entities.where {|e|
+          return e.componentsTypes.contains(filter)
+        }, event, a)
+
+      } else Fiber.abort("Invalid system filter")
+
+      return
+    }
+  }
+  emit(event) { emit(event, null) }
 
   //
   // Global world
@@ -33,93 +163,25 @@ class World {
   static globalWorld { __globalWorld }
   static globalWorld=(value) { __globalWorld = value }
 
-  static background { __background }
-  static background=(value) { __background = value }
-
-  static interupted { __interupted }
+  static entities { __globalWorld.entities }
+  static systems { __globalWorld.systems }
 
   static add(entity) { globalWorld.add(entity) }
-  static draw() { globalWorld.draw() }
+  static remove(entity) { globalWorld.remove(entity) }
 
-  static interupt() {
-    __interupted = true
+  static emit(event, a, b, c, d, e, f, g) {
+    __globalWorld.emit(event, a, b, c, d, e, f, g)
   }
-
-  static loop(f) {
-    __interupted = false
-
-    while (!interupted) {
-      if (Raylib.windowShouldClose) break
-
-      if (f != null) f.call()
-
-      globalWorld.update(globalWorld, Raylib.frameTime)
-
-      Raylib.beginDrawing()
-      Raylib.clearBackground(background)
-
-      globalWorld.draw(globalWorld, 0, 0, 0)
-      Raylib.endDrawing()
-    }
+  static emit(event, a, b, c, d, e, f) {
+    __globalWorld.emit(event, a, b, c, d, e, f)
   }
-
-  static loop() { loop(null) }
+  static emit(event, a, b, c, d, e) { __globalWorld.emit(event, a, b, c, d, e) }
+  static emit(event, a, b, c, d) { __globalWorld.emit(event, a, b, c, d) }
+  static emit(event, a, b, c) { __globalWorld.emit(event, a, b, c) }
+  static emit(event, a, b) { __globalWorld.emit(event, a, b) }
+  static emit(event, a) { __globalWorld.emit(event, a) }
+  static emit(event) { __globalWorld.emit(event) }
 }
-
-// World initial state.
-World.interupt()
-World.background = Color.white
 
 // Create global world.
 World.globalWorld = World.new()
-
-class Entity {
-  construct new(x, y, z, components, update) {
-    _x = x
-    _y = y
-    _z = z
-
-    _components = [] + components
-    _update = update
-  }
-
-  static new(x, y, z, components) { new(x, y, z, components, null) }
-  static new(x, y, z) { new(x, y, z, [], null) }
-  static new(x, y) { new(x, y, 0, [], null) }
-  static new() { new(0, 0, 0, [], null) }
-
-  x { _x }
-  x=(value) { _x = value }
-
-  y { _y }
-  y=(value) { _y = value }
-
-  z { _z }
-  z=(value) { _z = value }
-
-  position { Vector3.new(x, y, z) }
-
-  components { _components }
-
-  [name] {
-    for (c in _components) {
-      if (c.name == name) {
-        return c
-      }
-    }
-
-    return null
-  }
-
-  find(name) { _components.where {|c| c.name == name} }
-
-  update(parent, dt) {
-    if (_update != null) _update.call(this, dt)
-
-    _components.each {|c| c.update(this, dt)}
-  }
-
-  draw(parent, px, py, pz) {
-    _components.each {|c| c.draw(this, px + _x, py + _y, pz + _z)}
-  }
-}
