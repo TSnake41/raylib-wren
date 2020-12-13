@@ -8,7 +8,7 @@ var random = Random.new()
 
 Raylib.initWindow(800, 450, "raylib-wren [ecs] example - ecs benchmark")
 
-var entityLimit = 1000
+var entityLimit = 10000
 var maxX = 800
 var maxY = 450
 

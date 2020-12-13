@@ -1,4 +1,3 @@
-/*
 foreign class RlWave {
   foreign construct new()
   foreign construct new(path)
@@ -49,4 +48,3 @@ class RlSound {
 class RlMusicStream {
 
 }
-*/
