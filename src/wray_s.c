@@ -21,14 +21,26 @@
 #include <wren.h>
 #include <wray.h>
 
-static char *load_mod_fs_func(WrenVM *vm, char *name)
+static void mod_load_complete(WrenVM *vm, const char *module, WrenLoadModuleResult result)
 {
+  if(result.source)
+    free(result.source);
+}
+
+WrenLoadModuleResult load_mod_fs_func(WrenVM *vm, const char *name)
+{
+  struct WrenLoadModuleResult result = {
+    .onComplete = &mod_load_complete,
+    .source = NULL,
+    .userData = NULL
+  };
+
   /* Append .wren to the path */
   size_t path_size = strlen(name) + 6;
   char *path = malloc(path_size + 1);
 
   if (path == NULL)
-    return NULL;
+    return result;
 
   if (strstr(name, ".wren"))
     strncpy(path, name, path_size);
@@ -41,7 +53,7 @@ static char *load_mod_fs_func(WrenVM *vm, char *name)
 
   if (f == NULL) {
     printf("WRAY_STANDALONE: Can't load %s.\n", name);
-    return NULL;
+    return result;
   }
 
   fseek(f, 0, SEEK_END);
@@ -54,13 +66,14 @@ static char *load_mod_fs_func(WrenVM *vm, char *name)
     printf("WRAY_STANDALONE: %s: Can't allocate file buffer.\n", path);
 
     fclose(f);
-    return NULL;
+    return result;
   }
 
   fread(buffer, size, 1, f);
   buffer[size] = '\0';
 
-  return buffer;
+  result.source = buffer;
+  return result;
 }
 
 int main(int argc, const char **argv)
@@ -73,7 +86,7 @@ int main(int argc, const char **argv)
   if (argc > 1) {
     WrenVM *vm = wray_new_vm(&config);
 
-    char *code = load_mod_fs_func(vm, argv[1]);
+    const char *code = load_mod_fs_func(vm, argv[1]).source;
 
     if (code) {
       wrenInterpret(vm, argv[1], code);
@@ -82,7 +95,7 @@ int main(int argc, const char **argv)
 
     wrenFreeVM(vm);
   } else
-    puts("Usage : wray_standalone [module]");
+    puts("Usage : wray_s [module]");
 
   return 0;
 }

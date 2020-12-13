@@ -29,30 +29,44 @@ int wray_build_executable(const char *self_path, const char *input_path);
 
 static mz_zip_archive zip_file;
 
-static char *load_mod_zip_func(WrenVM *vm, char *name)
+static void mod_load_complete(WrenVM *vm, const char *module, WrenLoadModuleResult result)
 {
+  if(result.source)
+    free(result.source);
+}
+
+static WrenLoadModuleResult load_mod_zip_func(WrenVM *vm, const char *name)
+{
+  struct WrenLoadModuleResult result = {
+    .onComplete = &mod_load_complete,
+    .source = NULL,
+    .userData = NULL
+  };
+
+
   int index = mz_zip_reader_locate_file(&zip_file, name, NULL, 0);
   if (index == -1) {
     printf("WRAY_EMBEDDED: %s: File not found.\n", name);
-    return NULL;
+    return result;
   }
 
   mz_zip_archive_file_stat stat;
   if (!mz_zip_reader_file_stat(&zip_file, index, &stat)) {
     printf("WRAY_EMBEDDED: %s: Can't get file information.\n", name);
-    return NULL;
+    return result;
   }
 
   size_t size = stat.m_uncomp_size;
   char *buffer = malloc(size + 1);
   if (buffer == NULL) {
     printf("WRAY_EMBEDDED: %s: Can't allocate file buffer.\n", name);
-    return NULL;
+    return result;
   }
   buffer[size] = '\0';
 
   mz_zip_reader_extract_to_mem(&zip_file, index, buffer, size, 0);
-  return buffer;
+  result.source = buffer;
+  return result;
 }
 
 int main(int argc, char **argv)
@@ -61,7 +75,7 @@ int main(int argc, char **argv)
 
   if (!mz_zip_reader_init_file(&zip_file, argv[0], 0)) {
     if (argc < 2) {
-      puts("Usage: wray_embedded <input>");
+      puts("Usage: wray_e <input>");
       return 0;
     } else
       return wray_build_executable(argv[0], argv[1]);
@@ -74,7 +88,7 @@ int main(int argc, char **argv)
 
   WrenVM *vm = wray_new_vm(&config);
 
-  char *code = load_mod_zip_func(vm, "main");
+  char *code = load_mod_zip_func(vm, "main").source;
 
   if (code) {
     wrenInterpret(vm, "main", code);
