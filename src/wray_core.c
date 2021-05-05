@@ -241,7 +241,7 @@ void wray_IsKeyUp(WrenVM *vm)
   wrenSetSlotBool(vm, 0, IsKeyUp(key));
 }
 
-void wray_isKeyDown(WrenVM *vm)
+void wray_IsKeyDown(WrenVM *vm)
 {
   int key = wrenGetSlotDouble(vm, 1);
   wrenSetSlotBool(vm, 0, IsKeyDown(key));

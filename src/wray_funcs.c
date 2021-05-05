@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 Astie Teddy
+  Copyright (C) 2019-2021 Astie Teddy
 
   Permission to use, copy, modify, and/or distribute this software for any
   purpose with or without fee is hereby granted, provided that the above
@@ -17,6 +17,7 @@
 #include "wray_internal.h"
 #include "wray_core.h"
 #include "wray_class.h"
+#include "wray_audio.h"
 
 #define STATIC_FN(name, sig) { wray_##name, true, sig },
 
@@ -74,7 +75,7 @@ const wray_binding_class wray_raylib_class = {
 
     /* input */
     STATIC_FN(IsKeyUp, "isKeyUp(_)")
-    STATIC_FN(isKeyDown, "isKeyDown(_)")
+    STATIC_FN(IsKeyDown, "isKeyDown(_)")
     STATIC_FN(IsKeyPressed, "isKeyPressed(_)")
     STATIC_FN(IsKeyReleased, "isKeyReleased(_)")
 
@@ -93,6 +94,16 @@ const wray_binding_class wray_raylib_class = {
     STATIC_FN(SetMousePosition, "setMousePosition(_,_)")
     STATIC_FN(SetMouseOffset, "setMouseOffset(_,_)")
     STATIC_FN(SetMouseScale, "setMouseScale(_,_)")
+
+    /* audio */
+    STATIC_FN(InitAudioDevice, "initAudioDevice()")
+    STATIC_FN(CloseAudioDevice, "closeAudioDevice()")
+
+    STATIC_GET(IsAudioDeviceReady, "isAudioDeviceReady")
+    STATIC_SET(MasterVolume, "masterVolume=(_)")
+
+    STATIC_FN(StopSoundMulti, "stopSoundMulti()")
+    STATIC_GET(SoundsPlaying, "soundsPlaying")
 
     /* misc */
     STATIC_SET(TargetFPS, "targetFPS=(_)")

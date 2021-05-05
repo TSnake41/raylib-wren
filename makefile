@@ -5,7 +5,7 @@ AR ?= ar
 LUA ?= luajit
 
 CFLAGS += -Iinclude -Iwren/src/include -Iraylib/src
-LDFLAGS += -Lwren/lib -L. -lwren -Lraylib/src -lraylib
+LDFLAGS += -Lwren/lib -L. -lwren -Lraylib -Lraylib/src -lraylib
 
 # wray settings
 CFLAGS += -DWRAY_TYPE_CHECK
@@ -28,11 +28,11 @@ else
 endif
 
 WRAY_API := api/Raylib.wren api/Color.wren api/Key.wren api/Math.wren \
-	api/Structures.wren api/World.wren
+	api/Audio.wren api/Structures.wren api/World.wren
 
 SRC := src/wray.c src/wray_funcs.c src/wray_api.c src/wray_typecheck.c \
 	src/wray_core.c src/wray_color.c src/wray_class.c src/wray_draw.c \
-	src/wray_image.c
+	src/wray_image.c src/wray_audio.c
 
 OBJ := $(SRC:.c=.o)
 

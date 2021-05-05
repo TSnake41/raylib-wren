@@ -1,4 +1,4 @@
-import "raylib" for Raylib, Key, Color, Texture2D, Vector2
+import "raylib" for Raylib, Key, Color, Texture, Vector2
 import "random" for Random
 
 var random = Random.new()
@@ -25,7 +25,7 @@ var screenHeight = 450
 Raylib.initWindow(screenWidth, screenHeight, "raylib [textures] example - bunnymark")
 Raylib.targetFPS = 60
 
-var texBunny = Texture2D.new("resources/wabbit_alpha.png")
+var texBunny = Texture.new("ressources/wabbit_alpha.png")
 var bunnies = []
 var bunniesCount = 0
 

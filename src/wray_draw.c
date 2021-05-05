@@ -316,8 +316,8 @@ void wray_draw_poly(WrenVM *vm)
 /* drawTexture(texture, x, y, color, rotation, scale) */
 void wray_draw_texture(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 1, "Texture2D");
-  Texture2D texture = *(Texture2D *)wrenGetSlotForeign(vm, 1);
+  wray_CheckForeignType(vm, 1, "Texture");
+  Texture texture = *(Texture *)wrenGetSlotForeign(vm, 1);
 
   Vector2 position = (Vector2){
     wrenGetSlotDouble(vm, 2),
@@ -336,8 +336,8 @@ void wray_draw_texture(WrenVM *vm)
 /* drawTexturePro(texture, sx, sy, sw, sh, dx, dy, dw, dh, ox, oy, rotation, color) */
 void wray_draw_texture_pro(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 1, "Texture2D");
-  Texture2D texture = *(Texture2D *)wrenGetSlotForeign(vm, 1);
+  wray_CheckForeignType(vm, 1, "Texture");
+  Texture texture = *(Texture *)wrenGetSlotForeign(vm, 1);
 
   Rectangle src = (Rectangle){
     wrenGetSlotDouble(vm, 2),

@@ -24,7 +24,7 @@
 static void mod_load_complete(WrenVM *vm, const char *module, WrenLoadModuleResult result)
 {
   if(result.source)
-    free(result.source);
+    free((void *)result.source);
 }
 
 WrenLoadModuleResult load_mod_fs_func(WrenVM *vm, const char *name)
@@ -52,7 +52,7 @@ WrenLoadModuleResult load_mod_fs_func(WrenVM *vm, const char *name)
   free(path);
 
   if (f == NULL) {
-    printf("WRAY_STANDALONE: Can't load %s.\n", name);
+    printf("WRAY_S: Can't load %s.\n", name);
     return result;
   }
 
@@ -63,7 +63,7 @@ WrenLoadModuleResult load_mod_fs_func(WrenVM *vm, const char *name)
   char *buffer = malloc(size + 1);
   if (buffer == NULL) {
     /* Oh common... */
-    printf("WRAY_STANDALONE: %s: Can't allocate file buffer.\n", path);
+    printf("WRAY_S: %s: Can't allocate file buffer.\n", path);
 
     fclose(f);
     return result;
@@ -90,7 +90,7 @@ int main(int argc, const char **argv)
 
     if (code) {
       wrenInterpret(vm, argv[1], code);
-      free(code);
+      free((void *)code);
     }
 
     wrenFreeVM(vm);

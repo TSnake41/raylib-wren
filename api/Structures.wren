@@ -7,7 +7,7 @@ foreign class Image {
   foreign mipmaps
 }
 
-foreign class Texture2D {
+foreign class Texture {
   foreign construct new(image)
 
   foreign width

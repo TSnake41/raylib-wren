@@ -70,7 +70,7 @@ void wray_OpenURL(WrenVM *);
 void wray_DrawFPS(WrenVM *);
 
 void wray_IsKeyUp(WrenVM *);
-void wray_isKeyDown(WrenVM *);
+void wray_IsKeyDown(WrenVM *);
 void wray_IsKeyPressed(WrenVM *);
 void wray_IsKeyReleased(WrenVM *);
 

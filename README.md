@@ -5,7 +5,7 @@
 [Wren](https://wren.io) binding for [raylib](https://www.raylib.com/), a simple
 and easy-to-use library to learn videogames programming.
 
-This binding supports raylib 3.1-dev, previous version may support raylib 2.6.
+This binding supports raylib 3.7, previous version may support earlier versions.
 
 ## Usage (wray_s)
 
@@ -30,8 +30,8 @@ a project directory with a main.wren file.
 ./wray_e examples/core_basic_window
 ```
 
-Currently, there is no support for loading embedded assets, so if your game
-needs to use any of them, they must be provided externally.
+Currently, there is a limited support for loading embedded assets.
+All assets type are supported however music files must be provided externally.
 
 ## Use as a external library (advanced)
 
@@ -77,7 +77,7 @@ Raylib.initWindow(800, 450, "raylib [core] example - basic window")
 while (!Raylib.windowShouldClose) {
 	Raylib.beginDrawing()
 
-	Raylib.clearBackground(RlColor.rayWhite)
+	Raylib.clearBackground(Color.rayWhite)
 	Raylib.drawText("Congrats! You created your first window!", 190, 200, 20, Color.lightGray)
 
 	Raylib.endDrawing()
@@ -88,7 +88,7 @@ Raylib.closeWindow()
 
 ## Compatibility
 
-raylib-wren is currently compatible with raylib 3.1-dev API.
+raylib-wren is currently compatible with raylib 3.7 API.
 Only a subset of the API supported, any contribution on API is welcome.
 
 There is currently no support for rlgl, physac and raygui.
@@ -118,7 +118,7 @@ and wray_CheckForeignType is no-op.
 
 ### Licence
 
-Copyright (C) 2019-2020 Astie Teddy
+Copyright (C) 2019-2021 Astie Teddy
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above

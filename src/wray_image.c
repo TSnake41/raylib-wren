@@ -27,8 +27,8 @@ static void wray_image_initialize(WrenVM *vm)
 
 static void wray_image_finalize(void *ptr)
 {
-  // Finalizer is called by CloseWindow.
-  // UnloadImage(*(Image *)ptr);
+  if (IsWindowReady())
+    UnloadImage(*(Image *)ptr);
 }
 
 static void wray_image_new(WrenVM *vm)
@@ -54,20 +54,21 @@ const wray_binding_class wray_image_class = {
   }
 };
 
-static void wray_texture2d_initialize(WrenVM *vm)
+static void wray_texture_initialize(WrenVM *vm)
 {
   wrenEnsureSlots(vm, 1);
-  wrenSetSlotNewForeign(vm, 0, 0, sizeof(struct Texture2D));
+  wrenSetSlotNewForeign(vm, 0, 0, sizeof(struct Texture));
 }
 
-static void wray_texture2d_finalize(void *ptr)
+static void wray_texture_finalize(void *ptr)
 {
-  // UnloadTexture(*(Texture2D *)ptr);
+  if (IsWindowReady())
+    UnloadTexture(*(Texture2D *)ptr);
 }
 
-static void wray_texture2d_new(WrenVM *vm)
+static void wray_texture_new(WrenVM *vm)
 {
-  Texture2D *i = wrenGetSlotForeign(vm, 0);
+  Texture *i = wrenGetSlotForeign(vm, 0);
 
   if (wrenGetSlotType(vm, 1) == WREN_TYPE_STRING) {
     /* Load from path */
@@ -79,18 +80,17 @@ static void wray_texture2d_new(WrenVM *vm)
   }
 }
 
-MAKE_FIELD_GETTER(texture2d, Double, Texture2D, width)
-MAKE_FIELD_GETTER(texture2d, Double, Texture2D, height)
-MAKE_FIELD_GETTER(texture2d, Double, Texture2D, format)
-MAKE_FIELD_GETTER(texture2d, Double, Texture2D, mipmaps)
+MAKE_FIELD_GETTER(texture, Double, Texture, width)
+MAKE_FIELD_GETTER(texture, Double, Texture, height)
+MAKE_FIELD_GETTER(texture, Double, Texture, format)
+MAKE_FIELD_GETTER(texture, Double, Texture, mipmaps)
 
-void wray_texture2d_draw(WrenVM *vm)
+void wray_texture_draw(WrenVM *vm)
 {
-  wray_CheckForeignType(vm, 0, "Texture2D");
   wray_CheckForeignType(vm, 5, "Color");
 
   DrawTextureEx(
-    *(Texture2D *)wrenGetSlotForeign(vm, 0),
+    *(Texture *)wrenGetSlotForeign(vm, 0),
     (Vector2){
       wrenGetSlotDouble(vm, 1),
       wrenGetSlotDouble(vm, 2),
@@ -101,14 +101,14 @@ void wray_texture2d_draw(WrenVM *vm)
   );
 }
 
-const wray_binding_class wray_texture2d_class = {
-  "Texture2D", { wray_texture2d_initialize, wray_texture2d_finalize }, {
-    { wray_texture2d_new, false, "init new(_)" },
-    { wray_texture2d_width_get, false, "width" },
-    { wray_texture2d_height_get, false, "height" },
-    { wray_texture2d_format_get, false, "format" },
-    { wray_texture2d_mipmaps_get, false, "mipmaps" },
-    { wray_texture2d_draw, false, "draw(_,_,_,_,_)" },
+const wray_binding_class wray_texture_class = {
+  "Texture", { wray_texture_initialize, wray_texture_finalize }, {
+    { wray_texture_new, false, "init new(_)" },
+    { wray_texture_width_get, false, "width" },
+    { wray_texture_height_get, false, "height" },
+    { wray_texture_format_get, false, "format" },
+    { wray_texture_mipmaps_get, false, "mipmaps" },
+    { wray_texture_draw, false, "draw(_,_,_,_,_)" },
     { NULL, NULL, NULL }
   }
 };

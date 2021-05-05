@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 Astie Teddy
+  Copyright (C) 2019-2021 Astie Teddy
 
   Permission to use, copy, modify, and/or distribute this software for any
   purpose with or without fee is hereby granted, provided that the above
@@ -63,8 +63,10 @@ extern const wray_binding_class wray_raylib_class;
 extern const wray_binding_class wray_draw_class;
 
 extern const wray_binding_class wray_image_class;
-extern const wray_binding_class wray_texture2d_class;
+extern const wray_binding_class wray_texture_class;
 extern const wray_binding_class wray_color_class;
+extern const wray_binding_class wray_sound_class;
+extern const wray_binding_class wray_music_class;
 
 const wray_binding_class *wray_classes[] = {
   /* Default static class */
@@ -72,8 +74,10 @@ const wray_binding_class *wray_classes[] = {
   &wray_draw_class,
 
   &wray_image_class,
-  &wray_texture2d_class,
+  &wray_texture_class,
   &wray_color_class,
+  &wray_sound_class,
+  &wray_music_class,
 };
 const size_t wray_classes_count = sizeof(wray_classes) / sizeof(wray_classes[0]);
 
@@ -88,8 +92,10 @@ void wray_make_class_handles(WrenVM *vm, wray_class_handles *handles)
     handles->field = wrenGetSlotHandle(vm, 0);
 
   MAKE_CLASS_HANDLE(image, "Image");
-  MAKE_CLASS_HANDLE(texture2d, "Texture2D");
+  MAKE_CLASS_HANDLE(texture, "Texture");
   MAKE_CLASS_HANDLE(color, "Color");
+  MAKE_CLASS_HANDLE(sound, "Sound");
+  MAKE_CLASS_HANDLE(music, "Music");
 
   #undef MAKE_HANDLE
 }
@@ -99,6 +105,8 @@ void wray_release_class_handles(WrenVM *vm, wray_class_handles *handles)
   puts("WRAY: Releasing class handles");
 
   wrenReleaseHandle(vm, handles->image);
-  wrenReleaseHandle(vm, handles->texture2d);
+  wrenReleaseHandle(vm, handles->texture);
   wrenReleaseHandle(vm, handles->color);
+  wrenReleaseHandle(vm, handles->sound);
+  wrenReleaseHandle(vm, handles->music);
 }

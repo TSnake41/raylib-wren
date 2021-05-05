@@ -89,6 +89,15 @@ class Raylib {
   foreign static frameTime
   foreign static time
 
+  foreign static initAudioDevice()
+  foreign static closeAudioDevice()
+  foreign static isAudioDeviceReady
+
+  foreign static stopSoundMulti()
+  foreign static soundsPlaying
+
+  foreign static masterVolume=(v)
+
   static screenSize { Vector2.new(screenWidth, screenHeight) }
 
   // Low level draw functions

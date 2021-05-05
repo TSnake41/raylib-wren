@@ -1,5 +1,5 @@
 // Inspired of Tjakka5/love-ecs-benchmarks
-import "raylib" for Raylib, ConfigFlags, Color, Key, Vector2, Texture2D,
+import "raylib" for Raylib, ConfigFlags, Color, Key, Vector2, Texture,
   World, GameEntity, GameSystem
 
 import "random" for Random
@@ -66,7 +66,7 @@ var Physics = GameSystem.new([Position, Velocity]) {|entities, event, dt|
   }
 }
 
-var testSprite = Texture2D.new("resources/wabbit_alpha.png")
+var testSprite = Texture.new("resources/wabbit_alpha.png")
 
 var SpriteRenderer = GameSystem.new([Position, Sprite]) {|entities, event|
   if (event == "draw") {

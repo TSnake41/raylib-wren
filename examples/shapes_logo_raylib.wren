@@ -1,4 +1,3 @@
-
 import "raylib" for Raylib, Color, ConfigFlags
 
 var screenWidth = 800

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 Astie Teddy
+  Copyright (C) 2019-2021 Astie Teddy
 
   Permission to use, copy, modify, and/or distribute this software for any
   purpose with or without fee is hereby granted, provided that the above
@@ -20,6 +20,8 @@
 
 #include <wren.h>
 #include <wray.h>
+
+#include <raylib.h>
 
 #include "lib/miniz.h"
 
@@ -46,20 +48,20 @@ static WrenLoadModuleResult load_mod_zip_func(WrenVM *vm, const char *name)
 
   int index = mz_zip_reader_locate_file(&zip_file, name, NULL, 0);
   if (index == -1) {
-    printf("WRAY_EMBEDDED: %s: File not found.\n", name);
+    printf("WRAY_E: %s: File not found.\n", name);
     return result;
   }
 
   mz_zip_archive_file_stat stat;
   if (!mz_zip_reader_file_stat(&zip_file, index, &stat)) {
-    printf("WRAY_EMBEDDED: %s: Can't get file information.\n", name);
+    printf("WRAY_E: %s: Can't get file information.\n", name);
     return result;
   }
 
   size_t size = stat.m_uncomp_size;
   char *buffer = malloc(size + 1);
   if (buffer == NULL) {
-    printf("WRAY_EMBEDDED: %s: Can't allocate file buffer.\n", name);
+    printf("WRAY_E: %s: Can't allocate file buffer.\n", name);
     return result;
   }
   buffer[size] = '\0';
@@ -67,6 +69,69 @@ static WrenLoadModuleResult load_mod_zip_func(WrenVM *vm, const char *name)
   mz_zip_reader_extract_to_mem(&zip_file, index, buffer, size, 0);
   result.source = buffer;
   return result;
+}
+
+unsigned char *wray_loadFileData(const char *path, unsigned int *out_size)
+{
+  int index = mz_zip_reader_locate_file(&zip_file, path, NULL, 0);
+  if (index == -1) {
+    printf("WRAY_E: File not found in payload. '%s'\n", path);
+    return NULL;
+  }
+
+  mz_zip_archive_file_stat stat;
+  if (!mz_zip_reader_file_stat(&zip_file, index, &stat)) {
+    printf("WRAY_E: Can't get file information in payload. '%s'\n", path);
+    return NULL;
+  }
+
+  size_t size = stat.m_uncomp_size;
+  unsigned char *buffer = RL_MALLOC(size);
+  if (buffer == NULL) {
+    printf("WRAY_E: Can't allocate file buffer. '%s'\n", path);
+    return NULL;
+  }
+
+  if (!mz_zip_reader_extract_to_mem(&zip_file, index, buffer, size, 0)) {
+    free(buffer);
+    printf("WRAY_E: Can't extract file. '%s'\n", path);
+    return NULL;
+  }
+
+  *out_size = size;
+  return buffer;
+}
+
+char *wray_loadFileText(const char *path)
+{
+  int index = mz_zip_reader_locate_file(&zip_file, path, NULL, 0);
+  if (index == -1) {
+    printf("WRAY_E: WARN: File not found in payload. '%s'\n", path);
+    return NULL;
+  }
+
+  mz_zip_archive_file_stat stat;
+  if (!mz_zip_reader_file_stat(&zip_file, index, &stat)) {
+    printf("WRAY_E: WARN: Can't get file information in payload. '%s'\n", path);
+    return NULL;
+  }
+
+  size_t size = stat.m_uncomp_size;
+  char *buffer = RL_MALLOC(size + 1);
+  if (buffer == NULL) {
+    printf("WRAY_E: WARN: Can't allocate file buffer. '%s'\n", path);
+    return NULL;
+  }
+
+  buffer[size] = '\0';
+
+  if (!mz_zip_reader_extract_to_mem(&zip_file, index, buffer, size, 0)) {
+    free(buffer);
+    printf("WRAY_E: WARN: Can't extract file. '%s'\n", path);
+    return NULL;
+  }
+
+  return buffer;
 }
 
 int main(int argc, char **argv)
@@ -80,6 +145,9 @@ int main(int argc, char **argv)
     } else
       return wray_build_executable(argv[0], argv[1]);
   }
+
+  SetLoadFileDataCallback(wray_loadFileData);
+  SetLoadFileTextCallback(wray_loadFileText);
 
   WrenConfiguration config;
   wrenInitConfiguration(&config);

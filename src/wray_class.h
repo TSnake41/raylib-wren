@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 Astie Teddy
+  Copyright (C) 2019-2021 Astie Teddy
 
   Permission to use, copy, modify, and/or distribute this software for any
   purpose with or without fee is hereby granted, provided that the above
@@ -38,8 +38,10 @@ extern const char *wray_api;
 
 typedef struct wray_class_handles {
   WrenHandle *image;
-  WrenHandle *texture2d;
+  WrenHandle *texture;
   WrenHandle *color;
+  WrenHandle *sound;
+  WrenHandle *music;
 } wray_class_handles;
 
 void wray_make_class_handles(WrenVM *vm, wray_class_handles *handles);
