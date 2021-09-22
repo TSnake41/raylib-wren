@@ -187,7 +187,7 @@ static void wray_music_playing_get(WrenVM *vm)
   Music music = *(Music *)wrenGetSlotForeign(vm, 0);
 
   wrenEnsureSlots(vm, 1);
-  wrenSetSlotBool(vm, 0, IsMusicPlaying(music));
+  wrenSetSlotBool(vm, 0, IsMusicStreamPlaying(music));
 }
 
 static void wray_music_volume_set(WrenVM *vm)
