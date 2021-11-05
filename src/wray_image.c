@@ -112,3 +112,59 @@ const wray_binding_class wray_texture_class = {
     { NULL, NULL, NULL }
   }
 };
+
+static void wray_rendertexture_initialize(WrenVM *vm)
+{
+  wrenEnsureSlots(vm, 1);
+  wrenSetSlotNewForeign(vm, 0, 0, sizeof(struct RenderTexture));
+}
+
+static void wray_rendertexture_finalize(void *ptr)
+{
+  if (IsWindowReady())
+    UnloadRenderTexture(*(RenderTexture2D *)ptr);
+}
+
+static void wray_rendertexture_new(WrenVM *vm)
+{
+  RenderTexture *rt = wrenGetSlotForeign(vm, 0);
+  *rt = LoadRenderTexture(wrenGetSlotDouble(vm, 1), wrenGetSlotDouble(vm, 2));
+}
+
+MAKE_FIELD_GETTER(rendertexture, Double, RenderTexture, id)
+
+static void wray_rendertexture_texture_get(WrenVM *vm)
+{
+  wrenEnsureSlots(vm, 2);
+  wray_internal *internal = wrenGetUserData(vm);
+  
+  RenderTexture *rt = wrenGetSlotForeign(vm, 0);
+
+  // Create a Texture class at slot 0.
+  wrenSetSlotHandle(vm, 1, internal->class_handles.texture);
+  Texture *texture = wrenSetSlotNewForeign(vm, 0, 1, sizeof(struct Texture));
+  *texture = rt->texture;
+}
+
+static void wray_rendertexture_depth_get(WrenVM *vm)
+{
+  wrenEnsureSlots(vm, 2);
+  wray_internal *internal = wrenGetUserData(vm);
+  
+  RenderTexture *rt = wrenGetSlotForeign(vm, 0);
+
+  // Create a Texture class at slot 0.
+  wrenSetSlotHandle(vm, 1, internal->class_handles.texture);
+  Texture *depth = wrenSetSlotNewForeign(vm, 0, 1, sizeof(struct Texture));
+  *depth = rt->depth;
+}
+
+const wray_binding_class wray_rendertexture_class = {
+  "RenderTexture", { wray_rendertexture_initialize, wray_rendertexture_finalize }, {
+    { wray_rendertexture_new, false, "init new(_,_)" },
+    { wray_rendertexture_id_get, false, "id" },
+    { wray_rendertexture_texture_get, false, "texture" },
+    { wray_rendertexture_depth_get, false, "depth" },
+    { NULL, NULL, NULL }
+  }
+};

@@ -32,7 +32,7 @@ WRAY_API := api/Raylib.wren api/Color.wren api/Key.wren api/Math.wren \
 
 SRC := src/wray.c src/wray_funcs.c src/wray_api.c src/wray_typecheck.c \
 	src/wray_core.c src/wray_color.c src/wray_class.c src/wray_draw.c \
-	src/wray_image.c src/wray_audio.c
+	src/wray_image.c src/wray_audio.c src/wray_shader.c
 
 OBJ := $(SRC:.c=.o)
 

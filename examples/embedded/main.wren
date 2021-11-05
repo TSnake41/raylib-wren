@@ -11,7 +11,9 @@ while (!Raylib.windowShouldClose) {
 	Raylib.beginDrawing()
 
 	Raylib.clearBackground(Color.rayWhite)
-	Raylib.drawText("Congrats! You made a embedded wray executable!", 190, 200, 20, Color.lightGray)
+	Raylib.drawTexture(logo, Raylib.screenWidth / 2 - logo.width / 2, Raylib.screenHeight / 2 - logo.height / 2, Color.white)
+	Raylib.drawText("this is a texture!", 350, 370, 10, Color.gray)
+	
 	Raylib.endDrawing()
 }
 

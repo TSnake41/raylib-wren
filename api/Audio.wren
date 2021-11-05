@@ -18,7 +18,7 @@ foreign class RlWave {
 */
 
 foreign class Sound {
-  foreign construct new(path) /* TODO: Consider wave support */
+  foreign construct new(path)
 
   foreign play()
   foreign stop()

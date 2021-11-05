@@ -42,6 +42,8 @@ typedef struct wray_class_handles {
   WrenHandle *color;
   WrenHandle *sound;
   WrenHandle *music;
+  WrenHandle *shader;
+  WrenHandle *rendertexture;
 } wray_class_handles;
 
 void wray_make_class_handles(WrenVM *vm, wray_class_handles *handles);

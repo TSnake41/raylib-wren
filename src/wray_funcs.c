@@ -63,6 +63,10 @@ const wray_binding_class wray_raylib_class = {
     STATIC_FN(ClearBackground, "clearBackground(_)")
     STATIC_FN(BeginDrawing, "beginDrawing()")
     STATIC_FN(EndDrawing, "endDrawing()")
+    STATIC_FN(BeginShaderMode, "beginShaderMode(_)")
+    STATIC_FN(EndShaderMode, "endShaderMode()")
+    STATIC_FN(BeginTextureMode, "beginTextureMode(_)")
+    STATIC_FN(EndTextureMode, "endTextureMode()")
 
     STATIC_SET(ConfigFlags, "configFlags=(_)")
     STATIC_FN(TakeScreenshot, "takeScreenshot(_)")

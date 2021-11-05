@@ -53,6 +53,10 @@ void wray_CursorLocked_set(WrenVM *);
 void wray_ClearBackground(WrenVM *);
 void wray_BeginDrawing(WrenVM *);
 void wray_EndDrawing(WrenVM *);
+void wray_BeginShaderMode(WrenVM *);
+void wray_EndShaderMode(WrenVM *);
+void wray_BeginTextureMode(WrenVM *vm);
+void wray_EndTextureMode(WrenVM *vm);
 
 void wray_TargetFPS_set(WrenVM *);
 void wray_FPS_get(WrenVM *);

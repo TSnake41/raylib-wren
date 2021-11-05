@@ -174,6 +174,28 @@ void wray_EndDrawing(WrenVM *vm)
   EndDrawing();
 }
 
+void wray_BeginShaderMode(WrenVM *vm)
+{
+  wray_CheckForeignType(vm, 1, "Shader");
+  BeginShaderMode(*(Shader *)wrenGetSlotForeign(vm, 1));
+}
+
+void wray_EndShaderMode(WrenVM *vm)
+{
+  EndShaderMode();
+}
+
+void wray_BeginTextureMode(WrenVM *vm)
+{
+  wray_CheckForeignType(vm, 1, "RenderTexture");
+  BeginTextureMode(*(RenderTexture2D *)wrenGetSlotForeign(vm, 1));
+}
+
+void wray_EndTextureMode(WrenVM *vm)
+{
+  EndTextureMode();
+}
+
 void wray_DrawFPS(WrenVM *vm)
 {
   DrawFPS(
@@ -214,7 +236,6 @@ void wray_TakeScreenshot(WrenVM *vm)
 {
   TakeScreenshot(wrenGetSlotString(vm, 1));
 }
-
 
 void wray_SaveStorageValue(WrenVM *vm)
 {

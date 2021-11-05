@@ -67,6 +67,8 @@ extern const wray_binding_class wray_texture_class;
 extern const wray_binding_class wray_color_class;
 extern const wray_binding_class wray_sound_class;
 extern const wray_binding_class wray_music_class;
+extern const wray_binding_class wray_shader_class;
+extern const wray_binding_class wray_rendertexture_class;
 
 const wray_binding_class *wray_classes[] = {
   /* Default static class */
@@ -78,6 +80,8 @@ const wray_binding_class *wray_classes[] = {
   &wray_color_class,
   &wray_sound_class,
   &wray_music_class,
+  &wray_shader_class,
+  &wray_rendertexture_class,
 };
 const size_t wray_classes_count = sizeof(wray_classes) / sizeof(wray_classes[0]);
 
@@ -96,6 +100,8 @@ void wray_make_class_handles(WrenVM *vm, wray_class_handles *handles)
   MAKE_CLASS_HANDLE(color, "Color");
   MAKE_CLASS_HANDLE(sound, "Sound");
   MAKE_CLASS_HANDLE(music, "Music");
+  MAKE_CLASS_HANDLE(shader, "Shader");
+  MAKE_CLASS_HANDLE(rendertexture, "RenderTexture");
 
   #undef MAKE_HANDLE
 }
@@ -109,4 +115,6 @@ void wray_release_class_handles(WrenVM *vm, wray_class_handles *handles)
   wrenReleaseHandle(vm, handles->color);
   wrenReleaseHandle(vm, handles->sound);
   wrenReleaseHandle(vm, handles->music);
+  wrenReleaseHandle(vm, handles->shader);
+  wrenReleaseHandle(vm, handles->rendertexture);
 }

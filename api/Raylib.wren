@@ -45,6 +45,10 @@ class Raylib {
   foreign static clearBackground(color)
   foreign static beginDrawing()
   foreign static endDrawing()
+  foreign static beginShaderMode(shader)
+  foreign static endShaderMode()
+  foreign static beginTextureMode(target)
+  foreign static endTextureMode()
 
   foreign static configFlags=(flags)
   /* TODO: Implement trace functions ? */

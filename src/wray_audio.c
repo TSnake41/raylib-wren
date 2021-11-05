@@ -218,7 +218,6 @@ static void wray_music_played_get(WrenVM *vm)
   wrenSetSlotBool(vm, 0, GetMusicTimePlayed(music));
 }
 
-
 const wray_binding_class wray_music_class = {
   "Music", { wray_music_initialize, wray_music_finalize }, {
     { wray_music_new, false, "init new(_)" },
