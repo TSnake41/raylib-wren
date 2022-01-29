@@ -17,14 +17,16 @@ GRAPHICS ?= GRAPHICS_API_OPENGL_33
 USE_WAYLAND_DISPLAY ?= FALSE
 USE_EXTERNAL_GLFW ?= FALSE
 
-ifeq ($(OS),Windows_NT)
-	LDFLAGS += -lopengl32 -lgdi32 -lwinmm -static
-else ifeq ($(shell uname),Darwin)
-	LDFLAGS += -framework CoreVideo -framework IOKit -framework Cocoa \
-		-framework GLUT -framework OpenGL \
-		-Wl,-pagezero_size,10000,-image_base,100000000
-else
-	LDFLAGS += -ldl -lX11 -lpthread
+ifneq ($(PLATFORM),PLATFORM_WEB)
+	ifeq ($(OS),Windows_NT)
+		LDFLAGS += -lopengl32 -lgdi32 -lwinmm -static
+	else ifeq ($(shell uname),Darwin)
+		LDFLAGS += -framework CoreVideo -framework IOKit -framework Cocoa \
+			-framework GLUT -framework OpenGL \
+			-Wl,-pagezero_size,10000,-image_base,100000000
+	else
+		LDFLAGS += -ldl -lX11 -lpthread
+	endif
 endif
 
 WRAY_API := api/Raylib.wren api/Color.wren api/Key.wren api/Math.wren \
@@ -56,6 +58,9 @@ libwray.a: $(OBJ)
 
 src/wray_api.c: $(WRAY_API)
 	$(LUA) tools/wren2str.lua $@ wray_api $^
+
+wray.js: libwray.a src/lib/miniz.o src/wray_w.o
+	$(CC) -o $@ $^ -lwray $(LDFLAGS) -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s FETCH=1 -s FORCE_FILESYSTEM=1 -s ALLOW_MEMORY_GROWTH=1
 
 wray_s: libwray.a src/wray_s.o
 	$(CC) -o $@ $^ -lwray $(LDFLAGS)
