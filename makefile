@@ -8,7 +8,7 @@ CFLAGS += -Iinclude -Iwren/src/include -Iraylib/src
 LDFLAGS += -Lwren/lib -L. -lwren -Lraylib -Lraylib/src -lraylib
 
 # wray settings
-CFLAGS += -DWRAY_TYPE_CHECK
+CFLAGS += -DWRAY_TYPE_CHECK -D_DEFAULT_SOURCE
 
 # raylib settings
 PLATFORM ?= PLATFORM_DESKTOP
