@@ -5,7 +5,7 @@
 [Wren](https://wren.io) binding for [raylib](https://www.raylib.com/), a simple
 and easy-to-use library to learn videogames programming.
 
-This binding supports raylib 3.7, previous version may support earlier versions.
+This binding supports raylib 4.5, previous version may support earlier versions.
 
 ## Usage (wray_s)
 
@@ -118,7 +118,7 @@ and wray_CheckForeignType is no-op.
 
 ### Licence
 
-Copyright (C) 2019-2021 Astie Teddy
+Copyright (C) 2019-2023 Astie Teddy
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above

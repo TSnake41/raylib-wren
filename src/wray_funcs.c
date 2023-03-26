@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019-2021 Astie Teddy
+  Copyright (C) 2019-2023 Astie Teddy
 
   Permission to use, copy, modify, and/or distribute this software for any
   purpose with or without fee is hereby granted, provided that the above
@@ -71,9 +71,6 @@ const wray_binding_class wray_raylib_class = {
     STATIC_SET(ConfigFlags, "configFlags=(_)")
     STATIC_FN(TakeScreenshot, "takeScreenshot(_)")
 
-    STATIC_FN(SaveStorageValue, "saveStorageValue(_,_)")
-    STATIC_FN(LoadStorageValue, "loadStorageValue(_)")
-
     STATIC_FN(OpenURL, "openURL(_)")
     STATIC_FN(DrawFPS, "drawFPS(_,_)")
 
@@ -105,9 +102,6 @@ const wray_binding_class wray_raylib_class = {
 
     STATIC_GET(IsAudioDeviceReady, "isAudioDeviceReady")
     STATIC_SET(MasterVolume, "masterVolume=(_)")
-
-    STATIC_FN(StopSoundMulti, "stopSoundMulti()")
-    STATIC_GET(SoundsPlaying, "soundsPlaying")
 
     /* misc */
     STATIC_SET(TargetFPS, "targetFPS=(_)")

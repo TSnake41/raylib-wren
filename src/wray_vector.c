@@ -146,7 +146,7 @@ const wray_binding_class wray_vec2_class = {
     { wray_vec2_new, false, "init new(_,_)" },
     { wray_vec2_index_get, false, "[_]" },
     { wray_vec2_index_set, false, "[_]=(_)" },
-    /* NOTE: _prefixed functions modify self value. */
+    /* NOTE: _ suffixed functions modify self value. */
     { wray_vec2_add, false, "add_(_)" },
     { wray_vec2_sub, false, "sub_(_)" },
     { wray_vec2_mul, false, "mul_(_)" },

@@ -25,8 +25,6 @@ foreign class Sound {
   foreign pause()
   foreign resume()
   
-  foreign playMulti()
-
   foreign playing
   foreign volume=(v)
   foreign pitch=(p)  

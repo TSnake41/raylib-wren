@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019-2021 Astie Teddy
+  Copyright (C) 2019-2023 Astie Teddy
 
   Permission to use, copy, modify, and/or distribute this software for any
   purpose with or without fee is hereby granted, provided that the above
@@ -37,17 +37,6 @@ void wray_IsAudioDeviceReady_get(WrenVM *vm)
 void wray_MasterVolume_set(WrenVM *vm)
 {
   SetMasterVolume(wrenGetSlotDouble(vm, 1));
-}
-
-void wray_StopSoundMulti(WrenVM *vm)
-{
-  StopSoundMulti();
-}
-
-void wray_SoundsPlaying_get(WrenVM *vm)
-{
-  wrenEnsureSlots(vm, 1);
-  wrenSetSlotDouble(vm, 0, GetSoundsPlaying());
 }
 
 static void wray_sound_initialize(WrenVM *vm)
@@ -99,11 +88,6 @@ static void wray_sound_resume(WrenVM *vm)
   ResumeSound(*(Sound *)wrenGetSlotForeign(vm, 0));
 }
 
-static void wray_sound_play_multi(WrenVM *vm)
-{
-  PlaySoundMulti(*(Sound *)wrenGetSlotForeign(vm, 0));
-}
-
 static void wray_sound_playing_get(WrenVM *vm)
 {
   Sound sound = *(Sound *)wrenGetSlotForeign(vm, 0);
@@ -131,7 +115,6 @@ const wray_binding_class wray_sound_class = {
     { wray_sound_stop, false, "stop()" },
     { wray_sound_pause, false, "pause()" },
     { wray_sound_resume, false, "resume()" },
-    { wray_sound_play_multi, false, "playMulti()" },
     { wray_sound_playing_get, false, "playing" },
     { wray_sound_volume_set, false, "volume=(_)" },
     { wray_sound_pitch_set, false, "pitch=(_)" },

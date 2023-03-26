@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2021 Astie Teddy
+  Copyright (C) 2021-2023 Astie Teddy
 
   Permission to use, copy, modify, and/or distribute this software for any
   purpose with or without fee is hereby granted, provided that the above
@@ -23,7 +23,5 @@ void wray_InitAudioDevice(WrenVM *vm);
 void wray_CloseAudioDevice(WrenVM *vm);
 void wray_IsAudioDeviceReady_get(WrenVM *vm);
 void wray_MasterVolume_set(WrenVM *vm);
-void wray_StopSoundMulti(WrenVM *vm);
-void wray_SoundsPlaying_get(WrenVM *vm);
 
 #endif /* H_WRAY_AUDIO */
